@@ -1,6 +1,4 @@
-﻿using Identity_Domain.Entities.Base;
-
-namespace Identity_Domain.Entities;
+﻿namespace Identity_Domain.Entities.Base;
 
 public class Role : Entity
 {
