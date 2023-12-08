@@ -43,6 +43,11 @@ public class IdentityRepository : IIdentityRepository
         return await _context.Identity.FirstOrDefaultAsync(i => i.Id == identityId);
     }
 
+    public async Task<Identity> GetIdentityByEmail(string email)
+    {
+        return await _context.Identity.FirstOrDefaultAsync(i => i.Email == email);
+    }
+
     public async Task<Identity> UpdateIdentity(int identityId, string username, string email)
     {
         var identity = await _context.Identity
