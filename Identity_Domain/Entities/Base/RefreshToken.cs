@@ -12,5 +12,7 @@ public class RefreshToken : Entity
 
     public bool Invalidated { get; set; }
 
+    public int IdentityId { get; set; }
+
     public Identity Identity { get; set; }
 }
