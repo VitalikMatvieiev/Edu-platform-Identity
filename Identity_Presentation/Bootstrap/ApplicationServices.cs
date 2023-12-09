@@ -1,9 +1,9 @@
-﻿using Identity_Application.Interfaces;
-using Identity_Infrastructure;
+﻿using Identity_Infrastructure;
 using Identity_Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Identity_Application;
 using Identity_Application.Queries;
+using Identity_Application.Interfaces.Repository;
 
 namespace Identity_Presentation.Bootstrap;
 

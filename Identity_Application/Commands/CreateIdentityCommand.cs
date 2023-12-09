@@ -1,4 +1,4 @@
-﻿using Identity_Application.Interfaces;
+﻿using Identity_Application.Interfaces.Repository;
 using Identity_Domain.Entities.Base;
 using MediatR;
 

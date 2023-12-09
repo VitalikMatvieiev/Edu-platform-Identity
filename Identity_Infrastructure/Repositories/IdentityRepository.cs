@@ -1,4 +1,4 @@
-﻿using Identity_Application.Interfaces;
+﻿using Identity_Application.Interfaces.Repository;
 using Identity_Domain.Entities.Base;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,7 +33,7 @@ public class IdentityRepository : IIdentityRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<ICollection<Identity>> GetAll()
+    public async Task<ICollection<Identity>> GetAllIdentities()
     {
         return await _context.Identity.ToListAsync();
     }

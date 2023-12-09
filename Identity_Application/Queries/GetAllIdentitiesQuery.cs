@@ -1,4 +1,4 @@
-﻿using Identity_Application.Interfaces;
+﻿using Identity_Application.Interfaces.Repository;
 using Identity_Domain.Entities.Base;
 using MediatR;
 
@@ -17,7 +17,7 @@ public class GetAllIdentitiesHandler : IRequestHandler<GetAllIdentitiesQuery, Li
 
     public async Task<List<Identity>> Handle(GetAllIdentitiesQuery request, CancellationToken cancellationToken)
     {
-        var result = await _identityRepository.GetAll();
+        var result = await _identityRepository.GetAllIdentities();
         return result.ToList();
     }
 }

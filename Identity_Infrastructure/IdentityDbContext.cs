@@ -18,6 +18,10 @@ public class IdentityDbContext : DbContext
 
     public DbSet<Identity> Identity { get; set; }
 
+    public DbSet<Role> Role { get; set; }
+
+    public DbSet<Claim> Claim { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=identitydb;Trusted_Connection=True;");
