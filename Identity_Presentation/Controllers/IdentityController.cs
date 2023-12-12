@@ -1,5 +1,6 @@
 ﻿using Identity_Application.Commands;
 using Identity_Application.Queries;
+using Identity_Domain.Entities.Base;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,6 +28,15 @@ public class IdentityController : Controller
     public async Task<IActionResult> CreateIdentity(string Username, string Email, string Password)
     {
         var command = new CreateIdentityCommand(Username, Email, Password);
+        var result = await _mediator.Send(command);
+
+        return Ok(result);
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> EditIdentity(Identity identity)
+    {
+        var command = new UpdateIdentityCommand(identity);
         var result = await _mediator.Send(command);
 
         return Ok(result);

@@ -12,7 +12,7 @@ public interface IIdentityRepository
 
     Task<Identity> AddIdentity(Identity toCreate);
 
-    Task<Identity> UpdateIdentity(int identityId, string name, string email);
+    Task<Identity> UpdateIdentity(Identity identity);
 
     Task DeleteIdentity(int identityId);
 }

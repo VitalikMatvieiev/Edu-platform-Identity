@@ -48,16 +48,12 @@ public class IdentityRepository : IIdentityRepository
         return await _context.Identity.FirstOrDefaultAsync(i => i.Email == email);
     }
 
-    public async Task<Identity> UpdateIdentity(int identityId, string username, string email)
+    public async Task<Identity> UpdateIdentity(Identity identity)
     {
-        var identity = await _context.Identity
-            .FirstOrDefaultAsync(i => i.Id == identityId);
-
-        identity.Username = username;
-        identity.Email = email;
+        var result = _context.Update(identity);
 
         await _context.SaveChangesAsync();
 
-        return identity;
+        return result.Entity;
     }
 }
