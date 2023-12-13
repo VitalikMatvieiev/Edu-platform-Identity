@@ -1,0 +1,414 @@
+[
+  {
+    "Id": 1,
+    "Username": "riley_01",
+    "Email": "riley_01@gmail.com",
+    "Password": "dkndbuwkkpbv",
+    "RegistrationDate": "2022-06-17T18:48:02",
+    "LastLogin": "2023-11-23T20:43:29",
+    "LastLogout": "2023-12-07T03:56:51",
+    "Token": null,
+    "Claims": [
+      {
+        "Id": 31,
+        "Name": "DeleteMessage"
+      },
+      {
+        "Id": 3808,
+        "Name": "UnbanUser"
+      },
+      {
+        "Id": 7188,
+        "Name": "ViewSensitiveData"
+      }
+    ],
+    "Roles": [
+      {
+        "Id": 7,
+        "Name": "Editor",
+        "Claims": [
+          {
+            "Id": 2960,
+            "Name": "ShareContent"
+          },
+          {
+            "Id": 3808,
+            "Name": "UnbanUser"
+          },
+          {
+            "Id": 31,
+            "Name": "DeleteMessage"
+          }
+        ]
+      },
+      {
+        "Id": 8,
+        "Name": "Viewer",
+        "Claims": [
+          {
+            "Id": 31,
+            "Name": "DeleteMessage"
+          },
+          {
+            "Id": 7188,
+            "Name": "ViewSensitiveData"
+          },
+          {
+            "Id": 2960,
+            "Name": "ShareContent"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "Id": 2,
+    "Username": "quinn_02",
+    "Email": "quinn_02@gmail.com",
+    "Password": "evdiqccwwifs",
+    "RegistrationDate": "2020-10-08T05:35:47",
+    "LastLogin": "2021-02-18T04:58:42",
+    "LastLogout": "2021-12-17T17:47:51",
+    "Token": null,
+    "Claims": [
+      {
+        "Id": 2431,
+        "Name": "ModerateDiscussions"
+      }
+    ],
+    "Roles": [
+      {
+        "Id": 4,
+        "Name": "Guest",
+        "Claims": [
+          {
+            "Id": 7188,
+            "Name": "ViewSensitiveData"
+          },
+          {
+            "Id": 2431,
+            "Name": "ModerateDiscussions"
+          },
+          {
+            "Id": 31,
+            "Name": "DeleteMessage"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "Id": 3,
+    "Username": "quinn_03",
+    "Email": "quinn_03@gmail.com",
+    "Password": "oyniwkauhxod",
+    "RegistrationDate": "2022-01-05T18:19:47",
+    "LastLogin": "2022-05-21T04:26:14",
+    "LastLogout": "2023-09-13T06:03:57",
+    "Token": null,
+    "Claims": [
+      {
+        "Id": 8980,
+        "Name": "DeleteAccount"
+      }
+    ],
+    "Roles": [
+      {
+        "Id": 6,
+        "Name": "Manager",
+        "Claims": [
+          {
+            "Id": 6658,
+            "Name": "BanUser"
+          },
+          {
+            "Id": 8980,
+            "Name": "DeleteAccount"
+          },
+          {
+            "Id": 3808,
+            "Name": "UnbanUser"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "Id": 1,
+    "Username": "riley_01",
+    "Email": "riley_01@gmail.com",
+    "Password": "dkndbuwkkpbv",
+    "RegistrationDate": "2022-06-17T18:48:02",
+    "LastLogin": "2023-11-23T20:43:29",
+    "LastLogout": "2023-12-07T03:56:51",
+    "Token": null,
+    "Claims": [
+      {
+        "Id": 31,
+        "Name": "DeleteMessage"
+      },
+      {
+        "Id": 3808,
+        "Name": "UnbanUser"
+      },
+      {
+        "Id": 7188,
+        "Name": "ViewSensitiveData"
+      }
+    ],
+    "Roles": [
+      {
+        "Id": 7,
+        "Name": "Editor",
+        "Claims": [
+          {
+            "Id": 2960,
+            "Name": "ShareContent"
+          },
+          {
+            "Id": 3808,
+            "Name": "UnbanUser"
+          },
+          {
+            "Id": 31,
+            "Name": "DeleteMessage"
+          }
+        ]
+      },
+      {
+        "Id": 8,
+        "Name": "Viewer",
+        "Claims": [
+          {
+            "Id": 31,
+            "Name": "DeleteMessage"
+          },
+          {
+            "Id": 7188,
+            "Name": "ViewSensitiveData"
+          },
+          {
+            "Id": 2960,
+            "Name": "ShareContent"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "Id": 11,
+    "Username": "alex_11",
+    "Email": "alex_11@gmail.com",
+    "Password": "fpixkuwwmect",
+    "RegistrationDate": "2020-12-16T16:32:41",
+    "LastLogin": "2021-11-15T05:13:00",
+    "LastLogout": "2023-07-26T05:16:06",
+    "Token": null,
+    "Claims": [
+      {
+        "Id": 6658,
+        "Name": "BanUser"
+      }
+    ],
+    "Roles": [
+      {
+        "Id": 6,
+        "Name": "Manager",
+        "Claims": [
+          {
+            "Id": 6658,
+            "Name": "BanUser"
+          },
+          {
+            "Id": 8980,
+            "Name": "DeleteAccount"
+          },
+          {
+            "Id": 3808,
+            "Name": "UnbanUser"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "Id": 12,
+    "Username": "alex_12",
+    "Email": "alex_12@gmail.com",
+    "Password": "hdtupvauuykp",
+    "RegistrationDate": "2022-08-07T15:14:43",
+    "LastLogin": "2023-09-18T15:47:33",
+    "LastLogout": "2023-11-13T23:14:49",
+    "Token": null,
+    "Claims": [
+      {
+        "Id": 8683,
+        "Name": "CreateGroup"
+      },
+      {
+        "Id": 8980,
+        "Name": "DeleteAccount"
+      },
+      {
+        "Id": 2431,
+        "Name": "ModerateDiscussions"
+      },
+      {
+        "Id": 7188,
+        "Name": "ViewSensitiveData"
+      },
+      {
+        "Id": 31,
+        "Name": "DeleteMessage"
+      }
+    ],
+    "Roles": [
+      {
+        "Id": 2,
+        "Name": "Moderator",
+        "Claims": [
+          {
+            "Id": 8683,
+            "Name": "CreateGroup"
+          },
+          {
+            "Id": 8980,
+            "Name": "DeleteAccount"
+          },
+          {
+            "Id": 2431,
+            "Name": "ModerateDiscussions"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "Id": 16,
+    "Username": "teagan_16",
+    "Email": "teagan_16@gmail.com",
+    "Password": "crmymxuauzrk",
+    "RegistrationDate": "2020-07-26T14:18:45",
+    "LastLogin": "2023-06-20T09:52:09",
+    "LastLogout": "2023-09-13T21:03:06",
+    "Token": null,
+    "Claims": [
+      {
+        "Id": 3808,
+        "Name": "UnbanUser"
+      },
+      {
+        "Id": 6292,
+        "Name": "AuditSystemLogs"
+      },
+      {
+        "Id": 5481,
+        "Name": "DeleteGroup"
+      }
+    ],
+    "Roles": [
+      {
+        "Id": 5,
+        "Name": "ContentCreator",
+        "Claims": [
+          {
+            "Id": 3808,
+            "Name": "UnbanUser"
+          },
+          {
+            "Id": 6292,
+            "Name": "AuditSystemLogs"
+          },
+          {
+            "Id": 5481,
+            "Name": "DeleteGroup"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "Id": 17,
+    "Username": "jamie_17",
+    "Email": "jamie_17@gmail.com",
+    "Password": "zazulkpbwmzm",
+    "RegistrationDate": "2022-11-22T05:11:00",
+    "LastLogin": "2023-11-07T13:20:27",
+    "LastLogout": "2023-12-04T18:24:01",
+    "Token": null,
+    "Claims": [
+      {
+        "Id": 6750,
+        "Name": "UploadFile"
+      },
+      {
+        "Id": 5803,
+        "Name": "ViewUserProfile"
+      },
+      {
+        "Id": 2431,
+        "Name": "ModerateDiscussions"
+      },
+      {
+        "Id": 8301,
+        "Name": "ApproveRegistrations"
+      }
+    ],
+    "Roles": [
+      {
+        "Id": 1,
+        "Name": "Administrator",
+        "Claims": [
+          {
+            "Id": 5803,
+            "Name": "ViewUserProfile"
+          },
+          {
+            "Id": 6750,
+            "Name": "UploadFile"
+          },
+          {
+            "Id": 5481,
+            "Name": "DeleteGroup"
+          }
+        ]
+      },
+      {
+        "Id": 2,
+        "Name": "Moderator",
+        "Claims": [
+          {
+            "Id": 8683,
+            "Name": "CreateGroup"
+          },
+          {
+            "Id": 8980,
+            "Name": "DeleteAccount"
+          },
+          {
+            "Id": 6292,
+            "Name": "AuditSystemLogs"
+          }
+        ]
+      },
+      {
+        "Id": 15,
+        "Name": "Analyst",
+        "Claims": [
+          {
+            "Id": 2431,
+            "Name": "ModerateDiscussions"
+          },
+          {
+            "Id": 8301,
+            "Name": "ApproveRegistrations"
+          },
+          {
+            "Id": 3808,
+            "Name": "UnbanUser"
+          }
+        ]
+      }
+    ]
+  }
+]

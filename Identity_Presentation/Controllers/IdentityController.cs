@@ -37,8 +37,8 @@ public class IdentityController : Controller
     public async Task<IActionResult> EditIdentity(Identity identity)
     {
         var command = new UpdateIdentityCommand(identity);
-        var result = await _mediator.Send(command);
+        //var result = await _mediator.Send(command);
 
-        return Ok(result);
+        return Ok();
     }
 }

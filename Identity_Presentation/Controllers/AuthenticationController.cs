@@ -1,5 +1,7 @@
-﻿using Identity_Application.Interfaces;
-using Identity_Contracts.Entities.Authentication;
+﻿using Identity_Application.Commands;
+using Identity_Application.Interfaces.Authentication;
+using Identity_Application.Queries;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Identity_Presentation.Controllers;
@@ -9,30 +11,47 @@ namespace Identity_Presentation.Controllers;
 public class AuthenticationController : Controller
 {
     private readonly IAuthenticationService _authenticationService;
+    private readonly IMediator _mediator;
+    private readonly IJwtGenerator _jwtGenerator;
 
-    public AuthenticationController(IAuthenticationService authenticationService)
+    public AuthenticationController(IAuthenticationService authenticationService, IMediator mediator, IJwtGenerator jwtGenerator)
     {
         _authenticationService = authenticationService;
+        _mediator = mediator;
+        _jwtGenerator = jwtGenerator;
     }
 
     [HttpPost("Register")]
-    public IActionResult Register(RegisterRequest request)
+    public IActionResult Register(string Username, string Email, string Password)
     {
-        var authresult = _authenticationService.Register(request.Username, request.Email, request.Password);
+        var authresult = _authenticationService.Register(Username, Email, Password);
 
-        var response = new AuthenticationResponse(authresult.Id, authresult.Username, authresult.Email, authresult.Token, authresult.TokenExpiration);
+        if (!authresult.IsSuccess)
+        {
+            return BadRequest(authresult.Errors);
+        }
 
-        return Ok(response);
+        var identity = _mediator.Send(new CreateIdentityCommand(Username, Email, Password)).Result;
+
+        var token = _jwtGenerator.GenerateToken(identity);
+
+        return Ok(token);
     }
 
     [HttpPost("Login")]
-    public IActionResult Login(LoginRequest request)
+    public IActionResult Login(string Email, string Password)
     {
-        var authresult = _authenticationService.Login(request.Email, request.Password);
+        var authresult = _authenticationService.Login(Email, Password);
 
-        var response = new AuthenticationResponse(authresult.Id, authresult.Username, authresult.Email, authresult.Token, authresult.TokenExpiration);
+        if (!authresult.IsSuccess)
+        {
+            return BadRequest(authresult.Errors);
+        }
 
-        return Ok(response);
+        var identity = _mediator.Send(new GetIdentityByEmailQuery(Email)).Result;
+
+        var token = _jwtGenerator.GenerateToken(identity);
+
+        return Ok(token);
     }
-
 }

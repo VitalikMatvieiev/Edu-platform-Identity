@@ -1,3 +1,3 @@
 ﻿namespace Identity_Application.Models;
 
-public record AuthenticationResult(int Id, string Username, string Email, string Token, DateTime TokenExpiration);
+public record AuthenticationResult(bool IsSuccess, List<string> Errors);

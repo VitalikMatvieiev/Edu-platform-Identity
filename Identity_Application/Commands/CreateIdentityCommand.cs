@@ -8,19 +8,26 @@ public record CreateIdentityCommand(string Username, string Email, string Passwo
 
 public class CreateIdentityHandler : IRequestHandler<CreateIdentityCommand, Identity>
 {
-    private readonly IIdentityRepository _identityRepository;
+    private readonly IGenericRepository<Identity> _identityRepository;
 
-    public CreateIdentityHandler(IIdentityRepository identityRepository)
+    public CreateIdentityHandler(IGenericRepository<Identity> identityRepository)
     {
         _identityRepository = identityRepository;
     }
 
     public async Task<Identity> Handle(CreateIdentityCommand request, CancellationToken cancellationToken)
     {
-        await _identityRepository.AddIdentity(new Identity { Username = request.Username, Email = request.Email, Password = request.Password });
+        await _identityRepository.InsertAsync(
+            new Identity 
+            { 
+                Username = request.Username, 
+                Email = request.Email, 
+                Password = request.Password, 
+                RegistrationDate = DateTime.Now.Date 
+            });
 
-        var identity = await _identityRepository.GetIdentityByEmail(request.Email);
+        var identity = await _identityRepository.GetAsync(i => i.Email == request.Email);
 
-        return identity;
+        return identity.FirstOrDefault();
     }
 }

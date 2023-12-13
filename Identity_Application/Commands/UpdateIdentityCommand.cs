@@ -4,21 +4,19 @@ using MediatR;
 
 namespace Identity_Application.Commands;
 
-public record UpdateIdentityCommand(Identity identity) : IRequest<Identity>;
+public record UpdateIdentityCommand(Identity identity) : IRequest;
 
-public class EditIdentityHandler : IRequestHandler<UpdateIdentityCommand, Identity>
+public class EditIdentityHandler : IRequestHandler<UpdateIdentityCommand>
 {
-    private readonly IIdentityRepository _identityRepository;
+    private readonly IGenericRepository<Identity> _identityRepository;
 
-    public EditIdentityHandler(IIdentityRepository identityRepository)
+    public EditIdentityHandler(IGenericRepository<Identity> identityRepository)
     {
         _identityRepository = identityRepository;
     }
 
-    public async Task<Identity> Handle(UpdateIdentityCommand request, CancellationToken cancellationToken)
+    public async Task Handle(UpdateIdentityCommand request, CancellationToken cancellationToken)
     {
-        var identity  = await _identityRepository.UpdateIdentity(request.identity);
-
-        return identity;
+        await _identityRepository.Update(request.identity);
     }
 }

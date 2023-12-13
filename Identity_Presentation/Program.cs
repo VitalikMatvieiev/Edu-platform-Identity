@@ -1,3 +1,4 @@
+using Identity_Infrastructure;
 using Identity_Presentation.Bootstrap;
 
 var builder = WebApplication.CreateBuilder(args);

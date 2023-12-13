@@ -1,6 +1,6 @@
 ﻿using Identity_Application.Models;
 
-namespace Identity_Application.Interfaces;
+namespace Identity_Application.Interfaces.Authentication;
 
 public interface IAuthenticationService
 {

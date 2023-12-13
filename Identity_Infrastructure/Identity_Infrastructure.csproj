@@ -7,6 +7,28 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="SeedData\ClaimsSeed.json" />
+    <None Remove="SeedData\IdentitySeed.json" />
+    <None Remove="SeedData\RoleClaim.json" />
+    <None Remove="SeedData\RolesSeed.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="SeedData\ClaimsSeed.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SeedData\IdentitySeed.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SeedData\RoleClaim.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SeedData\RolesSeed.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.25">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

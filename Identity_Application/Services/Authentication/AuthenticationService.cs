@@ -1,28 +1,38 @@
-﻿using Identity_Application.Interfaces;
+﻿using Identity_Application.Interfaces.Authentication;
 using Identity_Application.Models;
 
 namespace Identity_Application.Services.Authentication;
 
 public class AuthenticationService : IAuthenticationService
 {
-    //private readonly IJwtTokenGenerator _jwtTokenGenerator;
+    private readonly IJwtGenerator _jwtTokenGenerator;
 
-    public AuthenticationService(/*IJwtTokenGenerator jwtTokenGenerator*/)
+    public AuthenticationService(IJwtGenerator jwtTokenGenerator)
     {
-        //_jwtTokenGenerator = jwtTokenGenerator;
+        _jwtTokenGenerator = jwtTokenGenerator;
     }
 
     public AuthenticationResult Register(string username, string email, string password)
     {
-        var identityId = 2;
+        var errors = new List<string>();
 
-        //var token = _jwtTokenGenerator.GenerateToken(identityId, username);
+        //Check if username is not in db
 
-        return new AuthenticationResult(1, username, email, "Token", DateTime.Now);
+        //Check if email is not in db
+
+        //write in password
+
+        return new AuthenticationResult(true, errors);
     }
 
     public AuthenticationResult Login(string email, string password)
     {
-        return new AuthenticationResult(1, "username", email, "Token", DateTime.Now);
+        var errors = new List<string>();
+
+        //Check for the email is correct
+
+        //Check if password is correct
+
+        return new AuthenticationResult(true, errors);
     }
 }

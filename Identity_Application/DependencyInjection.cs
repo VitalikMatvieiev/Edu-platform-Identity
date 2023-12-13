@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Identity_Application.Interfaces;
+using Identity_Application.Interfaces.Authentication;
 using Identity_Application.Services.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 
