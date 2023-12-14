@@ -1,7 +1,7 @@
 ﻿using Identity_Infrastructure;
-using Microsoft.EntityFrameworkCore;
 using Identity_Application;
-using Identity_Application.Queries;
+using Identity_Application.Queries.Identities;
+using Identity_Application.Models.AppSettingsModels;
 
 namespace Identity_Presentation.Bootstrap;
 
@@ -9,14 +9,15 @@ public static class ApplicationServices
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddMediatR(conf => conf.RegisterServicesFromAssemblyContaining(typeof(GetAllIdentitiesQuery)));
+        services.AddMediatR(conf =>
+            conf.RegisterServicesFromAssemblyContaining(typeof(GetAllIdentitiesQuery)));
 
         services.AddApplication().AddInfrastructure();
 
-        services.AddDbContext<IdentityDbContext>(options =>
-        {
-            options.UseSqlServer(configuration.GetConnectionString("Default"));
-        });
+        services.Configure<DatabaseSettings>(configuration.GetSection("DatabaseSettings"));
+        services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
+
+        services.AddDbContext<IdentityDbContext>();
 
         services.AddCors(options =>
         {

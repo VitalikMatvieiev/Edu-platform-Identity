@@ -2,7 +2,7 @@
 using Identity_Domain.Entities.Base;
 using MediatR;
 
-namespace Identity_Application.Commands;
+namespace Identity_Application.Commands.Identities;
 
 public record CreateIdentityCommand(string Username, string Email, string Password) : IRequest<Identity>;
 
@@ -17,17 +17,15 @@ public class CreateIdentityHandler : IRequestHandler<CreateIdentityCommand, Iden
 
     public async Task<Identity> Handle(CreateIdentityCommand request, CancellationToken cancellationToken)
     {
-        await _identityRepository.InsertAsync(
-            new Identity 
-            { 
-                Username = request.Username, 
-                Email = request.Email, 
-                Password = request.Password, 
-                RegistrationDate = DateTime.Now.Date 
+        var identity = await _identityRepository.InsertAsync(
+            new Identity
+            {
+                Username = request.Username,
+                Email = request.Email,
+                Password = request.Password,
+                RegistrationDate = DateTime.UtcNow
             });
 
-        var identity = await _identityRepository.GetAsync(i => i.Email == request.Email);
-
-        return identity.FirstOrDefault();
+        return identity;
     }
 }

@@ -11,9 +11,11 @@ public interface IGenericRepository<T>
 
     Task<T> GetByIDAsync(int id);
 
-    Task InsertAsync(T entity);
+    Task<T> InsertAsync(T entity);
 
-    Task Update(T entityToUpdate);
+    Task UpdateAsync(T entityToUpdate);
 
-    void Delete(T entityToDelete);
+    Task DeleteAsync(int id);
+
+    Task DeleteAsync(T entityToDelete);
 }

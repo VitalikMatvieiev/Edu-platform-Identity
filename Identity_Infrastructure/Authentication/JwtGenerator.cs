@@ -1,6 +1,7 @@
-﻿using Identity_Application.Interfaces;
-using Identity_Application.Interfaces.Authentication;
+﻿using Identity_Application.Interfaces.Authentication;
+using Identity_Application.Models.AppSettingsModels;
 using Identity_Domain.Entities.Base;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
@@ -10,15 +11,19 @@ namespace Identity_Infrastructure.Authentication;
 
 public class JwtGenerator : IJwtGenerator
 {
-    private static readonly double tokenHourExpTime = 6;
-    private static readonly string securitykey = "security-key-phrase";
-    private static readonly string tokenIssuer = "edu_learn_identity";
+    private readonly double tokenHourExpTime;
+    private readonly string securitykey;
+    private readonly string tokenIssuer;
 
-    private readonly IDateTimeProvider _dateTimeProvider;
+    private readonly IOptions<JwtSettings> _config;
 
-    public JwtGenerator(IDateTimeProvider dateTimeProvider)
+    public JwtGenerator(IOptions<JwtSettings> config)
     {
-        _dateTimeProvider = dateTimeProvider;
+        _config = config;
+
+        tokenHourExpTime = _config.Value.TokenHourExpTime;
+        securitykey = _config.Value.Securitykey;
+        tokenIssuer = _config.Value.TokenIssuer;
     }
 
     public string GenerateToken(Identity identity)
@@ -42,7 +47,7 @@ public class JwtGenerator : IJwtGenerator
 
         var securityToken = new JwtSecurityToken(
             issuer: tokenIssuer,
-            expires: _dateTimeProvider.UtcNow.AddHours(tokenHourExpTime),
+            expires: DateTime.UtcNow.AddHours(tokenHourExpTime),
             claims: claims,
             signingCredentials: signingCredentials);
 

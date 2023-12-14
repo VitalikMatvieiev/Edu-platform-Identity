@@ -1,6 +1,6 @@
-﻿using Identity_Application.Commands;
+﻿using Identity_Application.Commands.Identities;
 using Identity_Application.Interfaces.Authentication;
-using Identity_Application.Queries;
+using Identity_Application.Queries.Identities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

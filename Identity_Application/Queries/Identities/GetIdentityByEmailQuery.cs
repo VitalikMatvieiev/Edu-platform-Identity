@@ -2,7 +2,7 @@
 using Identity_Domain.Entities.Base;
 using MediatR;
 
-namespace Identity_Application.Queries;
+namespace Identity_Application.Queries.Identities;
 
 public record GetIdentityByEmailQuery(string email) : IRequest<Identity>;
 
@@ -17,7 +17,8 @@ public class GetIdentityByEmailHandler : IRequestHandler<GetIdentityByEmailQuery
 
     public async Task<Identity> Handle(GetIdentityByEmailQuery request, CancellationToken cancellationToken)
     {
-        var result = await _identityRepository.GetAsync(i => i.Email == request.email);
+        var result = await _identityRepository
+            .GetAsync(i => i.Email == request.email, includeProperties: "Claims,Roles,Roles.Claims");
 
         return result.FirstOrDefault();
     }

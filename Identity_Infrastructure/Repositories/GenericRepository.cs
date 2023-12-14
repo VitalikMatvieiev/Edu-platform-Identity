@@ -49,19 +49,21 @@ public class GenericRepository<T> : IGenericRepository<T> where T : Entity
         return await _dbSet.FindAsync(id);
     }
 
-    public virtual async Task InsertAsync(T entity)
+    public virtual async Task<T> InsertAsync(T entity)
     {
-        /*var asd =*/ await _dbSet.AddAsync(entity);
+        var newentity = await _dbSet.AddAsync(entity);
         await SaveChangesAsync();
+
+        return newentity.Entity;
     }
 
-    public virtual async void Delete(int id)
+    public virtual async Task DeleteAsync(int id)
     {
         T entityToDelete = await _dbSet.FirstOrDefaultAsync(e => e.Id == id);
-        Delete(entityToDelete);
+        await DeleteAsync(entityToDelete);
     }
 
-    public virtual async void Delete(T entityToDelete)
+    public virtual async Task DeleteAsync(T entityToDelete)
     {
         if (_context.Entry(entityToDelete).State == EntityState.Detached)
             _dbSet.Attach(entityToDelete);
@@ -71,7 +73,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : Entity
         await SaveChangesAsync();
     }
 
-    public virtual async Task Update(T entityToUpdate)
+    public virtual async Task UpdateAsync(T entityToUpdate)
     {
         _dbSet.Attach(entityToUpdate);
         _context.Entry(entityToUpdate).State = EntityState.Modified;

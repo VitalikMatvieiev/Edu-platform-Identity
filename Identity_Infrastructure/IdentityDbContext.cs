@@ -1,5 +1,7 @@
-﻿using Identity_Domain.Entities.Base;
+﻿using Identity_Application.Models.AppSettingsModels;
+using Identity_Domain.Entities.Base;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System.Reflection;
 using System.Text.Json;
 
@@ -7,14 +9,16 @@ namespace Identity_Infrastructure;
 
 public class IdentityDbContext : DbContext
 {
+    private readonly IOptions<DatabaseSettings> _settings;
+
     public IdentityDbContext()
     {
-
+        
     }
 
-    public IdentityDbContext(DbContextOptions<IdentityDbContext> options) : base(options)
+    public IdentityDbContext(DbContextOptions<IdentityDbContext> options, IOptions<DatabaseSettings> settings) : base(options)
     {
-
+        _settings = settings;
     }
 
     public DbSet<Claim> Claim { get; set; }
@@ -25,7 +29,8 @@ public class IdentityDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=identitydb;Trusted_Connection=True;");
+        var connectionStr = _settings.Value.ConnectionString;
+        optionsBuilder.UseSqlServer(connectionStr);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -2,7 +2,7 @@
 using Identity_Domain.Entities.Base;
 using MediatR;
 
-namespace Identity_Application.Queries;
+namespace Identity_Application.Queries.Identities;
 
 public record GetAllIdentitiesQuery : IRequest<List<Identity>>;
 
@@ -17,7 +17,9 @@ public class GetAllIdentitiesHandler : IRequestHandler<GetAllIdentitiesQuery, Li
 
     public async Task<List<Identity>> Handle(GetAllIdentitiesQuery request, CancellationToken cancellationToken)
     {
-        var result = await _identityRepository.GetAsync(/*includeProperties: "Role"*/);
+        var result = await _identityRepository
+            .GetAsync(includeProperties: "Claims,Roles,Roles.Claims");
+
         return result.ToList();
     }
 }

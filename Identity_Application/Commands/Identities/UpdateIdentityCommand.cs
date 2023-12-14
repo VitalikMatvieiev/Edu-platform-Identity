@@ -2,9 +2,9 @@
 using Identity_Domain.Entities.Base;
 using MediatR;
 
-namespace Identity_Application.Commands;
+namespace Identity_Application.Commands.Identities;
 
-public record UpdateIdentityCommand(Identity identity) : IRequest;
+public record UpdateIdentityCommand(Identity Identity) : IRequest;
 
 public class EditIdentityHandler : IRequestHandler<UpdateIdentityCommand>
 {
@@ -17,6 +17,6 @@ public class EditIdentityHandler : IRequestHandler<UpdateIdentityCommand>
 
     public async Task Handle(UpdateIdentityCommand request, CancellationToken cancellationToken)
     {
-        await _identityRepository.Update(request.identity);
+        await _identityRepository.UpdateAsync(request.Identity);
     }
 }
