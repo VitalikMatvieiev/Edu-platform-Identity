@@ -8,8 +8,8 @@ public class ClaimConfiguration : IEntityTypeConfiguration<Claim>
 {
     public void Configure(EntityTypeBuilder<Claim> builder)
     {
-        builder.Property(c => c.Id).IsRequired();
-        builder.Property(c => c.Name).IsRequired();
+        builder.Property(c => c.Id).IsRequired().UseIdentityColumn();
+        builder.Property(c => c.Name).IsRequired().HasMaxLength(20);
         builder.HasMany(c => c.Identities).WithMany(i => i.Claims);
         builder.HasMany(c => c.Roles).WithMany(r => r.Claims);
     }

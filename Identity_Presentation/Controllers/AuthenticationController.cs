@@ -17,17 +17,17 @@ public class AuthenticationController : Controller
     }
 
     [HttpPost("Register")]
-    public IActionResult Register(string Username, string Email, string Password)
+    public async Task<IActionResult> Register(string Username, string Email, string Password)
     {
-        var token = _mediator.Send(new RegisterCommand(Username, Email, Password));
+        var token = await _mediator.Send(new RegisterCommand(Username, Email, Password));
 
         return Ok(token);
     }
 
     [HttpPost("Login")]
-    public IActionResult Login(string Email, string Password)
+    public async Task<IActionResult> Login(string Email, string Password)
     {
-        var token = _mediator.Send(new LoginQuery(Email, Password));
+        var token = await _mediator.Send(new LoginQuery(Email, Password));
 
         return Ok(token);
     }

@@ -1,12 +1,17 @@
-﻿namespace Identity_Domain.Entities.Base;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Identity_Domain.Entities.Base;
 
 public class Identity : Entity
 {
     public string Username { get; set; } = string.Empty;
 
+    [EmailAddress]
     public string Email { get; set; } = string.Empty;
 
-    public string Password { get; set; } = string.Empty;
+    public string PasswordSalt { get; set; } = string.Empty;
+
+    public string PasswordHash { get; set; } = string.Empty;
 
     public DateTime RegistrationDate { get; set; }
 

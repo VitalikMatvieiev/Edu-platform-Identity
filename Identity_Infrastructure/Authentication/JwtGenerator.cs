@@ -59,9 +59,8 @@ public class JwtGenerator : IJwtGenerator
         var rolesToJson = new List<string>();
 
         foreach (var role in roles)
-        {
             rolesToJson.Add(role.Name);
-        }
+
 
         return JsonSerializer.Serialize(rolesToJson);
     }
@@ -71,18 +70,12 @@ public class JwtGenerator : IJwtGenerator
         var claimsToJson = new List<string>();
 
         foreach (var claim in claims)
-        {
             claimsToJson.Add(claim.Name);
-        }
 
         foreach (var role in roles)
-        {
             foreach (var claim in role.Claims)
-            {
                 if (!claimsToJson.Contains(claim.Name))
                     claimsToJson.Add(claim.Name);
-            }
-        }
 
         return JsonSerializer.Serialize(claimsToJson);
     }

@@ -1,6 +1,8 @@
 ﻿using Identity_Application.Interfaces.Authentication;
 using Identity_Application.Interfaces.Repository;
+using Identity_Application.Models.AppSettingsModels;
 using Identity_Domain.Entities.Base;
+using Microsoft.Extensions.Options;
 
 namespace Identity_Application.Services.Authentication;
 
@@ -8,12 +10,18 @@ public class AuthenticationService : IAuthenticationService
 {
     private readonly IJwtGenerator _jwtGenerator;
     private readonly IGenericRepository<Identity> _identityRepository;
+    private readonly IPasswordHasherService _passwordHasher;
+    private readonly IOptions<PasswordHashSettings> _config;
 
     public AuthenticationService(IJwtGenerator jwtGenerator,
-                                IGenericRepository<Identity> identityRepository)
+                                IGenericRepository<Identity> identityRepository, 
+                                IPasswordHasherService passwordHasher,
+                                IOptions<PasswordHashSettings> config)
     {
         _jwtGenerator = jwtGenerator;
         _identityRepository = identityRepository;
+        _passwordHasher = passwordHasher;
+        _config = config;
     }
 
     public async Task<string> Register(string username, string email, string password)
@@ -21,17 +29,21 @@ public class AuthenticationService : IAuthenticationService
         var errors = new List<string>();
 
         //Check if username is not in db
-        var usernameCheck = (await _identityRepository
-            .GetAsync(i => i.Username == username)).First();
+        var usernameIdentities = await _identityRepository
+            .GetAsync(i => i.Username == username);
 
-        if (usernameCheck is not null)
+        var usernameIdentity = usernameIdentities.FirstOrDefault();
+
+        if (usernameIdentity is not null)
             errors.Add("User with given username already exist");
 
         //Check if email is not in db
-        var emailCheck = (await _identityRepository
-            .GetAsync(i => i.Email == email)).First();
+        var emailIdentities = await _identityRepository
+            .GetAsync(i => i.Email == email);
 
-        if (emailCheck is not null)
+        var emailIdentity = emailIdentities.FirstOrDefault();
+
+        if (emailIdentity is not null)
             errors.Add("User with given email already exist");
 
         //Throw all exceptions
@@ -42,12 +54,17 @@ public class AuthenticationService : IAuthenticationService
         //If all is good
 
         //write in data
+        var salt = _passwordHasher.GenerateSalt();
+        var hash = _passwordHasher.ComputeHash(password, salt,
+                _config.Value.PasswordHashPepper, _config.Value.Iteration);
+
         var identity = await _identityRepository.InsertAsync(
             new Identity
             {
                 Username = username,
                 Email = email,
-                Password = password,
+                PasswordSalt = salt,
+                PasswordHash = hash,
                 RegistrationDate = DateTime.UtcNow
             });
 
@@ -61,16 +78,22 @@ public class AuthenticationService : IAuthenticationService
     {
         var errors = new List<string>();
 
-        var identity = (await _identityRepository
+        var identities = await _identityRepository
             .GetAsync(i => i.Email == email,
-            includeProperties: "Claims,Roles,Roles.Claims")).First();
+            includeProperties: "Claims,Roles,Roles.Claims");
+
+        var identity = identities.FirstOrDefault();
 
         //Check for the email is correct
         if (identity is null)
             throw new Exception($"Failed to login: \"Incorrect email\"");
 
         //Check if password is correct
-        if (identity.Password != password)
+        var passwordHash = _passwordHasher
+            .ComputeHash(password, identity.PasswordSalt, 
+                _config.Value.PasswordHashPepper, _config.Value.Iteration);
+
+        if (identity.PasswordHash != passwordHash)
             throw new Exception($"Failed to login: \"Incorrect password\"");
 
         //If all is good

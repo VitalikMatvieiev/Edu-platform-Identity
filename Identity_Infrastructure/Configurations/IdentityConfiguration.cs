@@ -8,10 +8,11 @@ public class IdentityConfiguration : IEntityTypeConfiguration<Identity>
 {
     public void Configure(EntityTypeBuilder<Identity> builder)
     {
-        builder.Property(i => i.Id).IsRequired();
-        builder.Property(i => i.Username).IsRequired();
-        builder.Property(i => i.Email).IsRequired();
-        builder.Property(i => i.Password).IsRequired();
+        builder.Property(i => i.Id).IsRequired().UseIdentityColumn();
+        builder.Property(i => i.Username).IsRequired().HasMaxLength(20);
+        builder.Property(i => i.Email).IsRequired().HasMaxLength(40);
+        builder.Property(i => i.PasswordSalt).IsRequired();
+        builder.Property(i => i.PasswordHash).IsRequired();
         builder.Property(i => i.LastLogin);
         builder.HasMany(i => i.Claims).WithMany(c => c.Identities);
         builder.HasMany(i => i.Roles).WithMany(r => r.Identities);

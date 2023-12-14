@@ -29,8 +29,8 @@ public class IdentityDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        var connectionStr = _settings.Value.ConnectionString;
-        optionsBuilder.UseSqlServer(connectionStr);
+        //var connectionStr = _settings.Value.ConnectionString;
+        optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=identitydb;Trusted_Connection=True;");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -16,6 +16,7 @@ public static class ApplicationServices
 
         services.Configure<DatabaseSettings>(configuration.GetSection("DatabaseSettings"));
         services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
+        services.Configure<PasswordHashSettings>(configuration.GetSection("PasswordHashSettings"));
 
         services.AddDbContext<IdentityDbContext>();
 
