@@ -30,7 +30,8 @@ public class AuthenticationService : IAuthenticationService
 
         //Check if username is not in db
         var usernameIdentities = await _identityRepository
-            .GetAsync(i => i.Username == username);
+            .GetAsync(i => i.Username == username, 
+            includeProperties: "ClaimIdentities.Claims,IdentityRole.Roles.ClaimRole.Claims");
 
         var usernameIdentity = usernameIdentities.FirstOrDefault();
 
@@ -80,7 +81,7 @@ public class AuthenticationService : IAuthenticationService
 
         var identities = await _identityRepository
             .GetAsync(i => i.Email == email,
-            includeProperties: "Claims,Roles,Roles.Claims");
+            includeProperties: "ClaimIdentities.Claims,IdentityRole.Roles.ClaimRole.Claims");
 
         var identity = identities.FirstOrDefault();
 

@@ -18,7 +18,7 @@ public class GetAllIdentitiesHandler : IRequestHandler<GetAllIdentitiesQuery, Li
     public async Task<List<Identity>> Handle(GetAllIdentitiesQuery request, CancellationToken cancellationToken)
     {
         var result = await _identityRepository
-            .GetAsync(includeProperties: "Claims,Roles,Roles.Claims");
+            .GetAsync(includeProperties: "ClaimIdentities.Claims,IdentityRole.Roles.ClaimRole.Claims");
 
         return result.ToList();
     }

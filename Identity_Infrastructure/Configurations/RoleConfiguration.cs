@@ -10,7 +10,15 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
     {
         builder.Property(i => i.Id).IsRequired().UseIdentityColumn();
         builder.Property(r => r.Name).IsRequired().HasMaxLength(20);
-        builder.HasMany(r => r.Identities).WithMany(i => i.Roles);
-        builder.HasMany(r => r.Claims).WithMany(r => r.Roles);
+
+        builder.HasMany(r => r.IdentityRole)
+            .WithOne(ir => ir.Roles).OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasMany(r => r.ClaimRole)
+            .WithOne(cr => cr.Roles).OnDelete(DeleteBehavior.NoAction);
+
+
+        //builder.HasMany(r => r.Identities).WithMany(i => i.Roles);
+        //builder.HasMany(r => r.Claims).WithMany(r => r.Roles);
     }
 }

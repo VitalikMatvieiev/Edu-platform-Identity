@@ -1,4 +1,5 @@
-﻿using Identity_Domain.Entities.Base;
+﻿using Identity_Domain.Entities.Additional;
+using Identity_Domain.Entities.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -14,8 +15,31 @@ public class IdentityConfiguration : IEntityTypeConfiguration<Identity>
         builder.Property(i => i.PasswordSalt).IsRequired();
         builder.Property(i => i.PasswordHash).IsRequired();
         builder.Property(i => i.LastLogin);
-        builder.HasMany(i => i.Claims).WithMany(c => c.Identities);
-        builder.HasMany(i => i.Roles).WithMany(r => r.Identities);
-        builder.HasOne(i => i.Token).WithOne(t => t.Identity);
+
+        builder.HasMany(i => i.ClaimIdentities)
+            .WithOne(ci => ci.Identities).OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasMany(i => i.IdentityRole)
+            .WithOne(ir => ir.Identities).OnDelete(DeleteBehavior.NoAction);
+
+
+        //builder.HasMany(i => i.Claims)
+        //    .WithMany(c => c.Identities)
+        //    .UsingEntity<ClaimIdentity>(
+        //    ci => ci
+        //            .HasOne(ci => ci.Claim)
+        //            .WithMany(c => c.ClaimIdentities)
+        //            .OnDelete(DeleteBehavior.SetNull)
+        //            .HasForeignKey(ci => ci.ClaimsId),
+        //    ci => ci
+        //            .HasOne(ci => ci.Identity)
+        //            .WithMany(i => i.ClaimIdentities)
+        //            .OnDelete(DeleteBehavior.SetNull)
+        //            .HasForeignKey(ci => ci.IdentitiesId),
+        //    ci => ci
+        //            .HasKey(ci => new { ci.IdentitiesId, ci.ClaimsId }));
+
+        //builder.HasMany(i => i.Roles).WithMany(r => r.Identities);
+        //builder.HasOne(i => i.Token).WithOne(t => t.Identity);
     }
 }

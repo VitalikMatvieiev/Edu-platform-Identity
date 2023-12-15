@@ -1,13 +1,14 @@
 ﻿using Identity_Application.Interfaces.Authentication;
 using Identity_Application.Interfaces.Repository;
 using Identity_Application.Models.AppSettingsModels;
+using Identity_Application.Models.BaseEntitiesModels;
 using Identity_Domain.Entities.Base;
 using MediatR;
 using Microsoft.Extensions.Options;
 
 namespace Identity_Application.Commands.Identities;
 
-public record CreateIdentityCommand(string Username, string Email, string Password) : IRequest<Identity>;
+public record CreateIdentityCommand(IdentityVM vm) : IRequest<Identity>;
 
 public class CreateIdentityHandler : IRequestHandler<CreateIdentityCommand, Identity>
 {
@@ -15,7 +16,7 @@ public class CreateIdentityHandler : IRequestHandler<CreateIdentityCommand, Iden
     private readonly IPasswordHasherService _passwordHasher;
     private readonly IOptions<PasswordHashSettings> _config;
 
-    public CreateIdentityHandler(IGenericRepository<Identity> identityRepository, 
+    public CreateIdentityHandler(IGenericRepository<Identity> identityRepository,
                                  IPasswordHasherService passwordHasher,
                                  IOptions<PasswordHashSettings> config)
     {
@@ -28,19 +29,34 @@ public class CreateIdentityHandler : IRequestHandler<CreateIdentityCommand, Iden
     {
         var salt = _passwordHasher.GenerateSalt();
         var hash = _passwordHasher
-            .ComputeHash(request.Password, salt, 
+            .ComputeHash(request.vm.Password, salt,
                         _config.Value.PasswordHashPepper, _config.Value.Iteration);
 
-        var identity = await _identityRepository.InsertAsync(
-            new Identity
+        var identity = new Identity
+        {
+            Username = request.vm.Username,
+            Email = request.vm.Email,
+            PasswordSalt = salt,
+            PasswordHash = hash,
+            RegistrationDate = DateTime.UtcNow
+        };
+
+        foreach (var claim in request.vm.ClaimsIds)
+            identity.ClaimIdentities.Add(new Identity_Domain.Entities.Additional.ClaimIdentity
             {
-                Username = request.Username,
-                Email = request.Email,
-                PasswordSalt = salt,
-                PasswordHash = hash,
-                RegistrationDate = DateTime.UtcNow
+                Identities = identity,
+                ClaimsId = claim
             });
 
-        return identity;
+        foreach (var role in request.vm.RolesIds)
+            identity.IdentityRole.Add(new Identity_Domain.Entities.Additional.IdentityRole
+            {
+                Identities = identity,
+                RolesId = role
+            });
+
+        var Identity = await _identityRepository.InsertAsync(identity);
+
+        return Identity;
     }
 }

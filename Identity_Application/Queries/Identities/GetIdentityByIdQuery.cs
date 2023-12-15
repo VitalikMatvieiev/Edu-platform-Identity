@@ -18,7 +18,8 @@ public class GetIdentityByIdHandler : IRequestHandler<GetIdentityByIdQuery, Iden
     public async Task<Identity> Handle(GetIdentityByIdQuery request, CancellationToken cancellationToken)
     {
         var result = await _identityRepository
-            .GetAsync(i => i.Id == request.Id, includeProperties: "Claims,Roles,Roles.Claims");
+            .GetAsync(i => i.Id == request.Id,
+            includeProperties: "ClaimIdentities.Claims,IdentityRole.Roles.ClaimRole.Claims");
 
         return result.FirstOrDefault();
     }

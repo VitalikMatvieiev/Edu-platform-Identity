@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Identity_Infrastructure.Migrations
 {
     [DbContext(typeof(IdentityDbContext))]
-    [Migration("20231214181407_ValidationAndHash")]
-    partial class ValidationAndHash
+    [Migration("20231215024843_EntityNaming")]
+    partial class EntityNaming
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,34 +24,73 @@ namespace Identity_Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("ClaimIdentity", b =>
+            modelBuilder.Entity("Identity_Domain.Entities.Additional.ClaimIdentity", b =>
                 {
-                    b.Property<int>("ClaimsId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("IdentitiesId")
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("ClaimsId")
                         .HasColumnType("int");
 
-                    b.HasKey("ClaimsId", "IdentitiesId");
+                    b.Property<int?>("IdentitiesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClaimsId");
 
                     b.HasIndex("IdentitiesId");
 
                     b.ToTable("ClaimIdentity");
                 });
 
-            modelBuilder.Entity("ClaimRole", b =>
+            modelBuilder.Entity("Identity_Domain.Entities.Additional.ClaimRole", b =>
                 {
-                    b.Property<int>("ClaimsId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("RolesId")
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("ClaimsId")
                         .HasColumnType("int");
 
-                    b.HasKey("ClaimsId", "RolesId");
+                    b.Property<int?>("RolesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClaimsId");
 
                     b.HasIndex("RolesId");
 
                     b.ToTable("ClaimRole");
+                });
+
+            modelBuilder.Entity("Identity_Domain.Entities.Additional.IdentityRole", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("IdentitiesId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("RolesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdentitiesId");
+
+                    b.HasIndex("RolesId");
+
+                    b.ToTable("IdentityRole");
                 });
 
             modelBuilder.Entity("Identity_Domain.Entities.Base.Claim", b =>
@@ -165,49 +204,55 @@ namespace Identity_Infrastructure.Migrations
                     b.ToTable("Role");
                 });
 
-            modelBuilder.Entity("IdentityRole", b =>
+            modelBuilder.Entity("Identity_Domain.Entities.Additional.ClaimIdentity", b =>
                 {
-                    b.Property<int>("IdentitiesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RolesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("IdentitiesId", "RolesId");
-
-                    b.HasIndex("RolesId");
-
-                    b.ToTable("IdentityRole");
-                });
-
-            modelBuilder.Entity("ClaimIdentity", b =>
-                {
-                    b.HasOne("Identity_Domain.Entities.Base.Claim", null)
-                        .WithMany()
+                    b.HasOne("Identity_Domain.Entities.Base.Claim", "Claims")
+                        .WithMany("ClaimIdentity")
                         .HasForeignKey("ClaimsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
-                    b.HasOne("Identity_Domain.Entities.Base.Identity", null)
-                        .WithMany()
+                    b.HasOne("Identity_Domain.Entities.Base.Identity", "Identities")
+                        .WithMany("ClaimIdentities")
                         .HasForeignKey("IdentitiesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Claims");
+
+                    b.Navigation("Identities");
                 });
 
-            modelBuilder.Entity("ClaimRole", b =>
+            modelBuilder.Entity("Identity_Domain.Entities.Additional.ClaimRole", b =>
                 {
-                    b.HasOne("Identity_Domain.Entities.Base.Claim", null)
-                        .WithMany()
+                    b.HasOne("Identity_Domain.Entities.Base.Claim", "Claims")
+                        .WithMany("ClaimRole")
                         .HasForeignKey("ClaimsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
-                    b.HasOne("Identity_Domain.Entities.Base.Role", null)
-                        .WithMany()
+                    b.HasOne("Identity_Domain.Entities.Base.Role", "Roles")
+                        .WithMany("ClaimRole")
                         .HasForeignKey("RolesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Claims");
+
+                    b.Navigation("Roles");
+                });
+
+            modelBuilder.Entity("Identity_Domain.Entities.Additional.IdentityRole", b =>
+                {
+                    b.HasOne("Identity_Domain.Entities.Base.Identity", "Identities")
+                        .WithMany("IdentityRole")
+                        .HasForeignKey("IdentitiesId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Identity_Domain.Entities.Base.Role", "Roles")
+                        .WithMany("IdentityRole")
+                        .HasForeignKey("RolesId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Identities");
+
+                    b.Navigation("Roles");
                 });
 
             modelBuilder.Entity("Identity_Domain.Entities.Base.RefreshToken", b =>
@@ -221,24 +266,27 @@ namespace Identity_Infrastructure.Migrations
                     b.Navigation("Identity");
                 });
 
-            modelBuilder.Entity("IdentityRole", b =>
+            modelBuilder.Entity("Identity_Domain.Entities.Base.Claim", b =>
                 {
-                    b.HasOne("Identity_Domain.Entities.Base.Identity", null)
-                        .WithMany()
-                        .HasForeignKey("IdentitiesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("ClaimIdentity");
 
-                    b.HasOne("Identity_Domain.Entities.Base.Role", null)
-                        .WithMany()
-                        .HasForeignKey("RolesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("ClaimRole");
                 });
 
             modelBuilder.Entity("Identity_Domain.Entities.Base.Identity", b =>
                 {
+                    b.Navigation("ClaimIdentities");
+
+                    b.Navigation("IdentityRole");
+
                     b.Navigation("Token");
+                });
+
+            modelBuilder.Entity("Identity_Domain.Entities.Base.Role", b =>
+                {
+                    b.Navigation("ClaimRole");
+
+                    b.Navigation("IdentityRole");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,4 +1,5 @@
 ﻿using Identity_Application.Models.AppSettingsModels;
+using Identity_Domain.Entities.Additional;
 using Identity_Domain.Entities.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -13,7 +14,7 @@ public class IdentityDbContext : DbContext
 
     public IdentityDbContext()
     {
-        
+
     }
 
     public IdentityDbContext(DbContextOptions<IdentityDbContext> options, IOptions<DatabaseSettings> settings) : base(options)
@@ -37,6 +38,10 @@ public class IdentityDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+        modelBuilder.Entity<ClaimIdentity>().HasKey(ci => ci.Id);
+        modelBuilder.Entity<ClaimRole>().HasKey(cr => cr.Id);
+        modelBuilder.Entity<IdentityRole>().HasKey(ir => ir.Id);
     }
 
     public static List<T> SeedData<T>(string fileName)

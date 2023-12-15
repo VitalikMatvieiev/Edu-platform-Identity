@@ -1,6 +1,6 @@
 ﻿using Identity_Application.Commands.Roles;
+using Identity_Application.Models.BaseEntitiesModels;
 using Identity_Application.Queries.Roles;
-using Identity_Domain.Entities.Base;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,19 +36,19 @@ public class RoleController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateRole(Role Role)
+    public async Task<IActionResult> CreateRole([FromBody] RoleVM roleVM)
     {
         var result = await _mediator
-            .Send(new CreateRoleCommand(Role));
+            .Send(new CreateRoleCommand(roleVM));
 
         return Ok(result);
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdateRole(Role Role)
+    public async Task<IActionResult> UpdateRole(int id, [FromBody] RoleVM roleVM)
     {
         await _mediator
-            .Send(new UpdateRoleCommand(Role));
+            .Send(new UpdateRoleCommand(id, roleVM));
 
         return Ok();
     }

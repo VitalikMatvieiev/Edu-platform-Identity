@@ -1,6 +1,6 @@
 ﻿using Identity_Application.Commands.Claims;
+using Identity_Application.Models.BaseEntitiesModels;
 using Identity_Application.Queries.Claims;
-using Identity_Domain.Entities.Base;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,19 +36,19 @@ public class ClaimController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateClaim(string Name)
+    public async Task<IActionResult> CreateClaim([FromBody] ClaimVM claim)
     {
         var result = await _mediator
-            .Send(new CreateClaimCommand(Name));
+            .Send(new CreateClaimCommand(claim));
 
         return Ok(result);
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdateClaim(Claim Claim)
+    public async Task<IActionResult> UpdateClaim(int id, [FromBody] ClaimVM claim)
     {
         await _mediator
-            .Send(new UpdateClaimCommand(Claim));
+            .Send(new UpdateClaimCommand(id, claim));
 
         return Ok();
     }

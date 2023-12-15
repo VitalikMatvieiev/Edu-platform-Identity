@@ -17,8 +17,4 @@
     <ProjectReference Include="..\Identity_Domain\Identity_Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\BaseEntitiesModels\" />
-  </ItemGroup>
-
 </Project>

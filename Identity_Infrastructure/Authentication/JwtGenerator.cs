@@ -1,11 +1,11 @@
 ﻿using Identity_Application.Interfaces.Authentication;
 using Identity_Application.Models.AppSettingsModels;
+using Identity_Domain.Entities.Additional;
 using Identity_Domain.Entities.Base;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
-using System.Text.Json;
 
 namespace Identity_Infrastructure.Authentication;
 
@@ -28,55 +28,58 @@ public class JwtGenerator : IJwtGenerator
 
     public string GenerateToken(Identity identity)
     {
-        var claimsJson = GetClaimsJson(identity.Roles, identity.Claims);
-        var rolesJson = GetRolesJson(identity.Roles);
+        var roles = GetRolesJson(identity.IdentityRole
+            .Where(x => x.IdentitiesId == identity.Id).ToList());
 
+        var claimsList = GetClaimsJson(identity.IdentityRole
+            .Where(x => x.IdentitiesId == identity.Id).ToList(),
+            identity.ClaimIdentities.Where(x => x.IdentitiesId == identity.Id).ToList());
+
+        var tokenClaims = new List<System.Security.Claims.Claim>
+        {
+            new("id", identity.Id.ToString()),
+            new ("username", identity.Username),
+            new ("email", identity.Email),
+            new ("lastLogin", identity.LastLogin.ToString())
+        };
+
+        foreach (var role in roles)
+            tokenClaims.Add(new("role", role));
+        
+        foreach (var claim in claimsList)
+            tokenClaims.Add(new("claim", claim));
+        
         var signingCredentials = new SigningCredentials(
             new SymmetricSecurityKey(Encoding.UTF8.GetBytes(securitykey)),
                 SecurityAlgorithms.HmacSha256);
 
-        var claims = new[]
-        {
-            new System.Security.Claims.Claim("id", identity.Id.ToString()),
-            new System.Security.Claims.Claim("username", identity.Username),
-            new System.Security.Claims.Claim("email", identity.Email),
-            new System.Security.Claims.Claim("lastLogin", identity.LastLogin.Millisecond.ToString()),
-            new System.Security.Claims.Claim("roles", rolesJson),
-            new System.Security.Claims.Claim("claims", claimsJson)
-        };
-
         var securityToken = new JwtSecurityToken(
             issuer: tokenIssuer,
             expires: DateTime.UtcNow.AddHours(tokenHourExpTime),
-            claims: claims,
+            claims: tokenClaims,
             signingCredentials: signingCredentials);
 
         return new JwtSecurityTokenHandler().WriteToken(securityToken);
     }
 
-    private string GetRolesJson(List<Role> roles)
+    private List<string> GetRolesJson(List<IdentityRole> roles)
     {
-        var rolesToJson = new List<string>();
-
-        foreach (var role in roles)
-            rolesToJson.Add(role.Name);
-
-
-        return JsonSerializer.Serialize(rolesToJson);
+        return roles.Select(role => role.Roles.Name).ToList();
     }
 
-    private string GetClaimsJson(List<Role> roles, List<Claim> claims)
+    private List<string> GetClaimsJson(List<IdentityRole> roles, List<ClaimIdentity> claims)
     {
-        var claimsToJson = new List<string>();
-
-        foreach (var claim in claims)
-            claimsToJson.Add(claim.Name);
+        var claimsToJson = claims.Select(claim => claim.Claims.Name).ToList();
 
         foreach (var role in roles)
-            foreach (var claim in role.Claims)
-                if (!claimsToJson.Contains(claim.Name))
-                    claimsToJson.Add(claim.Name);
+        {
+            foreach (var claim in role.Roles.ClaimRole)
+            {
+                if (!claimsToJson.Contains(claim.Claims.Name))
+                    claimsToJson.Add(claim.Claims.Name);
+            }
+        }
 
-        return JsonSerializer.Serialize(claimsToJson);
+        return claimsToJson;
     }
 }

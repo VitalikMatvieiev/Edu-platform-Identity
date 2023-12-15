@@ -1,10 +1,11 @@
 ﻿using Identity_Application.Interfaces.Repository;
+using Identity_Application.Models.BaseEntitiesModels;
 using Identity_Domain.Entities.Base;
 using MediatR;
 
 namespace Identity_Application.Commands.Claims;
 
-public record CreateClaimCommand(string Name) : IRequest<Claim>;
+public record CreateClaimCommand(ClaimVM vm) : IRequest<Claim>;
 
 public class CreateClaimHandler : IRequestHandler<CreateClaimCommand, Claim>
 {
@@ -17,12 +18,13 @@ public class CreateClaimHandler : IRequestHandler<CreateClaimCommand, Claim>
 
     public async Task<Claim> Handle(CreateClaimCommand request, CancellationToken cancellationToken)
     {
-        var claim = await _claimRepository.InsertAsync(
-            new Claim
-            {
-                Name = request.Name,
-            });
+        var claim = new Claim()
+        {
+            Name = request.vm.Name
+        };
 
-        return claim;
+        var Claim = await _claimRepository.InsertAsync(claim);
+
+        return Claim;
     }
 }

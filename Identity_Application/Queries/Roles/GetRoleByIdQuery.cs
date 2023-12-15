@@ -18,7 +18,7 @@ public class GetRoleByIdHandler : IRequestHandler<GetRoleByIdQuery, Role>
     public async Task<Role> Handle(GetRoleByIdQuery request, CancellationToken cancellationToken)
     {
         var result = await _roleRepository
-            .GetAsync(r => r.Id == request.Id);
+            .GetAsync(r => r.Id == request.Id, includeProperties: "ClaimRole.Claims");
 
         return result.FirstOrDefault();
     }

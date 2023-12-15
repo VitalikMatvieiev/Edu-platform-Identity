@@ -10,7 +10,11 @@ public class ClaimConfiguration : IEntityTypeConfiguration<Claim>
     {
         builder.Property(c => c.Id).IsRequired().UseIdentityColumn();
         builder.Property(c => c.Name).IsRequired().HasMaxLength(20);
-        builder.HasMany(c => c.Identities).WithMany(i => i.Claims);
-        builder.HasMany(c => c.Roles).WithMany(r => r.Claims);
+
+        builder.HasMany(c => c.ClaimIdentity)
+            .WithOne(ci => ci.Claims).OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasMany(c => c.ClaimRole)
+            .WithOne(cr => cr.Claims).OnDelete(DeleteBehavior.NoAction);
     }
 }

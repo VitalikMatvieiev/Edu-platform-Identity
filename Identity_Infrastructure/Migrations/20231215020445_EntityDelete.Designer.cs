@@ -4,6 +4,7 @@ using Identity_Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Identity_Infrastructure.Migrations
 {
     [DbContext(typeof(IdentityDbContext))]
-    partial class IdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231215020445_EntityDelete")]
+    partial class EntityDelete
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,17 +32,23 @@ namespace Identity_Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int?>("ClaimId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("ClaimsId")
                         .HasColumnType("int");
 
                     b.Property<int?>("IdentitiesId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("IdentityId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ClaimsId");
+                    b.HasIndex("ClaimId");
 
-                    b.HasIndex("IdentitiesId");
+                    b.HasIndex("IdentityId");
 
                     b.ToTable("ClaimIdentity");
                 });
@@ -53,7 +61,13 @@ namespace Identity_Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int?>("ClaimId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("ClaimsId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("RoleId")
                         .HasColumnType("int");
 
                     b.Property<int?>("RolesId")
@@ -61,9 +75,9 @@ namespace Identity_Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClaimsId");
+                    b.HasIndex("ClaimId");
 
-                    b.HasIndex("RolesId");
+                    b.HasIndex("RoleId");
 
                     b.ToTable("ClaimRole");
                 });
@@ -79,14 +93,20 @@ namespace Identity_Infrastructure.Migrations
                     b.Property<int?>("IdentitiesId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("IdentityId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("RoleId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("RolesId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdentitiesId");
+                    b.HasIndex("IdentityId");
 
-                    b.HasIndex("RolesId");
+                    b.HasIndex("RoleId");
 
                     b.ToTable("IdentityRole");
                 });
@@ -204,53 +224,53 @@ namespace Identity_Infrastructure.Migrations
 
             modelBuilder.Entity("Identity_Domain.Entities.Additional.ClaimIdentity", b =>
                 {
-                    b.HasOne("Identity_Domain.Entities.Base.Claim", "Claims")
+                    b.HasOne("Identity_Domain.Entities.Base.Claim", "Claim")
                         .WithMany("ClaimIdentity")
-                        .HasForeignKey("ClaimsId")
+                        .HasForeignKey("ClaimId")
                         .OnDelete(DeleteBehavior.NoAction);
 
-                    b.HasOne("Identity_Domain.Entities.Base.Identity", "Identities")
+                    b.HasOne("Identity_Domain.Entities.Base.Identity", "Identity")
                         .WithMany("ClaimIdentities")
-                        .HasForeignKey("IdentitiesId")
+                        .HasForeignKey("IdentityId")
                         .OnDelete(DeleteBehavior.NoAction);
 
-                    b.Navigation("Claims");
+                    b.Navigation("Claim");
 
-                    b.Navigation("Identities");
+                    b.Navigation("Identity");
                 });
 
             modelBuilder.Entity("Identity_Domain.Entities.Additional.ClaimRole", b =>
                 {
-                    b.HasOne("Identity_Domain.Entities.Base.Claim", "Claims")
+                    b.HasOne("Identity_Domain.Entities.Base.Claim", "Claim")
                         .WithMany("ClaimRole")
-                        .HasForeignKey("ClaimsId")
+                        .HasForeignKey("ClaimId")
                         .OnDelete(DeleteBehavior.NoAction);
 
-                    b.HasOne("Identity_Domain.Entities.Base.Role", "Roles")
+                    b.HasOne("Identity_Domain.Entities.Base.Role", "Role")
                         .WithMany("ClaimRole")
-                        .HasForeignKey("RolesId")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.NoAction);
 
-                    b.Navigation("Claims");
+                    b.Navigation("Claim");
 
-                    b.Navigation("Roles");
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("Identity_Domain.Entities.Additional.IdentityRole", b =>
                 {
-                    b.HasOne("Identity_Domain.Entities.Base.Identity", "Identities")
+                    b.HasOne("Identity_Domain.Entities.Base.Identity", "Identity")
                         .WithMany("IdentityRole")
-                        .HasForeignKey("IdentitiesId")
+                        .HasForeignKey("IdentityId")
                         .OnDelete(DeleteBehavior.NoAction);
 
-                    b.HasOne("Identity_Domain.Entities.Base.Role", "Roles")
+                    b.HasOne("Identity_Domain.Entities.Base.Role", "Role")
                         .WithMany("IdentityRole")
-                        .HasForeignKey("RolesId")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.NoAction);
 
-                    b.Navigation("Identities");
+                    b.Navigation("Identity");
 
-                    b.Navigation("Roles");
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("Identity_Domain.Entities.Base.RefreshToken", b =>
