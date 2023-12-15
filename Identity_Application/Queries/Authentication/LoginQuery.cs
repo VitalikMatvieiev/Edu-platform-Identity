@@ -1,9 +1,10 @@
 ﻿using Identity_Application.Interfaces.Authentication;
+using Identity_Application.Models.Authorization;
 using MediatR;
 
 namespace Identity_Application.Queries.Authentication;
 
-public record LoginQuery(string Email, string Password) : IRequest<string>;
+public record LoginQuery(LoginVM vm) : IRequest<string>;
 
 public class LoginHandler : IRequestHandler<LoginQuery, string>
 {
@@ -16,7 +17,7 @@ public class LoginHandler : IRequestHandler<LoginQuery, string>
 
     public async Task<string> Handle(LoginQuery request, CancellationToken cancellationToken)
     {
-        var token = await _authenticationService.Login(request.Email, request.Password);
+        var token = await _authenticationService.Login(request.vm.Email, request.vm.Password);
 
         return token;
     }

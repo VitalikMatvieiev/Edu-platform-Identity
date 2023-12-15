@@ -1,6 +1,8 @@
 ﻿using Identity_Application.Commands.Roles;
 using Identity_Application.Models.BaseEntitiesModels;
 using Identity_Application.Queries.Roles;
+using Identity_Domain.Entities.Enums;
+using Identity_Infrastructure.Authentication;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +19,7 @@ public class RoleController : Controller
         _mediator = mediator;
     }
 
+    [HasClaim(ControllersClaims.ReadRoles)]
     [HttpGet("GetById")]
     public async Task<IActionResult> GetRoleById(int id)
     {
@@ -26,6 +29,7 @@ public class RoleController : Controller
         return Ok(result);
     }
 
+    [HasClaim(ControllersClaims.ReadRoles)]
     [HttpGet]
     public async Task<IActionResult> GetAllRoles()
     {
@@ -35,6 +39,7 @@ public class RoleController : Controller
         return Ok(result);
     }
 
+    [HasClaim(ControllersClaims.WriteRole)]
     [HttpPost]
     public async Task<IActionResult> CreateRole([FromBody] RoleVM roleVM)
     {
@@ -44,6 +49,7 @@ public class RoleController : Controller
         return Ok(result);
     }
 
+    [HasClaim(ControllersClaims.ChangeRole)]
     [HttpPut]
     public async Task<IActionResult> UpdateRole(int id, [FromBody] RoleVM roleVM)
     {
@@ -53,6 +59,7 @@ public class RoleController : Controller
         return Ok();
     }
 
+    [HasClaim(ControllersClaims.DeleteRole)]
     [HttpDelete]
     public async Task<IActionResult> DeleteRole(int id)
     {
@@ -61,5 +68,4 @@ public class RoleController : Controller
 
         return Ok();
     }
-
 }

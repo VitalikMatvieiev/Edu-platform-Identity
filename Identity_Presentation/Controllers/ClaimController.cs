@@ -1,6 +1,8 @@
 ﻿using Identity_Application.Commands.Claims;
 using Identity_Application.Models.BaseEntitiesModels;
 using Identity_Application.Queries.Claims;
+using Identity_Domain.Entities.Enums;
+using Identity_Infrastructure.Authentication;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +19,7 @@ public class ClaimController : Controller
         _mediator = mediator;
     }
 
+    [HasClaim(ControllersClaims.ReadClaims)]
     [HttpGet("GetById")]
     public async Task<IActionResult> GetClaimById(int id)
     {
@@ -26,6 +29,7 @@ public class ClaimController : Controller
         return Ok(result);
     }
 
+    [HasClaim(ControllersClaims.ReadClaims)]
     [HttpGet]
     public async Task<IActionResult> GetAllClaims()
     {
@@ -35,6 +39,7 @@ public class ClaimController : Controller
         return Ok(result);
     }
 
+    [HasClaim(ControllersClaims.WriteClaim)]
     [HttpPost]
     public async Task<IActionResult> CreateClaim([FromBody] ClaimVM claim)
     {
@@ -44,6 +49,7 @@ public class ClaimController : Controller
         return Ok(result);
     }
 
+    [HasClaim(ControllersClaims.ChangeClaim)]
     [HttpPut]
     public async Task<IActionResult> UpdateClaim(int id, [FromBody] ClaimVM claim)
     {
@@ -53,6 +59,7 @@ public class ClaimController : Controller
         return Ok();
     }
 
+    [HasClaim(ControllersClaims.DeleteClaim)]
     [HttpDelete]
     public async Task<IActionResult> DeleteClaim(int id)
     {

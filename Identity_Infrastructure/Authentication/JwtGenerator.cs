@@ -44,14 +44,14 @@ public class JwtGenerator : IJwtGenerator
         };
 
         foreach (var role in roles)
-            tokenClaims.Add(new("role", role));
+            tokenClaims.Add(new("roles", role));
         
         foreach (var claim in claimsList)
-            tokenClaims.Add(new("claim", claim));
+            tokenClaims.Add(new("claims", claim));
         
         var signingCredentials = new SigningCredentials(
             new SymmetricSecurityKey(Encoding.UTF8.GetBytes(securitykey)),
-                SecurityAlgorithms.HmacSha256);
+                SecurityAlgorithms.HmacSha512Signature);
 
         var securityToken = new JwtSecurityToken(
             issuer: tokenIssuer,

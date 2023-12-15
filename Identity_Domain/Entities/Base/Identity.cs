@@ -31,11 +31,7 @@ public class Identity : Entity
 
     public RefreshToken? Token { get; set; }
 
-    //public List<Claim> Claims { get; set; } = new List<Claim>();
-
     public List<ClaimIdentity> ClaimIdentities { get; set; } = new List<ClaimIdentity>();
-
-    //public List<Role> Roles { get; set; } = new List<Role>();
 
     public List<IdentityRole> IdentityRole { get; set; } = new List<IdentityRole>();
 }

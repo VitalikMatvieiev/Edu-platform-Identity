@@ -9,6 +9,7 @@ public class ClaimIdentity : Entity
 
     public Claim? Claims { get; set; }
 
+    [JsonIgnore]
     public int? IdentitiesId { get; set; }
 
     [JsonIgnore]

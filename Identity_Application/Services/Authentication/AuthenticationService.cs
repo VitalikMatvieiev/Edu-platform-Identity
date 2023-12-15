@@ -14,7 +14,7 @@ public class AuthenticationService : IAuthenticationService
     private readonly IOptions<PasswordHashSettings> _config;
 
     public AuthenticationService(IJwtGenerator jwtGenerator,
-                                IGenericRepository<Identity> identityRepository, 
+                                IGenericRepository<Identity> identityRepository,
                                 IPasswordHasherService passwordHasher,
                                 IOptions<PasswordHashSettings> config)
     {
@@ -30,7 +30,7 @@ public class AuthenticationService : IAuthenticationService
 
         //Check if username is not in db
         var usernameIdentities = await _identityRepository
-            .GetAsync(i => i.Username == username, 
+            .GetAsync(i => i.Username == username,
             includeProperties: "ClaimIdentities.Claims,IdentityRole.Roles.ClaimRole.Claims");
 
         var usernameIdentity = usernameIdentities.FirstOrDefault();
@@ -91,7 +91,7 @@ public class AuthenticationService : IAuthenticationService
 
         //Check if password is correct
         var passwordHash = _passwordHasher
-            .ComputeHash(password, identity.PasswordSalt, 
+            .ComputeHash(password, identity.PasswordSalt,
                 _config.Value.PasswordHashPepper, _config.Value.Iteration);
 
         if (identity.PasswordHash != passwordHash)

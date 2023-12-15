@@ -1,4 +1,5 @@
 ﻿using Identity_Application.Commands.Authentication;
+using Identity_Application.Models.Authorization;
 using Identity_Application.Queries.Authentication;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -17,17 +18,17 @@ public class AuthenticationController : Controller
     }
 
     [HttpPost("Register")]
-    public async Task<IActionResult> Register(string Username, string Email, string Password)
+    public async Task<IActionResult> Register(RegisterVM vm)
     {
-        var token = await _mediator.Send(new RegisterCommand(Username, Email, Password));
+        var token = await _mediator.Send(new RegisterCommand(vm));
 
         return Ok(token);
     }
 
     [HttpPost("Login")]
-    public async Task<IActionResult> Login(string Email, string Password)
+    public async Task<IActionResult> Login(LoginVM vm)
     {
-        var token = await _mediator.Send(new LoginQuery(Email, Password));
+        var token = await _mediator.Send(new LoginQuery(vm));
 
         return Ok(token);
     }

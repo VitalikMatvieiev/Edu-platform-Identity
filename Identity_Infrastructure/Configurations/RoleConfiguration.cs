@@ -16,9 +16,5 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
 
         builder.HasMany(r => r.ClaimRole)
             .WithOne(cr => cr.Roles).OnDelete(DeleteBehavior.NoAction);
-
-
-        //builder.HasMany(r => r.Identities).WithMany(i => i.Roles);
-        //builder.HasMany(r => r.Claims).WithMany(r => r.Roles);
     }
 }
