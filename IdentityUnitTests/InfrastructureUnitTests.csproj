@@ -10,6 +10,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoFixture" Version="5.0.0-preview0007" />
+    <PackageReference Include="AutoFixture.AutoMoq" Version="5.0.0-preview0007" />
+    <PackageReference Include="AutoFixture.Xunit2" Version="5.0.0-preview0007" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.25" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
     <PackageReference Include="Moq" Version="4.20.70" />

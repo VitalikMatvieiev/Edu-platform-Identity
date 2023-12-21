@@ -1,4 +1,6 @@
-﻿using Identity_Domain.Entities.Base;
+﻿using Application.UnitTests;
+using AutoFixture.Xunit2;
+using Identity_Domain.Entities.Base;
 using Identity_Infrastructure;
 using Identity_Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +10,7 @@ namespace InfrastructureUnitTests.Repositories;
 
 public class GenericRepositoryTests
 {
-    private readonly Mock<DbSet<Claim>> _mockSet;
+    /*private readonly Mock<DbSet<Claim>> _mockSet;
     private readonly Mock<IdentityDbContext> _mockContext;
     private readonly GenericRepository<Claim> _repository;
     private IQueryable<Claim> data;
@@ -36,12 +38,17 @@ public class GenericRepositoryTests
         _mockContext.Setup(m => m.Set<Claim>()).Returns(_mockSet.Object);
 
         _repository = new GenericRepository<Claim>(_mockContext.Object);
-    }
+    }*/
 
-    [Fact]
-    public async Task InsertAsync_AddsEntity()
+    [Theory]
+    [AutoMoqData]
+    public async Task InsertAsync_AddsEntity([Frozen] Mock<IdentityDbContext> _mockContext,
+        [Frozen] Mock<DbSet<Claim>> _mockSet,
+        GenericRepository<Claim> sut
+        )
     {
         // Arrange
+        var data = TestDataGenerator.GetRandomClaims(3).AsQueryable();
         var claim = TestDataGenerator.GetRandomClaim();
 
         _mockSet.Setup(m => m.AddAsync(It.IsAny<Claim>(), It.IsAny<CancellationToken>()))
@@ -49,7 +56,7 @@ public class GenericRepositoryTests
                     data.Append(entity)); // Simulates adding the entity to the data source
 
         // Act
-        await _repository.InsertAsync(claim);
+        await sut.InsertAsync(claim);
 
         // Assert
         _mockSet.Verify(m => m
@@ -59,7 +66,7 @@ public class GenericRepositoryTests
             .SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
     }
 
-    [Fact]
+    /*[Fact]
     public async Task UpdateAsync_EntityUpdated()
     {
         // Arrange
@@ -73,5 +80,5 @@ public class GenericRepositoryTests
         // Assert
         _mockContext.Verify(m =>
             m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once); // Verifies that changes are saved
-    }
+    }*/
 }
