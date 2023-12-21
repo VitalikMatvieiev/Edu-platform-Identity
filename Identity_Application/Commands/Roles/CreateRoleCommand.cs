@@ -6,9 +6,9 @@ using MediatR;
 
 namespace Identity_Application.Commands.Roles;
 
-public record CreateRoleCommand(RoleVM roleVM) : IRequest<Role>;
+public record CreateRoleCommand(RoleVM roleVM) : IRequest<int>;
 
-public class CreateRoleHandler : IRequestHandler<CreateRoleCommand, Role>
+public class CreateRoleHandler : IRequestHandler<CreateRoleCommand, int>
 {
     private readonly IGenericRepository<Role> _roleRepository;
 
@@ -17,7 +17,7 @@ public class CreateRoleHandler : IRequestHandler<CreateRoleCommand, Role>
         _roleRepository = roleRepository;
     }
 
-    public async Task<Role> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
+    public async Task<int> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
     {
         var role = new Role()
         {
@@ -31,9 +31,9 @@ public class CreateRoleHandler : IRequestHandler<CreateRoleCommand, Role>
                 ClaimsId = claim
             });
 
-        var Role = await _roleRepository
+        var id = await _roleRepository
            .InsertAsync(role);
 
-        return Role;
+        return id;
     }
 }

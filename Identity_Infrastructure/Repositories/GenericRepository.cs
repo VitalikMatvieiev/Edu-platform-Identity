@@ -44,17 +44,12 @@ public class GenericRepository<T> : IGenericRepository<T> where T : Entity
         }
     }
 
-    public virtual async Task<T> GetByIDAsync(int id)
-    {
-        return await _dbSet.FindAsync(id);
-    }
-
-    public virtual async Task<T> InsertAsync(T entity)
+    public virtual async Task<int> InsertAsync(T entity)
     {
         var newentity = await _dbSet.AddAsync(entity);
         await SaveChangesAsync();
 
-        return newentity.Entity;
+        return newentity.Entity.Id;
     }
 
     public virtual async Task DeleteAsync(int id)

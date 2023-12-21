@@ -59,7 +59,7 @@ public class AuthenticationService : IAuthenticationService
         var hash = _passwordHasher.ComputeHash(password, salt,
                 _config.Value.PasswordHashPepper, _config.Value.Iteration);
 
-        var identity = await _identityRepository.InsertAsync(
+        var id = await _identityRepository.InsertAsync(
             new Identity
             {
                 Username = username,
@@ -69,10 +69,20 @@ public class AuthenticationService : IAuthenticationService
                 RegistrationDate = DateTime.UtcNow
             });
 
-        //Generate token
-        var token = _jwtGenerator.GenerateToken(identity);
+        var identities = await _identityRepository
+            .GetAsync(i => i.Id == id, 
+            includeProperties: "ClaimIdentities.Claims,IdentityRole.Roles.ClaimRole.Claims");
 
-        return token;
+        var identity = identities.FirstOrDefault();
+
+        if (identity is not null)
+        {
+            //Generate token
+            var token = _jwtGenerator.GenerateToken(identity);
+            return token;
+        }
+        else
+            throw new Exception("Registration was not succesfull");
     }
 
     public async Task<string> Login(string email, string password)

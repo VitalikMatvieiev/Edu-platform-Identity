@@ -7,17 +7,7 @@ public class Identity : Entity
 {
     public string Username { get; set; } = string.Empty;
 
-    private string _email = string.Empty;
-    public string Email
-    {
-        get { return _email; }
-        set
-        {
-            if (Regex.IsMatch(value, @"^[^@\s]+@[^@\s]+\.(com|net|org|gov)$", RegexOptions.IgnoreCase))
-                _email = value;
-            else throw new Exception("Incorrect Email");
-        }
-    }
+    public string Email { get; set; } = string.Empty;
 
     public string PasswordSalt { get; set; } = string.Empty;
 

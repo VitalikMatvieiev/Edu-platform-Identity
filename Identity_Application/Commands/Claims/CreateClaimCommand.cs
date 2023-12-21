@@ -5,9 +5,9 @@ using MediatR;
 
 namespace Identity_Application.Commands.Claims;
 
-public record CreateClaimCommand(ClaimVM vm) : IRequest<Claim>;
+public record CreateClaimCommand(ClaimVM vm) : IRequest<int>;
 
-public class CreateClaimHandler : IRequestHandler<CreateClaimCommand, Claim>
+public class CreateClaimHandler : IRequestHandler<CreateClaimCommand, int>
 {
     private readonly IGenericRepository<Claim> _claimRepository;
 
@@ -16,15 +16,15 @@ public class CreateClaimHandler : IRequestHandler<CreateClaimCommand, Claim>
         _claimRepository = claimRepository;
     }
 
-    public async Task<Claim> Handle(CreateClaimCommand request, CancellationToken cancellationToken)
+    public async Task<int> Handle(CreateClaimCommand request, CancellationToken cancellationToken)
     {
         var claim = new Claim()
         {
             Name = request.vm.Name
         };
 
-        var Claim = await _claimRepository.InsertAsync(claim);
+        var id = await _claimRepository.InsertAsync(claim);
 
-        return Claim;
+        return id;
     }
 }

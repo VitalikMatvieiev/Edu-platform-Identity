@@ -8,9 +8,9 @@ using Microsoft.Extensions.Options;
 
 namespace Identity_Application.Commands.Identities;
 
-public record CreateIdentityCommand(IdentityVM vm) : IRequest<Identity>;
+public record CreateIdentityCommand(IdentityVM vm) : IRequest<int>;
 
-public class CreateIdentityHandler : IRequestHandler<CreateIdentityCommand, Identity>
+public class CreateIdentityHandler : IRequestHandler<CreateIdentityCommand, int>
 {
     private readonly IGenericRepository<Identity> _identityRepository;
     private readonly IPasswordHasherService _passwordHasher;
@@ -25,7 +25,7 @@ public class CreateIdentityHandler : IRequestHandler<CreateIdentityCommand, Iden
         _config = config;
     }
 
-    public async Task<Identity> Handle(CreateIdentityCommand request, CancellationToken cancellationToken)
+    public async Task<int> Handle(CreateIdentityCommand request, CancellationToken cancellationToken)
     {
         var salt = _passwordHasher.GenerateSalt();
         var hash = _passwordHasher
@@ -55,8 +55,8 @@ public class CreateIdentityHandler : IRequestHandler<CreateIdentityCommand, Iden
                 RolesId = role
             });
 
-        var Identity = await _identityRepository.InsertAsync(identity);
+        var id = await _identityRepository.InsertAsync(identity);
 
-        return Identity;
+        return id;
     }
 }

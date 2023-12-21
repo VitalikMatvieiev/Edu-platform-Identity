@@ -26,4 +26,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+using var scope = app.Services.CreateScope();
+await scope.dbConfiguration();
+
 app.Run();

@@ -5,6 +5,7 @@ using Identity_Application.Models.AppSettingsModels;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 
 namespace Identity_Presentation.Bootstrap;
 
@@ -48,5 +49,25 @@ public static class ApplicationServices
         });
 
         return services;
+    }
+
+    public async static Task<IServiceScope> dbConfiguration(this IServiceScope scope)
+    {
+        var services = scope.ServiceProvider;
+        var context = services.GetRequiredService<IdentityDbContext>();
+        var logger = services.GetRequiredService<ILogger<Program>>();
+
+        try
+        {
+            await context.Database.MigrateAsync();
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "An error occured during migration");
+        }
+
+        await context.Database.EnsureCreatedAsync();
+
+        return scope;
     }
 }
