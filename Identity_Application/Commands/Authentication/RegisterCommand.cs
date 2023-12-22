@@ -17,6 +17,9 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, string>
 
     public async Task<string> Handle(RegisterCommand request, CancellationToken cancellationToken)
     {
+        if (request.vm is null)
+            throw new ArgumentNullException("Given data is not correct");
+
         var token = await _authenticationService.Register(request.vm.Username, request.vm.Email, request.vm.Password);
 
         return token;

@@ -24,13 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Queries\Authentication\" />
-    <Folder Include="Queries\Claims\" />
-    <Folder Include="Queries\Identities\" />
-    <Folder Include="Queries\Roles\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Identity_Application\Identity_Application.csproj" />
   </ItemGroup>
 

@@ -32,13 +32,14 @@ public class UpdateRoleHandler : IRequestHandler<UpdateRoleCommand>
 
         role.ClaimRole = role.ClaimRole.Where(x => !toRemove.Contains(x.ClaimsId)).ToList();
 
-        foreach (var item in toAdd)
-        {
-            role.ClaimRole.Add(new Identity_Domain.Entities.Additional.ClaimRole()
+        if (toAdd is not null)
+            foreach (var item in toAdd)
             {
-                ClaimsId = item
-            });
-        }
+                role.ClaimRole.Add(new Identity_Domain.Entities.Additional.ClaimRole()
+                {
+                    ClaimsId = item
+                });
+            }
 
         await _roleRepository.UpdateAsync(role);
     }

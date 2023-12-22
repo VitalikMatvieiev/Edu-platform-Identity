@@ -21,6 +21,9 @@ public class UpdateClaimHandler : IRequestHandler<UpdateClaimCommand>
         var claims = await _claimRepository.GetAsync(c => c.Id == request.Id);
         var claim = claims.FirstOrDefault();
 
+        if (claim is null)
+            throw new Exception("Claim not found.");
+
         claim.Name = request.vm.Name;
 
         await _claimRepository.UpdateAsync(claim);

@@ -44,4 +44,14 @@ public class RegisterHandlerTests
                                   .Register(It.IsAny<string>(), It.IsAny<string>(),
                                   It.IsAny<string>()), Times.Once);
     }
+
+    [Fact]
+    public async Task Handle_ShouldThrowArgumentException_WhenRegisterVMIsNull()
+    {
+        // Arrange
+        var registerCommand = new RegisterCommand(null);
+
+        // Act & Assert
+        await Assert.ThrowsAsync<ArgumentNullException>(() => _handler.Handle(registerCommand, new CancellationToken()));
+    }
 }

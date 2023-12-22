@@ -29,12 +29,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Identity_Domain\Identity_Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Identity_Infrastructure">
-      <HintPath>..\Identity_Infrastructure\bin\Debug\net6.0\Identity_Infrastructure.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\Identity_Infrastructure\Identity_Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
