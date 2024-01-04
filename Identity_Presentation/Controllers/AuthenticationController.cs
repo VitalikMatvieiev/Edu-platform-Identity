@@ -18,7 +18,7 @@ public class AuthenticationController : Controller
     }
 
     [HttpPost("Register")]
-    public async Task<IActionResult> Register(RegisterVM vm)
+    public async Task<IActionResult> Register([FromBody] RegisterVM vm)
     {
         var token = await _mediator.Send(new RegisterCommand(vm));
 
@@ -26,7 +26,7 @@ public class AuthenticationController : Controller
     }
 
     [HttpPost("Login")]
-    public async Task<IActionResult> Login(LoginVM vm)
+    public async Task<IActionResult> Login([FromBody] LoginVM vm)
     {
         var token = await _mediator.Send(new LoginQuery(vm));
 
