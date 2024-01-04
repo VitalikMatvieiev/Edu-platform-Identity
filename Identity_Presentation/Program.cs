@@ -19,6 +19,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("GatewayPolicy");
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();

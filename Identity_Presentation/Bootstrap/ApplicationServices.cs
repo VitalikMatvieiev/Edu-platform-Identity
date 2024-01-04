@@ -42,9 +42,9 @@ public static class ApplicationServices
 
         services.AddCors(options =>
         {
-            options.AddPolicy("CorsPolicy", policy =>
+            options.AddPolicy("GatewayPolicy", policy =>
             {
-                policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:8010");
+                policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:8001");
             });
         });
 
