@@ -44,7 +44,7 @@ public static class ApplicationServices
         {
             options.AddPolicy("GatewayPolicy", policy =>
             {
-                policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:8001");
+                policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:8001");
             });
         });
 
