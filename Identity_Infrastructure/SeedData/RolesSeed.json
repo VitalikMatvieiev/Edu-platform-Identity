@@ -1,0 +1,272 @@
+[
+  {
+    "Id": 1,
+    "Name": "Administrator",
+    "Claims": [
+      {
+        "Id": 5803,
+        "Name": "ViewUserProfile"
+      },
+      {
+        "Id": 6750,
+        "Name": "UploadFile"
+      },
+      {
+        "Id": 5481,
+        "Name": "DeleteGroup"
+      }
+    ]
+  },
+  {
+    "Id": 2,
+    "Name": "Moderator",
+    "Claims": [
+      {
+        "Id": 8683,
+        "Name": "CreateGroup"
+      },
+      {
+        "Id": 8980,
+        "Name": "DeleteAccount"
+      },
+      {
+        "Id": 6292,
+        "Name": "AuditSystemLogs"
+      }
+    ]
+  },
+  {
+    "Id": 3,
+    "Name": "User",
+    "Claims": [
+      {
+        "Id": 2431,
+        "Name": "ModerateDiscussions"
+      },
+      {
+        "Id": 5481,
+        "Name": "DeleteGroup"
+      },
+      {
+        "Id": 6343,
+        "Name": "EditOwnProfile"
+      }
+    ]
+  },
+  {
+    "Id": 4,
+    "Name": "Guest",
+    "Claims": [
+      {
+        "Id": 7188,
+        "Name": "ViewSensitiveData"
+      },
+      {
+        "Id": 2431,
+        "Name": "ModerateDiscussions"
+      },
+      {
+        "Id": 31,
+        "Name": "DeleteMessage"
+      }
+    ]
+  },
+  {
+    "Id": 5,
+    "Name": "ContentCreator",
+    "Claims": [
+      {
+        "Id": 3808,
+        "Name": "UnbanUser"
+      },
+      {
+        "Id": 6292,
+        "Name": "AuditSystemLogs"
+      },
+      {
+        "Id": 5481,
+        "Name": "DeleteGroup"
+      }
+    ]
+  },
+  {
+    "Id": 6,
+    "Name": "Manager",
+    "Claims": [
+      {
+        "Id": 6658,
+        "Name": "BanUser"
+      },
+      {
+        "Id": 8980,
+        "Name": "DeleteAccount"
+      },
+      {
+        "Id": 3808,
+        "Name": "UnbanUser"
+      }
+    ]
+  },
+  {
+    "Id": 7,
+    "Name": "Editor",
+    "Claims": [
+      {
+        "Id": 2960,
+        "Name": "ShareContent"
+      },
+      {
+        "Id": 3808,
+        "Name": "UnbanUser"
+      },
+      {
+        "Id": 31,
+        "Name": "DeleteMessage"
+      }
+    ]
+  },
+  {
+    "Id": 8,
+    "Name": "Viewer",
+    "Claims": [
+      {
+        "Id": 31,
+        "Name": "DeleteMessage"
+      },
+      {
+        "Id": 7188,
+        "Name": "ViewSensitiveData"
+      },
+      {
+        "Id": 2960,
+        "Name": "ShareContent"
+      }
+    ]
+  },
+  {
+    "Id": 9,
+    "Name": "Subscriber",
+    "Claims": [
+      {
+        "Id": 7596,
+        "Name": "EditGroupSettings"
+      },
+      {
+        "Id": 446,
+        "Name": "DownloadFile"
+      },
+      {
+        "Id": 5803,
+        "Name": "ViewUserProfile"
+      }
+    ]
+  },
+  {
+    "Id": 10,
+    "Name": "VIP",
+    "Claims": [
+      {
+        "Id": 446,
+        "Name": "DownloadFile"
+      },
+      {
+        "Id": 2431,
+        "Name": "ModerateDiscussions"
+      },
+      {
+        "Id": 6343,
+        "Name": "EditOwnProfile"
+      }
+    ]
+  },
+  {
+    "Id": 11,
+    "Name": "Support",
+    "Claims": [
+      {
+        "Id": 446,
+        "Name": "DownloadFile"
+      },
+      {
+        "Id": 5803,
+        "Name": "ViewUserProfile"
+      },
+      {
+        "Id": 8980,
+        "Name": "DeleteAccount"
+      }
+    ]
+  },
+  {
+    "Id": 12,
+    "Name": "Developer",
+    "Claims": [
+      {
+        "Id": 7188,
+        "Name": "ViewSensitiveData"
+      },
+      {
+        "Id": 6292,
+        "Name": "AuditSystemLogs"
+      },
+      {
+        "Id": 2431,
+        "Name": "ModerateDiscussions"
+      }
+    ]
+  },
+  {
+    "Id": 13,
+    "Name": "Marketer",
+    "Claims": [
+      {
+        "Id": 2431,
+        "Name": "ModerateDiscussions"
+      },
+      {
+        "Id": 8301,
+        "Name": "ApproveRegistrations"
+      },
+      {
+        "Id": 9528,
+        "Name": "AccessPrivateForum"
+      }
+    ]
+  },
+  {
+    "Id": 14,
+    "Name": "Salesperson",
+    "Claims": [
+      {
+        "Id": 5803,
+        "Name": "ViewUserProfile"
+      },
+      {
+        "Id": 6343,
+        "Name": "EditOwnProfile"
+      },
+      {
+        "Id": 7188,
+        "Name": "ViewSensitiveData"
+      }
+    ]
+  },
+  {
+    "Id": 15,
+    "Name": "Analyst",
+    "Claims": [
+      {
+        "Id": 2431,
+        "Name": "ModerateDiscussions"
+      },
+      {
+        "Id": 8301,
+        "Name": "ApproveRegistrations"
+      },
+      {
+        "Id": 3808,
+        "Name": "UnbanUser"
+      }
+    ]
+  }
+]

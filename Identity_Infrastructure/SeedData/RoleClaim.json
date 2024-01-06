@@ -1,0 +1,182 @@
+[
+  {
+    "ClaimsId": 5803,
+    "RolesId": 1
+  },
+  {
+    "ClaimsId": 6750,
+    "RolesId": 1
+  },
+  {
+    "ClaimsId": 5481,
+    "RolesId": 1
+  },
+  {
+    "ClaimsId": 8683,
+    "RolesId": 2
+  },
+  {
+    "ClaimsId": 8980,
+    "RolesId": 2
+  },
+  {
+    "ClaimsId": 6292,
+    "RolesId": 2
+  },
+  {
+    "ClaimsId": 2431,
+    "RolesId": 3
+  },
+  {
+    "ClaimsId": 5481,
+    "RolesId": 3
+  },
+  {
+    "ClaimsId": 6343,
+    "RolesId": 3
+  },
+  {
+    "ClaimsId": 7188,
+    "RolesId": 4
+  },
+  {
+    "ClaimsId": 2431,
+    "RolesId": 4
+  },
+  {
+    "ClaimsId": 31,
+    "RolesId": 4
+  },
+  {
+    "ClaimsId": 3808,
+    "RolesId": 5
+  },
+  {
+    "ClaimsId": 6292,
+    "RolesId": 5
+  },
+  {
+    "ClaimsId": 5481,
+    "RolesId": 5
+  },
+  {
+    "ClaimsId": 6658,
+    "RolesId": 6
+  },
+  {
+    "ClaimsId": 8980,
+    "RolesId": 6
+  },
+  {
+    "ClaimsId": 3808,
+    "RolesId": 6
+  },
+  {
+    "ClaimsId": 2960,
+    "RolesId": 7
+  },
+  {
+    "ClaimsId": 3808,
+    "RolesId": 7
+  },
+  {
+    "ClaimsId": 31,
+    "RolesId": 7
+  },
+  {
+    "ClaimsId": 31,
+    "RolesId": 8
+  },
+  {
+    "ClaimsId": 7188,
+    "RolesId": 8
+  },
+  {
+    "ClaimsId": 2960,
+    "RolesId": 8
+  },
+  {
+    "ClaimsId": 7596,
+    "RolesId": 9
+  },
+  {
+    "ClaimsId": 446,
+    "RolesId": 9
+  },
+  {
+    "ClaimsId": 5803,
+    "RolesId": 9
+  },
+  {
+    "ClaimsId": 446,
+    "RolesId": 10
+  },
+  {
+    "ClaimsId": 2431,
+    "RolesId": 10
+  },
+  {
+    "ClaimsId": 6343,
+    "RolesId": 10
+  },
+  {
+    "ClaimsId": 446,
+    "RolesId": 11
+  },
+  {
+    "ClaimsId": 5803,
+    "RolesId": 11
+  },
+  {
+    "ClaimsId": 8980,
+    "RolesId": 11
+  },
+  {
+    "ClaimsId": 7188,
+    "RolesId": 12
+  },
+  {
+    "ClaimsId": 6292,
+    "RolesId": 12
+  },
+  {
+    "ClaimsId": 2431,
+    "RolesId": 12
+  },
+  {
+    "ClaimsId": 2431,
+    "RolesId": 13
+  },
+  {
+    "ClaimsId": 8301,
+    "RolesId": 13
+  },
+  {
+    "ClaimsId": 9528,
+    "RolesId": 13
+  },
+  {
+    "ClaimsId": 5803,
+    "RolesId": 14
+  },
+  {
+    "ClaimsId": 6343,
+    "RolesId": 14
+  },
+  {
+    "ClaimsId": 7188,
+    "RolesId": 14
+  },
+  {
+    "ClaimsId": 2431,
+    "RolesId": 15
+  },
+  {
+    "ClaimsId": 8301,
+    "RolesId": 15
+  },
+  {
+    "ClaimsId": 3808,
+    "RolesId": 15
+  }
+]
