@@ -20,7 +20,7 @@ public class RoleController : Controller
     }
 
     [HasClaim(ControllersClaims.ReadRoles)]
-    [HttpGet("GetById")]
+    [HttpGet("{id}")]
     public async Task<IActionResult> GetRoleById(int id)
     {
         var result = await _mediator

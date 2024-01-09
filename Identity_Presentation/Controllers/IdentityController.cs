@@ -20,7 +20,7 @@ public class IdentityController : Controller
     }
 
     [HasClaim(ControllersClaims.ReadOwnIdentity)]
-    [HttpGet("GetById")]
+    [HttpGet("{id}")]
     public async Task<IActionResult> GetIdentityById(int id)
     {
         var result = await _mediator

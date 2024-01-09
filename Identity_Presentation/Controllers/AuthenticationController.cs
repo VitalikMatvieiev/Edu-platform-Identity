@@ -2,6 +2,7 @@
 using Identity_Application.Models.Authorization;
 using Identity_Application.Queries.Authentication;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Identity_Presentation.Controllers;
@@ -17,7 +18,8 @@ public class AuthenticationController : Controller
         _mediator = mediator;
     }
 
-    [HttpPost("Register")]
+    [AllowAnonymous]
+    [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterVM vm)
     {
         var token = await _mediator.Send(new RegisterCommand(vm));
@@ -25,7 +27,8 @@ public class AuthenticationController : Controller
         return Ok(token);
     }
 
-    [HttpPost("Login")]
+    [AllowAnonymous]
+    [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginVM vm)
     {
         var token = await _mediator.Send(new LoginQuery(vm));

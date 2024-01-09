@@ -20,7 +20,7 @@ public class ClaimController : Controller
     }
 
     [HasClaim(ControllersClaims.ReadClaims)]
-    [HttpGet("GetById")]
+    [HttpGet("{id}")]
     public async Task<IActionResult> GetClaimById(int id)
     {
         var result = await _mediator
