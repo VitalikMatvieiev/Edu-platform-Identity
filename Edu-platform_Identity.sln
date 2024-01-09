@@ -15,9 +15,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{7EFABEE8
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{31C53BC8-753A-4390-92A0-C4DC8BCD68EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationUnitTests", "ApplicationUnitTests\ApplicationUnitTests.csproj", "{1E97AAB4-9C52-482A-B5D7-0E3253240AC6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApplicationUnitTests", "ApplicationUnitTests\ApplicationUnitTests.csproj", "{1E97AAB4-9C52-482A-B5D7-0E3253240AC6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfrastructureUnitTests", "IdentityUnitTests\InfrastructureUnitTests.csproj", "{6D1503A9-B1C9-4DFA-87CC-7B795E629A71}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfrastructureUnitTests", "InfrastructureUnitTests\InfrastructureUnitTests.csproj", "{6D1503A9-B1C9-4DFA-87CC-7B795E629A71}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
