@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Identity_Domain.Entities.Base;
+using Microsoft.OpenApi.Models;
 
 namespace Identity_Presentation.Bootstrap;
 
@@ -14,6 +15,35 @@ public static class ApplicationServices
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddSwaggerGen(c =>
+         {
+            c.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Title = "My API",
+                Version = "v1"
+            });
+            c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                In = ParameterLocation.Header,
+                Description = "Please insert JWT with Bearer into field",
+                Name = "Authorization",
+                Type = SecuritySchemeType.ApiKey
+            });
+            c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+               {
+                 new OpenApiSecurityScheme
+                 {
+                   Reference = new OpenApiReference
+                   {
+                     Type = ReferenceType.SecurityScheme,
+                     Id = "Bearer"
+                   }
+                 },
+                 new string[] { }
+               }
+            });
+         });
+
         services.AddMediatR(conf =>
             conf.RegisterServicesFromAssemblyContaining(typeof(GetAllIdentitiesQuery)));
 
@@ -67,7 +97,7 @@ public static class ApplicationServices
             logger.LogError(ex, "An error occured during migration");
         }
 
-        if(!context.Claim.Any())
+        if (!context.Claim.Any())
             context.Claim.AddRange(IdentityDbContext.SeedData<Claim>("ClaimsSeed"));
         if (!context.Role.Any())
             context.Role.AddRange(IdentityDbContext.SeedData<Role>("RolesSeed"));
