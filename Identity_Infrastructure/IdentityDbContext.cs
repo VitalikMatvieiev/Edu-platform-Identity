@@ -37,19 +37,29 @@ public class IdentityDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
         modelBuilder.Entity<ClaimIdentity>().HasKey(ci => ci.Id);
+        modelBuilder.Entity<ClaimIdentity>().HasData(SeedData<ClaimIdentity>("IdentityClaimSeed"));
+
         modelBuilder.Entity<ClaimRole>().HasKey(cr => cr.Id);
+        modelBuilder.Entity<ClaimRole>().HasData(SeedData<ClaimRole>("RoleClaimSeed"));
+
         modelBuilder.Entity<IdentityRole>().HasKey(ir => ir.Id);
+        modelBuilder.Entity<IdentityRole>().HasData(SeedData<IdentityRole>("IdentityRoleSeed"));
     }
 
     public static List<T> SeedData<T>(string fileName)
     {
         var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-        var data = File.ReadAllText(path + $"/SeedData/{fileName}.json");
+        var fullPath = path + $"/SeedData/{fileName}.json";
 
-        return JsonSerializer.Deserialize<List<T>>(data);
+        var dataJson = File.ReadAllText(fullPath);
+
+        var data =  JsonSerializer.Deserialize<List<T>>(dataJson);
+
+        return data;
     }
 }

@@ -12,9 +12,13 @@ public class ClaimConfiguration : IEntityTypeConfiguration<Claim>
         builder.Property(c => c.Name).IsRequired().HasMaxLength(20);
 
         builder.HasMany(c => c.ClaimIdentity)
-            .WithOne(ci => ci.Claims).OnDelete(DeleteBehavior.NoAction);
+            .WithOne(ci => ci.Claims)
+            .HasForeignKey(ci => ci.ClaimsId)
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasMany(c => c.ClaimRole)
-            .WithOne(cr => cr.Claims).OnDelete(DeleteBehavior.NoAction);
+            .WithOne(cr => cr.Claims)
+            .HasForeignKey(cr => cr.ClaimsId)
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using Identity_Domain.Entities.Base;
 
 namespace Identity_Presentation.Bootstrap;
 
@@ -66,7 +67,12 @@ public static class ApplicationServices
             logger.LogError(ex, "An error occured during migration");
         }
 
-        await context.Database.EnsureCreatedAsync();
+        if(!context.Claim.Any())
+            context.Claim.AddRange(IdentityDbContext.SeedData<Claim>("ClaimsSeed"));
+        if (!context.Role.Any())
+            context.Role.AddRange(IdentityDbContext.SeedData<Role>("RolesSeed"));
+        if (!context.Identity.Any())
+            context.Identity.AddRange(IdentityDbContext.SeedData<Identity>("IdentitySeed"));
 
         return scope;
     }

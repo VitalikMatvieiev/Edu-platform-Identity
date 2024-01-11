@@ -16,9 +16,13 @@ public class IdentityConfiguration : IEntityTypeConfiguration<Identity>
         builder.Property(i => i.LastLogin);
 
         builder.HasMany(i => i.ClaimIdentities)
-            .WithOne(ci => ci.Identities).OnDelete(DeleteBehavior.NoAction);
+            .WithOne(ci => ci.Identities)
+            .HasForeignKey(ci => ci.IdentitiesId)
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasMany(i => i.IdentityRole)
-            .WithOne(ir => ir.Identities).OnDelete(DeleteBehavior.NoAction);
+            .WithOne(ir => ir.Identities)
+            .HasForeignKey(ir => ir.IdentitiesId)
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }

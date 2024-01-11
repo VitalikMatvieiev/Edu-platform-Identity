@@ -4,6 +4,7 @@ using Identity_Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Identity_Infrastructure.Migrations
 {
     [DbContext(typeof(IdentityDbContext))]
-    partial class IdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240111043334_DataSeeding")]
+    partial class DataSeeding
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,6 +45,13 @@ namespace Identity_Infrastructure.Migrations
                     b.HasIndex("IdentitiesId");
 
                     b.ToTable("ClaimIdentity");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ClaimsId = 10
+                        });
                 });
 
             modelBuilder.Entity("Identity_Domain.Entities.Additional.ClaimRole", b =>
@@ -71,80 +80,62 @@ namespace Identity_Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            ClaimsId = 1,
-                            RolesId = 1
+                            ClaimsId = 1
                         },
                         new
                         {
                             Id = 2,
-                            ClaimsId = 2,
-                            RolesId = 1
+                            ClaimsId = 2
                         },
                         new
                         {
                             Id = 3,
-                            ClaimsId = 3,
-                            RolesId = 1
+                            ClaimsId = 3
                         },
                         new
                         {
                             Id = 4,
-                            ClaimsId = 4,
-                            RolesId = 1
+                            ClaimsId = 4
                         },
                         new
                         {
                             Id = 5,
-                            ClaimsId = 5,
-                            RolesId = 1
+                            ClaimsId = 5
                         },
                         new
                         {
                             Id = 6,
-                            ClaimsId = 6,
-                            RolesId = 1
+                            ClaimsId = 6
                         },
                         new
                         {
                             Id = 7,
-                            ClaimsId = 7,
-                            RolesId = 1
+                            ClaimsId = 7
                         },
                         new
                         {
                             Id = 8,
-                            ClaimsId = 8,
-                            RolesId = 1
+                            ClaimsId = 8
                         },
                         new
                         {
                             Id = 9,
-                            ClaimsId = 9,
-                            RolesId = 1
-                        },
-                        new
-                        {
-                            Id = 10,
-                            ClaimsId = 10,
-                            RolesId = 1
+                            ClaimsId = 9
                         },
                         new
                         {
                             Id = 11,
-                            ClaimsId = 11,
-                            RolesId = 1
+                            ClaimsId = 11
                         },
                         new
                         {
                             Id = 12,
-                            ClaimsId = 12,
-                            RolesId = 1
+                            ClaimsId = 12
                         },
                         new
                         {
                             Id = 13,
-                            ClaimsId = 13,
-                            RolesId = 1
+                            ClaimsId = 13
                         });
                 });
 
@@ -174,7 +165,6 @@ namespace Identity_Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            IdentitiesId = 1,
                             RolesId = 1
                         });
                 });
@@ -195,6 +185,73 @@ namespace Identity_Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Claim");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "ReadClaims"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "WriteClaim"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "ChangeClaim"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "DeleteClaim"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "ReadRoles"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "WriteRole"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "ChangeRole"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "DeleteRole"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Name = "ReadIdentities"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Name = "ReadOwnIdentity"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Name = "WriteIdentity"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Name = "ChangeIdentity"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Name = "DeleteIdentity"
+                        });
                 });
 
             modelBuilder.Entity("Identity_Domain.Entities.Base.Identity", b =>
@@ -235,6 +292,19 @@ namespace Identity_Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Identity");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "eduplatform@gmail.com",
+                            LastLogin = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastLogout = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PasswordHash = "0n2D6RfevH0iAO2odcm6QcsXPxSnTQMeT1VaCpVZ4qc=",
+                            PasswordSalt = "GWJHabKuRfxzdRAMvdjGxQ==",
+                            RegistrationDate = new DateTime(2024, 1, 11, 4, 23, 43, 492, DateTimeKind.Unspecified).AddTicks(5829),
+                            Username = "superadmin"
+                        });
                 });
 
             modelBuilder.Entity("Identity_Domain.Entities.Base.RefreshToken", b =>
@@ -288,6 +358,13 @@ namespace Identity_Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Role");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "admin"
+                        });
                 });
 
             modelBuilder.Entity("Identity_Domain.Entities.Additional.ClaimIdentity", b =>

@@ -5,7 +5,6 @@ namespace Identity_Domain.Entities.Additional;
 
 public class IdentityRole : Entity
 {
-    [JsonIgnore]
     public int? IdentitiesId { get; set; }
 
     [JsonIgnore]

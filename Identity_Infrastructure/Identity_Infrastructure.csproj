@@ -8,23 +8,37 @@
 
   <ItemGroup>
     <None Remove="SeedData\ClaimsSeed.json" />
+    <None Remove="SeedData\IdentityClaimSeed.json" />
+    <None Remove="SeedData\IdentityRoleSeed.json" />
     <None Remove="SeedData\IdentitySeed.json" />
-    <None Remove="SeedData\RoleClaim.json" />
+    <None Remove="SeedData\RoleClaimSeed.json" />
     <None Remove="SeedData\RolesSeed.json" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="SeedData\ClaimsSeed.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="SeedData\IdentityClaimSeed.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SeedData\IdentityRoleSeed.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="SeedData\IdentitySeed.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Include="SeedData\RoleClaim.json">
+    <Content Include="SeedData\RoleClaimSeed.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="SeedData\RolesSeed.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
   </ItemGroup>
 

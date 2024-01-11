@@ -12,9 +12,13 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
         builder.Property(r => r.Name).IsRequired().HasMaxLength(20);
 
         builder.HasMany(r => r.IdentityRole)
-            .WithOne(ir => ir.Roles).OnDelete(DeleteBehavior.NoAction);
+            .WithOne(ir => ir.Roles)
+            .HasForeignKey(ir => ir.RolesId)
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasMany(r => r.ClaimRole)
-            .WithOne(cr => cr.Roles).OnDelete(DeleteBehavior.NoAction);
+            .WithOne(cr => cr.Roles)
+            .HasForeignKey(cr => cr.RolesId)
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }
