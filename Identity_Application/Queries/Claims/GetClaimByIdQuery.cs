@@ -1,25 +1,34 @@
-﻿using Identity_Application.Interfaces.Repository;
+﻿using AutoMapper;
+using Identity_Application.Interfaces.Repository;
+using Identity_Application.Models.BaseEntitiesDTOs;
 using Identity_Domain.Entities.Base;
 using MediatR;
 
 namespace Identity_Application.Queries.Claims;
 
-public record GetClaimByIdQuery(int Id) : IRequest<Claim>;
+public record GetClaimByIdQuery(int Id) : IRequest<ClaimDTO>;
 
-public class GetClaimByIdHandler : IRequestHandler<GetClaimByIdQuery, Claim>
+public class GetClaimByIdHandler : IRequestHandler<GetClaimByIdQuery, ClaimDTO>
 {
     private readonly IGenericRepository<Claim> _claimRepository;
+    private readonly IMapper _mapper;
 
-    public GetClaimByIdHandler(IGenericRepository<Claim> claimRepository)
+    public GetClaimByIdHandler(IGenericRepository<Claim> claimRepository, IMapper mapper)
     {
         _claimRepository = claimRepository;
+        _mapper = mapper;
     }
 
-    public async Task<Claim> Handle(GetClaimByIdQuery request, CancellationToken cancellationToken)
+    public async Task<ClaimDTO> Handle(GetClaimByIdQuery request, CancellationToken cancellationToken)
     {
-        var result = await _claimRepository
+        var claims = await _claimRepository
             .GetAsync(c => c.Id == request.Id);
 
-        return result.FirstOrDefault();
+        var claim = claims.FirstOrDefault();
+
+        var result = _mapper
+            .Map<ClaimDTO>(claim);
+
+        return result;
     }
 }

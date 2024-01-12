@@ -2,18 +2,22 @@
 using Identity_Application.Queries.Identities;
 using Identity_Application.Interfaces.Repository;
 using Identity_Domain.Entities.Base;
+using AutoMapper;
+using Identity_Application.Models.BaseEntitiesDTOs;
 
 namespace ApplicationUnitTests.Queries.Identities;
 
 public class GetIdentityByEmailHandlerTests
 {
     private readonly Mock<IGenericRepository<Identity>> _mockIdentityRepository;
+    private readonly Mock<IMapper> _mockMapper;
     private readonly GetIdentityByEmailHandler _handler;
 
     public GetIdentityByEmailHandlerTests()
     {
         _mockIdentityRepository = new Mock<IGenericRepository<Identity>>();
-        _handler = new GetIdentityByEmailHandler(_mockIdentityRepository.Object);
+        _mockMapper = new Mock<IMapper>();
+        _handler = new GetIdentityByEmailHandler(_mockIdentityRepository.Object, _mockMapper.Object);
     }
 
     [Fact]
@@ -21,16 +25,19 @@ public class GetIdentityByEmailHandlerTests
     {
         // Arrange
         var email = "test@example.com";
-        var expectedIdentity = new Identity { Email = email /* other properties */ };
+        var expectedIdentity = new Identity { Email = email };
         _mockIdentityRepository.Setup(repo => repo
                                .GetAsync(It.IsAny<System.Linq.Expressions.Expression<Func<Identity, bool>>>(), null, "ClaimIdentities.Claims,IdentityRole.Roles.ClaimRole.Claims"))
                                .ReturnsAsync(new List<Identity> { expectedIdentity });
+
+        _mockMapper.Setup(m => m.Map<IdentityDTO>(It.IsAny<Identity>()))
+                   .Returns((Identity src) => new IdentityDTO { Email = src.Email });
 
         // Act
         var result = await _handler.Handle(new GetIdentityByEmailQuery(email), new CancellationToken());
 
         // Assert
-        Assert.Equal(expectedIdentity, result);
+        Assert.Equal(expectedIdentity.Email, result.Email);
     }
 
     [Fact]

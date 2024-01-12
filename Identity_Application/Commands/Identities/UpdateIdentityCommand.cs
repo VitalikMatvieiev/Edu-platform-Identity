@@ -72,5 +72,7 @@ public class EditIdentityHandler : IRequestHandler<UpdateIdentityCommand>
                 RolesId = item
             });
         }
+
+        await _identityRepository.UpdateAsync(identity);
     }
 }

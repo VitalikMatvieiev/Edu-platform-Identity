@@ -1,6 +1,6 @@
 ﻿using FluentValidation.TestHelper;
-using Identity_Application.Models.Authorization;
-using Identity_Application.Models.Validators;
+using Identity_Application.Models.AuthorizationModels;
+using Identity_Application.Validators;
 
 namespace ApplicationUnitTests.Models.Validators
 {

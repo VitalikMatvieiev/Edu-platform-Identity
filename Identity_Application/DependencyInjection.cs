@@ -14,6 +14,8 @@ public static class DependencyInjection
 
         var assembly = typeof(DependencyInjection).Assembly;
 
+        services.AddAutoMapper(assembly);
+
         services.AddMediatR(configuration =>
             configuration.RegisterServicesFromAssembly(assembly));
 

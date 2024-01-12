@@ -3,18 +3,22 @@ using Identity_Application.Queries.Identities;
 using Identity_Application.Interfaces.Repository;
 using Identity_Domain.Entities.Base;
 using Identity_Domain.Entities.Additional;
+using AutoMapper;
+using Identity_Application.Models.BaseEntitiesDTOs;
 
 namespace ApplicationUnitTests.Queries.Identities;
 
 public class GetAllIdentitiesHandlerTests
 {
     private readonly Mock<IGenericRepository<Identity>> _mockIdentityRepository;
+    private readonly Mock<IMapper> _mockMapper;
     private readonly GetAllIdentitiesHandler _handler;
 
     public GetAllIdentitiesHandlerTests()
     {
         _mockIdentityRepository = new Mock<IGenericRepository<Identity>>();
-        _handler = new GetAllIdentitiesHandler(_mockIdentityRepository.Object);
+        _mockMapper = new Mock<IMapper>();
+        _handler = new GetAllIdentitiesHandler(_mockIdentityRepository.Object, _mockMapper.Object);
     }
 
     [Fact]
@@ -55,12 +59,39 @@ public class GetAllIdentitiesHandlerTests
                                .GetAsync(It.IsAny<System.Linq.Expressions.Expression<Func<Identity, bool>>>(), null, "ClaimIdentities.Claims,IdentityRole.Roles.ClaimRole.Claims"))
                                .ReturnsAsync(expectedIdentities);
 
+        _mockMapper.Setup(m => m.Map<IdentityDTO>(It.IsAny<Identity>()))
+                   .Returns((Identity src) => 
+                   new IdentityDTO 
+                   { 
+                       Id = src.Id, 
+                       Username = src.Username,
+                       Email = src.Email,
+                       PasswordSalt = src.PasswordSalt,
+                       PasswordHash = src.PasswordHash,
+                       RegistrationDate = src.RegistrationDate,
+                       LastLogin = src.LastLogin,
+                       LastLogout = src.LastLogout
+                   });
+
         // Act
         var result = await _handler.Handle(new GetAllIdentitiesQuery(), new CancellationToken());
 
         // Assert
         Assert.Equal(expectedIdentities.Count, result.Count);
-        Assert.Equal(expectedIdentities, result);
+        Assert.Equal(expectedIdentities[0].Username, result[0].Username);
+        Assert.Equal(expectedIdentities[0].Email, result[0].Email);
+        Assert.Equal(expectedIdentities[0].PasswordSalt, result[0].PasswordSalt);
+        Assert.Equal(expectedIdentities[0].PasswordHash, result[0].PasswordHash);
+        Assert.Equal(expectedIdentities[0].RegistrationDate, result[0].RegistrationDate);
+        Assert.Equal(expectedIdentities[0].LastLogin, result[0].LastLogin);
+        Assert.Equal(expectedIdentities[0].LastLogout, result[0].LastLogout);
+        Assert.Equal(expectedIdentities[1].Username, result[1].Username);
+        Assert.Equal(expectedIdentities[1].Email, result[1].Email);
+        Assert.Equal(expectedIdentities[1].PasswordSalt, result[1].PasswordSalt);
+        Assert.Equal(expectedIdentities[1].PasswordHash, result[1].PasswordHash);
+        Assert.Equal(expectedIdentities[1].RegistrationDate, result[1].RegistrationDate);
+        Assert.Equal(expectedIdentities[1].LastLogin, result[1].LastLogin);
+        Assert.Equal(expectedIdentities[1].LastLogout, result[1].LastLogout);
     }
 
     [Fact]

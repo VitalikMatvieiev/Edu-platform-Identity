@@ -1,5 +1,5 @@
 ﻿using Identity_Application.Interfaces.Authentication;
-using Identity_Application.Models.Authorization;
+using Identity_Application.Models.AuthorizationModels;
 using MediatR;
 
 namespace Identity_Application.Commands.Authentication;

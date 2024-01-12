@@ -2,18 +2,22 @@
 using Identity_Application.Queries.Roles;
 using Identity_Application.Interfaces.Repository;
 using Identity_Domain.Entities.Base;
+using AutoMapper;
+using Identity_Application.Models.BaseEntitiesDTOs;
 
 namespace ApplicationUnitTests.Queries.Roles;
 
 public class GetRoleByIdHandlerTests
 {
     private readonly Mock<IGenericRepository<Role>> _mockRoleRepository;
+    private readonly Mock<IMapper> _mockMapper;
     private readonly GetRoleByIdHandler _handler;
 
     public GetRoleByIdHandlerTests()
     {
         _mockRoleRepository = new Mock<IGenericRepository<Role>>();
-        _handler = new GetRoleByIdHandler(_mockRoleRepository.Object);
+        _mockMapper = new Mock<IMapper>();
+        _handler = new GetRoleByIdHandler(_mockRoleRepository.Object, _mockMapper.Object);
     }
 
     [Fact]
@@ -21,16 +25,20 @@ public class GetRoleByIdHandlerTests
     {
         // Arrange
         var roleId = 1;
-        var expectedRole = new Role { Id = roleId, /* other properties */ };
+        var expectedRole = new Role { Id = roleId, Name = "Test1" };
         _mockRoleRepository.Setup(repo => repo
                            .GetAsync(It.IsAny<System.Linq.Expressions.Expression<Func<Role, bool>>>(), null, "ClaimRole.Claims"))
                            .ReturnsAsync(new List<Role> { expectedRole });
+
+        _mockMapper.Setup(m => m.Map<RoleDTO>(It.IsAny<Role>()))
+                   .Returns((Role src) => new RoleDTO { Id = src.Id, Name = src.Name });
 
         // Act
         var result = await _handler.Handle(new GetRoleByIdQuery(roleId), new CancellationToken());
 
         // Assert
-        Assert.Equal(expectedRole, result);
+        Assert.Equal(expectedRole.Id, result.Id);
+        Assert.Equal(expectedRole.Name, result.Name);
     }
 
     [Fact]

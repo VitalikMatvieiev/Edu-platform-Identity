@@ -1,7 +1,7 @@
 ﻿using Moq;
 using Identity_Application.Queries.Authentication;
 using Identity_Application.Interfaces.Authentication;
-using Identity_Application.Models.Authorization;
+using Identity_Application.Models.AuthorizationModels;
 
 namespace ApplicationUnitTests.Queries.Authentication;
 

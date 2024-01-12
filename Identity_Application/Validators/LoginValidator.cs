@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using Identity_Application.Models.Authorization;
+using Identity_Application.Models.AuthorizationModels;
 
-namespace Identity_Application.Models.Validators;
+namespace Identity_Application.Validators;
 
 public class LoginValidator : AbstractValidator<LoginVM>
 {

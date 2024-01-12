@@ -2,18 +2,22 @@
 using Identity_Application.Queries.Identities;
 using Identity_Application.Interfaces.Repository;
 using Identity_Domain.Entities.Base;
+using AutoMapper;
+using Identity_Application.Models.BaseEntitiesDTOs;
 
 namespace ApplicationUnitTests.Queries.Identities;
 
 public class GetIdentityByIdHandlerTests
 {
     private readonly Mock<IGenericRepository<Identity>> _mockIdentityRepository;
+    private readonly Mock<IMapper> _mockMapper;
     private readonly GetIdentityByIdHandler _handler;
 
     public GetIdentityByIdHandlerTests()
     {
         _mockIdentityRepository = new Mock<IGenericRepository<Identity>>();
-        _handler = new GetIdentityByIdHandler(_mockIdentityRepository.Object);
+        _mockMapper = new Mock<IMapper>();
+        _handler = new GetIdentityByIdHandler(_mockIdentityRepository.Object, _mockMapper.Object);
     }
 
     [Fact]
@@ -27,11 +31,16 @@ public class GetIdentityByIdHandlerTests
                                .GetAsync(It.IsAny<System.Linq.Expressions.Expression<Func<Identity, bool>>>(), null, "ClaimIdentities.Claims,IdentityRole.Roles.ClaimRole.Claims"))
                                .ReturnsAsync(new List<Identity> { expectedIdentity });
 
+        _mockMapper.Setup(m => m.Map<IdentityDTO>(It.IsAny<Identity>()))
+                   .Returns((Identity src) => new IdentityDTO { Id = src.Id, Username = src.Username, Email = src.Email });
+
         // Act
         var result = await _handler.Handle(new GetIdentityByIdQuery(identityId), new CancellationToken());
 
         // Assert
-        Assert.Equal(expectedIdentity, result);
+        Assert.Equal(expectedIdentity.Id, result.Id);
+        Assert.Equal(expectedIdentity.Username, result.Username);
+        Assert.Equal(expectedIdentity.Email, result.Email);
     }
 
     [Fact]

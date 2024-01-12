@@ -1,5 +1,5 @@
 ﻿using Identity_Application.Commands.Authentication;
-using Identity_Application.Models.Authorization;
+using Identity_Application.Models.AuthorizationModels;
 using Identity_Application.Queries.Authentication;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

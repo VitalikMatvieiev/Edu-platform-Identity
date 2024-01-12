@@ -1,4 +1,4 @@
-﻿namespace Identity_Application.Models.Authorization;
+﻿namespace Identity_Application.Models.AuthorizationModels;
 
 public class RegisterVM
 {

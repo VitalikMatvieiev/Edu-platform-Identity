@@ -2,18 +2,22 @@
 using Identity_Application.Queries.Claims;
 using Identity_Application.Interfaces.Repository;
 using Identity_Domain.Entities.Base;
+using AutoMapper;
+using Identity_Application.Models.BaseEntitiesDTOs;
 
 namespace ApplicationUnitTests.Queries.Claims;
 
 public class GetClaimByIdHandlerTests
 {
     private readonly Mock<IGenericRepository<Claim>> _mockClaimRepository;
+    private readonly Mock<IMapper> _mockMapper;
     private readonly GetClaimByIdHandler _handler;
 
     public GetClaimByIdHandlerTests()
     {
         _mockClaimRepository = new Mock<IGenericRepository<Claim>>();
-        _handler = new GetClaimByIdHandler(_mockClaimRepository.Object);
+        _mockMapper = new Mock<IMapper>();
+        _handler = new GetClaimByIdHandler(_mockClaimRepository.Object, _mockMapper.Object);
     }
 
     [Fact]
@@ -27,11 +31,15 @@ public class GetClaimByIdHandlerTests
                             .GetAsync(It.IsAny<System.Linq.Expressions.Expression<Func<Claim, bool>>>(), null, ""))
                             .ReturnsAsync(new List<Claim> { expectedClaim });
 
+        _mockMapper.Setup(m => m.Map<ClaimDTO>(It.IsAny<Claim>()))
+                   .Returns((Claim src) => new ClaimDTO { Id = src.Id, Name = src.Name });
+
         // Act
         var result = await _handler.Handle(new GetClaimByIdQuery(claimId), new CancellationToken());
 
         // Assert
-        Assert.Equal(expectedClaim, result);
+        Assert.Equal(expectedClaim.Id, result.Id);
+        Assert.Equal(expectedClaim.Name, result.Name);
     }
 
     [Fact]
