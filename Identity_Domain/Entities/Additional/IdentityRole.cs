@@ -7,7 +7,6 @@ public class IdentityRole : Entity
 {
     public int? IdentitiesId { get; set; }
 
-    [JsonIgnore]
     public Identity? Identities { get; set; }
 
     public int? RolesId { get; set; }

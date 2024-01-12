@@ -11,6 +11,5 @@ public class ClaimRole : Entity
 
     public int? RolesId { get; set; }
 
-    [JsonIgnore]
     public Role? Roles { get; set; }
 }

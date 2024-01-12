@@ -1,5 +1,4 @@
 ﻿using Identity_Domain.Entities.Additional;
-using System.Text.RegularExpressions;
 
 namespace Identity_Domain.Entities.Base;
 

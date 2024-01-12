@@ -11,6 +11,5 @@ public class ClaimIdentity : Entity
 
     public int? IdentitiesId { get; set; }
 
-    [JsonIgnore]
     public Identity? Identities { get; set; }
 }
