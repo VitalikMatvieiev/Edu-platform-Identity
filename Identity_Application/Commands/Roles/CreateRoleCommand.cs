@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Identity_Application.Commands.Roles;
 
-public record CreateRoleCommand(RoleVM roleVM) : IRequest<int>;
+public record CreateRoleCommand(RoleVM RoleVM) : IRequest<int>;
 
 public class CreateRoleHandler : IRequestHandler<CreateRoleCommand, int>
 {
@@ -21,10 +21,10 @@ public class CreateRoleHandler : IRequestHandler<CreateRoleCommand, int>
     {
         var role = new Role()
         {
-            Name = request.roleVM.Name
+            Name = request.RoleVM.Name
         };
 
-        foreach (var claim in request.roleVM.ClaimsIds)
+        foreach (var claim in request.RoleVM.ClaimsIds)
             role.ClaimRole.Add(new ClaimRole()
             {
                 Roles = role,

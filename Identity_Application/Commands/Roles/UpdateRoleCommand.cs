@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Identity_Application.Commands.Roles;
 
-public record UpdateRoleCommand(int Id, RoleVM vm) : IRequest;
+public record UpdateRoleCommand(int Id, RoleVM RoleVM) : IRequest;
 
 public class UpdateRoleHandler : IRequestHandler<UpdateRoleCommand>
 {
@@ -23,10 +23,10 @@ public class UpdateRoleHandler : IRequestHandler<UpdateRoleCommand>
 
         var role = roles.FirstOrDefault();
 
-        role.Name = request.vm.Name;
+        role.Name = request.RoleVM.Name;
 
         var existingIds = role.ClaimRole.Select(x => x.ClaimsId);
-        var selectedIds = request.vm.ClaimsIds.ToList();
+        var selectedIds = request.RoleVM.ClaimsIds.ToList();
         var toAdd = selectedIds.Except(existingIds);
         var toRemove = existingIds.Except(selectedIds);
 

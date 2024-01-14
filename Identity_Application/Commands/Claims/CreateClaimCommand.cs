@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Identity_Application.Commands.Claims;
 
-public record CreateClaimCommand(ClaimVM vm) : IRequest<int>;
+public record CreateClaimCommand(ClaimVM ClaimVM) : IRequest<int>;
 
 public class CreateClaimHandler : IRequestHandler<CreateClaimCommand, int>
 {
@@ -20,7 +20,7 @@ public class CreateClaimHandler : IRequestHandler<CreateClaimCommand, int>
     {
         var claim = new Claim()
         {
-            Name = request.vm.Name
+            Name = request.ClaimVM.Name
         };
 
         var id = await _claimRepository.InsertAsync(claim);

@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Identity_Application.Commands.Authentication;
 
-public record RegisterCommand(RegisterVM vm) : IRequest<string>;
+public record RegisterCommand(RegisterVM RegisterVM) : IRequest<string>;
 
 public class RegisterHandler : IRequestHandler<RegisterCommand, string>
 {
@@ -17,10 +17,11 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, string>
 
     public async Task<string> Handle(RegisterCommand request, CancellationToken cancellationToken)
     {
-        if (request.vm is null)
+        if (request.RegisterVM is null)
             throw new ArgumentNullException("Given data is not correct");
 
-        var token = await _authenticationService.Register(request.vm.Username, request.vm.Email, request.vm.Password);
+        var token = await _authenticationService
+            .Register(request.RegisterVM.Username, request.RegisterVM.Email, request.RegisterVM.Password);
 
         return token;
     }

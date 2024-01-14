@@ -9,7 +9,7 @@ using System.Data;
 
 namespace Identity_Application.Commands.Identities;
 
-public record UpdateIdentityCommand(int Id, IdentityVM vm) : IRequest;
+public record UpdateIdentityCommand(int Id, IdentityVM IdentityVM) : IRequest;
 
 public class EditIdentityHandler : IRequestHandler<UpdateIdentityCommand>
 {
@@ -35,16 +35,16 @@ public class EditIdentityHandler : IRequestHandler<UpdateIdentityCommand>
         var identity = identities.FirstOrDefault();
 
         var salt = _passwordHasherService.GenerateSalt();
-        var hash = _passwordHasherService.ComputeHash(request.vm.Password, salt,
+        var hash = _passwordHasherService.ComputeHash(request.IdentityVM.Password, salt,
                                     _config.Value.PasswordHashPepper, _config.Value.Iteration);
 
-        identity.Username = request.vm.Username;
-        identity.Email = request.vm.Email;
+        identity.Username = request.IdentityVM.Username;
+        identity.Email = request.IdentityVM.Email;
         identity.PasswordSalt = salt;
         identity.PasswordHash = hash;
 
         var existingClaimIds = identity.ClaimIdentities.Select(x => x.ClaimsId).ToList();
-        var selectedClaimIds = request.vm.ClaimsIds.ToList();
+        var selectedClaimIds = request.IdentityVM.ClaimsIds.ToList();
         var toAddClaims = selectedClaimIds.Except(existingClaimIds);
         var toRemoveClaims = existingClaimIds.Except(selectedClaimIds);
 
@@ -59,7 +59,7 @@ public class EditIdentityHandler : IRequestHandler<UpdateIdentityCommand>
         }
 
         var existingRoleIds = identity.IdentityRole.Select(x => x.RolesId).ToList();
-        var selectedRoleIds = request.vm.RolesIds.ToList();
+        var selectedRoleIds = request.IdentityVM.RolesIds.ToList();
         var toAddRoles = selectedRoleIds.Except(existingRoleIds);
         var toRemoveRoles = existingRoleIds.Except(selectedRoleIds);
 

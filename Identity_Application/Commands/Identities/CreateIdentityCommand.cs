@@ -8,7 +8,7 @@ using Microsoft.Extensions.Options;
 
 namespace Identity_Application.Commands.Identities;
 
-public record CreateIdentityCommand(IdentityVM vm) : IRequest<int>;
+public record CreateIdentityCommand(IdentityVM IdentityVM) : IRequest<int>;
 
 public class CreateIdentityHandler : IRequestHandler<CreateIdentityCommand, int>
 {
@@ -29,26 +29,26 @@ public class CreateIdentityHandler : IRequestHandler<CreateIdentityCommand, int>
     {
         var salt = _passwordHasher.GenerateSalt();
         var hash = _passwordHasher
-            .ComputeHash(request.vm.Password, salt,
+            .ComputeHash(request.IdentityVM.Password, salt,
                         _config.Value.PasswordHashPepper, _config.Value.Iteration);
 
         var identity = new Identity
         {
-            Username = request.vm.Username,
-            Email = request.vm.Email,
+            Username = request.IdentityVM.Username,
+            Email = request.IdentityVM.Email,
             PasswordSalt = salt,
             PasswordHash = hash,
             RegistrationDate = DateTime.UtcNow
         };
 
-        foreach (var claim in request.vm.ClaimsIds)
+        foreach (var claim in request.IdentityVM.ClaimsIds)
             identity.ClaimIdentities.Add(new Identity_Domain.Entities.Additional.ClaimIdentity
             {
                 Identities = identity,
                 ClaimsId = claim
             });
 
-        foreach (var role in request.vm.RolesIds)
+        foreach (var role in request.IdentityVM.RolesIds)
             identity.IdentityRole.Add(new Identity_Domain.Entities.Additional.IdentityRole
             {
                 Identities = identity,

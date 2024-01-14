@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Identity_Application.Queries.Identities;
 
-public record GetIdentityByEmailQuery(string email) : IRequest<IdentityDTO>;
+public record GetIdentityByEmailQuery(string Email) : IRequest<IdentityDTO>;
 
 public class GetIdentityByEmailHandler : IRequestHandler<GetIdentityByEmailQuery, IdentityDTO>
 {
@@ -22,7 +22,7 @@ public class GetIdentityByEmailHandler : IRequestHandler<GetIdentityByEmailQuery
     public async Task<IdentityDTO> Handle(GetIdentityByEmailQuery request, CancellationToken cancellationToken)
     {
         var identities = await _identityRepository
-            .GetAsync(i => i.Email == request.email, 
+            .GetAsync(i => i.Email == request.Email, 
             includeProperties: "ClaimIdentities.Claims,IdentityRole.Roles.ClaimRole.Claims");
 
         var identity = identities.FirstOrDefault();

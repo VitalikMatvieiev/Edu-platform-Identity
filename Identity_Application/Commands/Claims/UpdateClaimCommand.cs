@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Identity_Application.Commands.Claims;
 
-public record UpdateClaimCommand(int Id, ClaimVM vm) : IRequest;
+public record UpdateClaimCommand(int Id, ClaimVM ClaimVM) : IRequest;
 
 public class UpdateClaimHandler : IRequestHandler<UpdateClaimCommand>
 {
@@ -24,7 +24,7 @@ public class UpdateClaimHandler : IRequestHandler<UpdateClaimCommand>
         if (claim is null)
             throw new Exception("Claim not found.");
 
-        claim.Name = request.vm.Name;
+        claim.Name = request.ClaimVM.Name;
 
         await _claimRepository.UpdateAsync(claim);
     }
