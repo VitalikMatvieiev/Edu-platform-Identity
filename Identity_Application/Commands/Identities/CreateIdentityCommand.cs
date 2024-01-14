@@ -41,10 +41,20 @@ public class CreateIdentityHandler : IRequestHandler<CreateIdentityCommand, int>
             throw new Exception(error.ErrorMessage);
         }
 
+        if (_config is null)
+            throw new SystemException("Error occured during operation");
+
         var salt = _passwordHasher.GenerateSalt();
+
+        if (String.IsNullOrEmpty(salt))
+            throw new Exception("Error occured during password hashing");
+
         var hash = _passwordHasher
             .ComputeHash(request.IdentityVM.Password, salt,
                         _config.Value.PasswordHashPepper, _config.Value.Iteration);
+
+        if (String.IsNullOrEmpty(hash))
+            throw new Exception("Error occured during password hashing");
 
         var identity = new Identity
         {
