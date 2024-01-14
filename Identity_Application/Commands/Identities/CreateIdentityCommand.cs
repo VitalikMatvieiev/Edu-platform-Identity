@@ -1,4 +1,6 @@
-﻿using Identity_Application.Interfaces.Authentication;
+﻿using FluentValidation;
+using Identity_Application.Helpers.Validators;
+using Identity_Application.Interfaces.Authentication;
 using Identity_Application.Interfaces.Repository;
 using Identity_Application.Models.AppSettingsModels;
 using Identity_Application.Models.BaseEntitiesModels;
@@ -15,6 +17,7 @@ public class CreateIdentityHandler : IRequestHandler<CreateIdentityCommand, int>
     private readonly IGenericRepository<Identity> _identityRepository;
     private readonly IPasswordHasherService _passwordHasher;
     private readonly IOptions<PasswordHashSettings> _config;
+    private readonly IValidator<IdentityVM> _validator;
 
     public CreateIdentityHandler(IGenericRepository<Identity> identityRepository,
                                  IPasswordHasherService passwordHasher,
@@ -23,10 +26,21 @@ public class CreateIdentityHandler : IRequestHandler<CreateIdentityCommand, int>
         _identityRepository = identityRepository;
         _passwordHasher = passwordHasher;
         _config = config;
+        _validator = new IdentityValidator();
     }
 
     public async Task<int> Handle(CreateIdentityCommand request, CancellationToken cancellationToken)
     {
+        if (request.IdentityVM is null)
+            throw new ArgumentNullException("Given data is not correct");
+
+        var errors = _validator.Validate(request.IdentityVM);
+
+        foreach (var error in errors.Errors)
+        {
+            throw new Exception(error.ErrorMessage);
+        }
+
         var salt = _passwordHasher.GenerateSalt();
         var hash = _passwordHasher
             .ComputeHash(request.IdentityVM.Password, salt,

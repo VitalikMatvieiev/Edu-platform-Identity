@@ -1,24 +1,20 @@
 ﻿using FluentValidation;
 using Identity_Application.Models.AuthorizationModels;
 
-namespace Identity_Application.Validators;
+namespace Identity_Application.Helpers.Validators;
 
-public class RegisterValidator : AbstractValidator<RegisterVM>
+public class LoginValidator : AbstractValidator<LoginVM>
 {
     private static readonly string _emailRegex = @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$";
 
-    public RegisterValidator()
+    public LoginValidator()
     {
-        RuleFor(r => r.Username)
-            .NotEmpty().WithMessage("Username is required")
-            .MaximumLength(20).WithMessage("Username must be shorter than 20 symbols");
-
-        RuleFor(r => r.Email)
+        RuleFor(l => l.Email)
             .NotEmpty().WithMessage("Email is required")
             .Matches(_emailRegex).WithMessage("Email is not correct")
             .MaximumLength(40).WithMessage("Email must be shorter than 40 symbols");
 
-        RuleFor(r => r.Password)
+        RuleFor(l => l.Password)
             .NotEmpty().WithMessage("Password is required")
             .MinimumLength(5).WithMessage("Password must have min 5 symbols length");
     }

@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Identity_Application.Models.BaseEntitiesModels;
 
-namespace Identity_Application.Validators;
+namespace Identity_Application.Helpers.Validators;
 
 public class IdentityValidator : AbstractValidator<IdentityVM>
 {

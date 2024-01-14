@@ -53,7 +53,7 @@ public class CreateIdentityHandlerTests
             PasswordHash = hash
         };
 
-        foreach (var claim in command.vm.ClaimsIds)
+        foreach (var claim in command.IdentityVM.ClaimsIds)
             expectedIdentity.ClaimIdentities.Add(
                 new ClaimIdentity
                 {
@@ -61,7 +61,7 @@ public class CreateIdentityHandlerTests
                     ClaimsId = claim
                 });
 
-        foreach (var role in command.vm.RolesIds)
+        foreach (var role in command.IdentityVM.RolesIds)
             expectedIdentity.IdentityRole.Add(
                 new IdentityRole
                 {

@@ -1,4 +1,6 @@
-﻿using Identity_Application.Interfaces.Authentication;
+﻿using FluentValidation;
+using Identity_Application.Helpers.Validators;
+using Identity_Application.Interfaces.Authentication;
 using Identity_Application.Interfaces.Repository;
 using Identity_Application.Models.AppSettingsModels;
 using Identity_Application.Models.BaseEntitiesModels;
@@ -16,6 +18,7 @@ public class EditIdentityHandler : IRequestHandler<UpdateIdentityCommand>
     private readonly IGenericRepository<Identity> _identityRepository;
     private readonly IPasswordHasherService _passwordHasherService;
     private readonly IOptions<PasswordHashSettings> _config;
+    private readonly IValidator<IdentityVM> _validator;
 
     public EditIdentityHandler(IGenericRepository<Identity> identityRepository,
                                IPasswordHasherService passwordHasherService,
@@ -24,15 +27,29 @@ public class EditIdentityHandler : IRequestHandler<UpdateIdentityCommand>
         _identityRepository = identityRepository;
         _passwordHasherService = passwordHasherService;
         _config = config;
+        _validator = new IdentityValidator();
     }
 
     public async Task Handle(UpdateIdentityCommand request, CancellationToken cancellationToken)
     {
+        if (request.IdentityVM is null)
+            throw new ArgumentNullException("Given data is not correct");
+
+        var errors = _validator.Validate(request.IdentityVM);
+
+        foreach (var error in errors.Errors)
+        {
+            throw new Exception(error.ErrorMessage);
+        }
+
         var identities = await _identityRepository
             .GetAsync(i => i.Id == request.Id, 
             includeProperties: "ClaimIdentities.Claims,IdentityRole.Roles");
 
         var identity = identities.FirstOrDefault();
+
+        if (identity is null)
+            throw new Exception("Identity not found.");
 
         var salt = _passwordHasherService.GenerateSalt();
         var hash = _passwordHasherService.ComputeHash(request.IdentityVM.Password, salt,

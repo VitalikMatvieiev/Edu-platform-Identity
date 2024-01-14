@@ -1,4 +1,6 @@
-﻿using Identity_Application.Interfaces.Repository;
+﻿using FluentValidation;
+using Identity_Application.Helpers.Validators;
+using Identity_Application.Interfaces.Repository;
 using Identity_Application.Models.BaseEntitiesModels;
 using Identity_Domain.Entities.Base;
 using MediatR;
@@ -10,18 +12,33 @@ public record UpdateRoleCommand(int Id, RoleVM RoleVM) : IRequest;
 public class UpdateRoleHandler : IRequestHandler<UpdateRoleCommand>
 {
     private readonly IGenericRepository<Role> _roleRepository;
+    private readonly IValidator<RoleVM> _validator;
 
     public UpdateRoleHandler(IGenericRepository<Role> roleRepository)
     {
         _roleRepository = roleRepository;
+        _validator = new RoleValidator();
     }
 
     public async Task Handle(UpdateRoleCommand request, CancellationToken cancellationToken)
     {
+        if (request.RoleVM is null)
+            throw new ArgumentNullException("Given data is not correct");
+
+        var errors = _validator.Validate(request.RoleVM);
+
+        foreach (var error in errors.Errors)
+        {
+            throw new Exception(error.ErrorMessage);
+        }
+
         var roles = await _roleRepository
             .GetAsync(r => r.Id == request.Id, includeProperties: "ClaimRole.Claims");
 
         var role = roles.FirstOrDefault();
+
+        if (role is null)
+            throw new Exception("Role not found.");
 
         role.Name = request.RoleVM.Name;
 
