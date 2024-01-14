@@ -26,6 +26,9 @@ public class GetClaimByIdHandler : IRequestHandler<GetClaimByIdQuery, ClaimDTO>
 
         var claim = claims.FirstOrDefault();
 
+        if (claim is null)
+            throw new Exception("Claim with given id was not found");
+
         var result = _mapper
             .Map<ClaimDTO>(claim);
 

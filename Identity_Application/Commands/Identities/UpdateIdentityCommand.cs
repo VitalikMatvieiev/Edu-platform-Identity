@@ -49,7 +49,7 @@ public class EditIdentityHandler : IRequestHandler<UpdateIdentityCommand>
         var identity = identities.FirstOrDefault();
 
         if (identity is null)
-            throw new Exception("Identity not found.");
+            throw new Exception("Identity with given id was not found.");
 
         var salt = _passwordHasherService.GenerateSalt();
         var hash = _passwordHasherService.ComputeHash(request.IdentityVM.Password, salt,

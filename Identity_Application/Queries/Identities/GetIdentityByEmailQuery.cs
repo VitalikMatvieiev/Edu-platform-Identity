@@ -3,6 +3,7 @@ using Identity_Application.Interfaces.Repository;
 using Identity_Application.Models.BaseEntitiesDTOs;
 using Identity_Domain.Entities.Base;
 using MediatR;
+using System.Security.Claims;
 
 namespace Identity_Application.Queries.Identities;
 
@@ -26,6 +27,9 @@ public class GetIdentityByEmailHandler : IRequestHandler<GetIdentityByEmailQuery
             includeProperties: "ClaimIdentities.Claims,IdentityRole.Roles.ClaimRole.Claims");
 
         var identity = identities.FirstOrDefault();
+
+        if (identity is null)
+            throw new Exception("Identity with given email was not found");
 
         var result = _mapper
             .Map<IdentityDTO>(identity);

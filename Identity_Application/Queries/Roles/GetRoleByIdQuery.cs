@@ -26,6 +26,9 @@ public class GetRoleByIdHandler : IRequestHandler<GetRoleByIdQuery, RoleDTO>
 
         var role = roles.FirstOrDefault();
 
+        if (role is null)
+            throw new Exception("Role with given id was not found");
+
         var result = _mapper
             .Map<RoleDTO>(role);
 

@@ -38,7 +38,7 @@ public class UpdateRoleHandler : IRequestHandler<UpdateRoleCommand>
         var role = roles.FirstOrDefault();
 
         if (role is null)
-            throw new Exception("Role not found.");
+            throw new Exception("Role with given id was not found.");
 
         role.Name = request.RoleVM.Name;
 

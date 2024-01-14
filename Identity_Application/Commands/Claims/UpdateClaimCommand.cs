@@ -36,7 +36,7 @@ public class UpdateClaimHandler : IRequestHandler<UpdateClaimCommand>
         var claim = claims.FirstOrDefault();
 
         if (claim is null)
-            throw new Exception("Claim not found.");
+            throw new Exception("Claim with given id was not found.");
 
         claim.Name = request.ClaimVM.Name;
 

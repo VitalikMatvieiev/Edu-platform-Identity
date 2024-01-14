@@ -27,6 +27,9 @@ public class GetIdentityByIdHandler : IRequestHandler<GetIdentityByIdQuery, Iden
 
         var identity = identities.FirstOrDefault();
 
+        if (identity is null)
+            throw new Exception("Identity with given id was not found");
+
         var result = _mapper
             .Map<IdentityDTO>(identity);
 
