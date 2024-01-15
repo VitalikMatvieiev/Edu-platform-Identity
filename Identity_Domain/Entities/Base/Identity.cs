@@ -16,7 +16,7 @@ public class Identity : Entity
 
     public DateTime LastLogin { get; set; }
 
-    public DateTime LastLogout { get; set; }
+    public DateTime? LastLogout { get; set; }
 
     public RefreshToken? Token { get; set; }
 

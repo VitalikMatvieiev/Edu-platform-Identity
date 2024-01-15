@@ -16,7 +16,7 @@ public class IdentityDTO
 
     public DateTime LastLogin { get; set; }
 
-    public DateTime LastLogout { get; set; }
+    public DateTime? LastLogout { get; set; }
 
     public string Token { get; set; }
 
