@@ -8,6 +8,8 @@ namespace Identity_Application.Services.Authentication;
 
 public class AuthenticationService : IAuthenticationService
 {
+
+    private const string includeProps = "ClaimIdentities.Claims,IdentityRole.Roles.ClaimRole.Claims";
     private readonly IJwtGenerator _jwtGenerator;
     private readonly IGenericRepository<Identity> _identityRepository;
     private readonly IPasswordHasherService _passwordHasher;
@@ -31,7 +33,7 @@ public class AuthenticationService : IAuthenticationService
         //Check if username is not in db
         var usernameIdentities = await _identityRepository
             .GetAsync(i => i.Username == username,
-            includeProperties: "ClaimIdentities.Claims,IdentityRole.Roles.ClaimRole.Claims");
+            includeProperties: includeProps);
 
         var usernameIdentity = usernameIdentities.FirstOrDefault();
 
@@ -71,7 +73,7 @@ public class AuthenticationService : IAuthenticationService
 
         var identities = await _identityRepository
             .GetAsync(i => i.Id == id, 
-            includeProperties: "ClaimIdentities.Claims,IdentityRole.Roles.ClaimRole.Claims");
+            includeProperties: includeProps);
 
         var identity = identities.FirstOrDefault();
 
@@ -91,7 +93,7 @@ public class AuthenticationService : IAuthenticationService
 
         var identities = await _identityRepository
             .GetAsync(i => i.Email == email,
-            includeProperties: "ClaimIdentities.Claims,IdentityRole.Roles.ClaimRole.Claims");
+            includeProperties: includeProps);
 
         var identity = identities.FirstOrDefault();
 

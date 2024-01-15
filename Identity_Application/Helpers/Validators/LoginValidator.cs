@@ -11,7 +11,7 @@ public class LoginValidator : AbstractValidator<LoginVM>
     {
         RuleFor(l => l.Email)
             .NotEmpty().WithMessage("Email is required")
-            .Matches(_emailRegex).WithMessage("Email is not correct")
+            .EmailAddress().WithMessage("Email is not correct")
             .MaximumLength(40).WithMessage("Email must be shorter than 40 symbols");
 
         RuleFor(l => l.Password)
