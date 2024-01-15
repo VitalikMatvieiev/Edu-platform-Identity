@@ -8,6 +8,17 @@ class IdentityToIdentityDTOConverter : ITypeConverter<Identity, IdentityDTO>
 {
     public IdentityDTO Convert(Identity source, IdentityDTO destination, ResolutionContext context)
     {
+        var identityDto = WriteDataFromIdentity(source);
+
+        WriteRolesFromIdentity(ref identityDto, source, context);
+
+        WriteClaimsFromIdentity(ref identityDto, source, context);
+
+        return identityDto;
+    }
+
+    private IdentityDTO WriteDataFromIdentity(Identity source)
+    {
         var identityDto = new IdentityDTO
         {
             Id = source.Id,
@@ -23,18 +34,24 @@ class IdentityToIdentityDTOConverter : ITypeConverter<Identity, IdentityDTO>
             Claims = new List<IdentityClaimDTO>()
         };
 
+        return identityDto;
+    }
+
+    private void WriteRolesFromIdentity(ref IdentityDTO identityDto, Identity source, ResolutionContext context)
+    {
         foreach (var identityRole in source.IdentityRole)
         {
             var roleDto = context.Mapper.Map<IdentityRoleDTO>(identityRole);
             identityDto.Roles.Add(roleDto);
         }
+    }
 
+    private void WriteClaimsFromIdentity(ref IdentityDTO identityDto, Identity source, ResolutionContext context)
+    {
         foreach (var claimIdentity in source.ClaimIdentities)
         {
             var claimDto = context.Mapper.Map<IdentityClaimDTO>(claimIdentity);
             identityDto.Claims.Add(claimDto);
         }
-
-        return identityDto;
     }
 }
