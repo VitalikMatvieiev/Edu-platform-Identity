@@ -2,7 +2,7 @@
 
 public class JwtSettings
 {
-    public double TokenHourExpTime { get; set; }
+    public double TokenHourExpTime { get; set; } = 6;
 
     public string Securitykey { get; set; } = string.Empty;
 
