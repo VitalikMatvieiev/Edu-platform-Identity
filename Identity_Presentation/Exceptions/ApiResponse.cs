@@ -16,6 +16,7 @@ public class ApiResponse
     {
         return statusCode switch
         {
+            200 => "OK",
             400 => "Bad Request",
             401 => "Not Authorized",
             404 => "Not Found",
