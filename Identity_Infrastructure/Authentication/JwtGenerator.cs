@@ -28,38 +28,48 @@ public class JwtGenerator : IJwtGenerator
 
     public string GenerateToken(Identity identity)
     {
-        var roles = GetRolesJson(identity.IdentityRole
-            .Where(x => x.IdentitiesId == identity.Id).ToList());
-
-        var claimsList = GetClaimsJson(identity.IdentityRole
-            .Where(x => x.IdentitiesId == identity.Id).ToList(),
-            identity.ClaimIdentities.Where(x => x.IdentitiesId == identity.Id).ToList());
-
-        var tokenClaims = new List<System.Security.Claims.Claim>
+        try
         {
+            if (_config is null)
+                throw new Exception("Configuration loading failed");
+
+            var roles = GetRolesJson(identity.IdentityRole
+                .Where(x => x.IdentitiesId == identity.Id).ToList());
+
+            var claimsList = GetClaimsJson(identity.IdentityRole
+                .Where(x => x.IdentitiesId == identity.Id).ToList(),
+                identity.ClaimIdentities.Where(x => x.IdentitiesId == identity.Id).ToList());
+
+            var tokenClaims = new List<System.Security.Claims.Claim>
+            {
             new("id", identity.Id.ToString()),
             new ("username", identity.Username),
             new ("email", identity.Email),
             new ("lastLogin", identity.LastLogin.ToString())
-        };
+            };
 
-        foreach (var role in roles)
-            tokenClaims.Add(new("roles", role));
-        
-        foreach (var claim in claimsList)
-            tokenClaims.Add(new("claims", claim));
-        
-        var signingCredentials = new SigningCredentials(
-            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(securitykey)),
-                SecurityAlgorithms.HmacSha512Signature);
+            foreach (var role in roles)
+                tokenClaims.Add(new("roles", role));
 
-        var securityToken = new JwtSecurityToken(
-            issuer: tokenIssuer,
-            expires: DateTime.UtcNow.AddHours(tokenHourExpTime),
-            claims: tokenClaims,
-            signingCredentials: signingCredentials);
+            foreach (var claim in claimsList)
+                tokenClaims.Add(new("claims", claim));
 
-        return new JwtSecurityTokenHandler().WriteToken(securityToken);
+            var signingCredentials = new SigningCredentials(
+                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(securitykey)),
+                    SecurityAlgorithms.HmacSha512Signature);
+
+            var securityToken = new JwtSecurityToken(
+                issuer: tokenIssuer,
+                expires: DateTime.UtcNow.AddHours(tokenHourExpTime),
+                claims: tokenClaims,
+                signingCredentials: signingCredentials);
+
+            return new JwtSecurityTokenHandler().WriteToken(securityToken);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("Error occured during JWT token generation", ex);
+        }
     }
 
     private List<string> GetRolesJson(List<IdentityRole> roles)
