@@ -10,6 +10,7 @@ public record GetAllRolesQuery : IRequest<List<RoleDTO>>;
 
 public class GetAllRolesHandler : IRequestHandler<GetAllRolesQuery, List<RoleDTO>>
 {
+    private const string includeProps = "ClaimRole,ClaimRole.Claims";
     private readonly IGenericRepository<Role> _roleRepository;
     private readonly IMapper _mapper;
 
@@ -22,7 +23,7 @@ public class GetAllRolesHandler : IRequestHandler<GetAllRolesQuery, List<RoleDTO
     public async Task<List<RoleDTO>> Handle(GetAllRolesQuery request, CancellationToken cancellationToken)
     {
         var roles = await _roleRepository
-            .GetAsync(includeProperties: "ClaimRole,ClaimRole.Claims");
+            .GetAsync(includeProperties: includeProps);
 
         var result = roles.Select(r =>
             _mapper.Map<RoleDTO>(r));

@@ -10,6 +10,7 @@ public record GetIdentityByIdQuery(int Id) : IRequest<IdentityDTO>;
 
 public class GetIdentityByIdHandler : IRequestHandler<GetIdentityByIdQuery, IdentityDTO>
 {
+    private const string includeProps = "ClaimIdentities.Claims,IdentityRole.Roles.ClaimRole.Claims";
     private readonly IGenericRepository<Identity> _identityRepository;
     private readonly IMapper _mapper;
 
@@ -23,7 +24,7 @@ public class GetIdentityByIdHandler : IRequestHandler<GetIdentityByIdQuery, Iden
     {
         var identities = await _identityRepository
             .GetAsync(i => i.Id == request.Id,
-            includeProperties: "ClaimIdentities.Claims,IdentityRole.Roles.ClaimRole.Claims");
+            includeProperties: includeProps);
 
         var identity = identities.FirstOrDefault();
 

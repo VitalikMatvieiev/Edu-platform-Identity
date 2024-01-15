@@ -3,7 +3,6 @@ using Identity_Application.Interfaces.Repository;
 using Identity_Application.Models.BaseEntitiesDTOs;
 using Identity_Domain.Entities.Base;
 using MediatR;
-using System.Security.Claims;
 
 namespace Identity_Application.Queries.Identities;
 
@@ -11,6 +10,7 @@ public record GetIdentityByEmailQuery(string Email) : IRequest<IdentityDTO>;
 
 public class GetIdentityByEmailHandler : IRequestHandler<GetIdentityByEmailQuery, IdentityDTO>
 {
+    private const string includeProps = "ClaimIdentities.Claims,IdentityRole.Roles.ClaimRole.Claims";
     private readonly IGenericRepository<Identity> _identityRepository;
     private readonly IMapper _mapper;
 
@@ -24,7 +24,7 @@ public class GetIdentityByEmailHandler : IRequestHandler<GetIdentityByEmailQuery
     {
         var identities = await _identityRepository
             .GetAsync(i => i.Email == request.Email, 
-            includeProperties: "ClaimIdentities.Claims,IdentityRole.Roles.ClaimRole.Claims");
+            includeProperties: includeProps);
 
         var identity = identities.FirstOrDefault();
 
