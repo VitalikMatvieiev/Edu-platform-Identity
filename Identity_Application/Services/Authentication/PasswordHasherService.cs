@@ -8,6 +8,9 @@ public class PasswordHasherService : IPasswordHasherService
 {
     public string ComputeHash(string password, string salt, string pepper, int iteration)
     {
+        if (string.IsNullOrEmpty(password))
+            throw new ArgumentNullException("You need to provide valid password");
+
         if (iteration <= 0) return password;
 
         using var sha256 = SHA256.Create();

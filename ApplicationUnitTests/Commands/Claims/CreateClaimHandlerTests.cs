@@ -36,7 +36,7 @@ public class CreateClaimHandlerTests
                             .InsertAsync(It.IsAny<Claim>()));
 
         // Act
-        var result = await _handler.Handle(createClaimCommand, new CancellationToken());
+        var result = await _handler.Handle(createClaimCommand, CancellationToken.None);
 
         // Assert
         _mockClaimRepository.Verify(repo => repo
@@ -57,7 +57,7 @@ public class CreateClaimHandlerTests
 
         // Act & Assert
         var exception = await Assert.ThrowsAsync<ArgumentException>(() =>
-            _handler.Handle(invalidCommand, new CancellationToken()));
+            _handler.Handle(invalidCommand, CancellationToken.None));
 
         Assert.Equal("Name cannot be null", exception.Message);
     }
@@ -75,7 +75,7 @@ public class CreateClaimHandlerTests
 
         // Act & Assert
         var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
-            _handler.Handle(validCommand, new CancellationToken()));
+            _handler.Handle(validCommand, CancellationToken.None));
 
         Assert.Equal(expectedException.Message, exception.Message);
         _mockClaimRepository.Verify(repo => repo

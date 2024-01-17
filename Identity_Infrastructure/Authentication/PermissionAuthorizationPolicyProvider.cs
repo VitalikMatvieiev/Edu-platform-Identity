@@ -14,7 +14,16 @@ public class PermissionAuthorizationPolicyProvider
 
     public override async Task<AuthorizationPolicy?> GetPolicyAsync(string policyName)
     {
-        var policy = await base.GetPolicyAsync(policyName);
+        AuthorizationPolicy policy;
+
+        try
+        {
+            policy = await base.GetPolicyAsync(policyName);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("Error occured during policy fetching", ex);
+        }
 
         if (policy is not null)
             return policy;

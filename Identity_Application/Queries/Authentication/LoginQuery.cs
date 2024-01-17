@@ -22,7 +22,7 @@ public class LoginHandler : IRequestHandler<LoginQuery, string>
     public async Task<string> Handle(LoginQuery request, CancellationToken cancellationToken)
     {
         if (request.LoginVM is null)
-            throw new ArgumentNullException("Given data is not correct");
+            throw new ArgumentNullException("Provided login data was incorrect");
 
         var errors = _validator.Validate(request.LoginVM);
 
@@ -31,8 +31,17 @@ public class LoginHandler : IRequestHandler<LoginQuery, string>
             throw new Exception(error.ErrorMessage);
         }
 
-        var token = await _authenticationService
+        string token;
+
+        try
+        {
+            token = await _authenticationService
             .Login(request.LoginVM.Email, request.LoginVM.Password);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Registration exception occured: {ex.Message}", ex);
+        }
 
         return token;
     }

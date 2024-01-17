@@ -28,7 +28,7 @@ public class DeleteClaimHandlerTests
                             .DeleteAsync(claimId));
 
         // Act
-        await _handler.Handle(deleteClaimCommand, new CancellationToken());
+        await _handler.Handle(deleteClaimCommand, CancellationToken.None);
 
         // Assert
         _mockClaimRepository.Verify(repo => repo
@@ -48,7 +48,7 @@ public class DeleteClaimHandlerTests
 
         // Act & Assert
         var exception = await Assert.ThrowsAsync<KeyNotFoundException>(() =>
-            _handler.Handle(invalidCommand, new CancellationToken()));
+            _handler.Handle(invalidCommand, CancellationToken.None));
 
         Assert.Equal("Claim not found.", exception.Message);
     }
@@ -67,7 +67,7 @@ public class DeleteClaimHandlerTests
 
         // Act & Assert
         var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
-            _handler.Handle(validCommand, new CancellationToken()));
+            _handler.Handle(validCommand, CancellationToken.None));
 
         Assert.Equal(expectedException.Message, exception.Message);
         _mockClaimRepository.Verify(repo => repo

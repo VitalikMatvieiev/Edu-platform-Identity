@@ -30,8 +30,8 @@ public class EditIdentityHandlerTests
         // Arrange
         var identityId = 1;
         var updatedUsername = "UpdatedUsername";
-        var updateIdentityCommand = new UpdateIdentityCommand(identityId, new IdentityVM { Username = updatedUsername, /* other properties */ });
-        var existingIdentity = new Identity { Id = identityId, Username = "OriginalUsername" /* other properties */ };
+        var updateIdentityCommand = new UpdateIdentityCommand(identityId, new IdentityVM { Username = updatedUsername });
+        var existingIdentity = new Identity { Id = identityId, Username = "OriginalUsername" };
 
         _mockIdentityRepository.Setup(repo => repo
                                .GetAsync(null, null, ""))
@@ -41,7 +41,7 @@ public class EditIdentityHandlerTests
                                .UpdateAsync(It.IsAny<Identity>()));
 
         // Act
-        await _handler.Handle(updateIdentityCommand, new CancellationToken());
+        await _handler.Handle(updateIdentityCommand, CancellationToken.None);
 
         // Assert
         _mockIdentityRepository.Verify(repo => repo
@@ -53,7 +53,7 @@ public class EditIdentityHandlerTests
     {
         // Arrange
         var invalidIdentityId = -1;
-        var invalidCommand = new UpdateIdentityCommand(invalidIdentityId, new IdentityVM { /* properties */ });
+        var invalidCommand = new UpdateIdentityCommand(invalidIdentityId, new IdentityVM { });
 
         _mockIdentityRepository.Setup(repo => repo
                                .GetAsync(null, null, ""))
@@ -61,7 +61,7 @@ public class EditIdentityHandlerTests
 
         // Act & Assert
         var exception = await Assert.ThrowsAsync<KeyNotFoundException>(() =>
-            _handler.Handle(invalidCommand, new CancellationToken()));
+            _handler.Handle(invalidCommand, CancellationToken.None));
 
         Assert.Equal("Identity not found.", exception.Message);
     }
@@ -71,7 +71,7 @@ public class EditIdentityHandlerTests
     {
         // Arrange
         var validIdentityId = 2;
-        var validCommand = new UpdateIdentityCommand(validIdentityId, new IdentityVM { /* properties */ });
+        var validCommand = new UpdateIdentityCommand(validIdentityId, new IdentityVM { });
         var expectedException = new InvalidOperationException("Error occurred during database operation.");
 
         _mockIdentityRepository.Setup(repo => repo
@@ -80,7 +80,7 @@ public class EditIdentityHandlerTests
 
         // Act & Assert
         var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
-            _handler.Handle(validCommand, new CancellationToken()));
+            _handler.Handle(validCommand, CancellationToken.None));
 
         Assert.Equal(expectedException.Message, exception.Message);
         _mockIdentityRepository.Verify(repo => repo

@@ -35,7 +35,7 @@ public class UpdateClaimHandlerTests
                             .UpdateAsync(It.IsAny<Claim>()));
 
         // Act
-        await _handler.Handle(updateClaimCommand, new CancellationToken());
+        await _handler.Handle(updateClaimCommand, CancellationToken.None);
 
         // Assert
         _mockClaimRepository.Verify(repo => repo
@@ -55,7 +55,7 @@ public class UpdateClaimHandlerTests
 
         // Act & Assert
         var exception = await Assert.ThrowsAsync<Exception>(() =>
-            _handler.Handle(invalidCommand, new CancellationToken()));
+            _handler.Handle(invalidCommand, CancellationToken.None));
 
         Assert.Equal("Claim not found.", exception.Message);
     }

@@ -5,8 +5,6 @@ namespace Identity_Application.Helpers.Validators;
 
 public class IdentityValidator : AbstractValidator<IdentityVM>
 {
-    private static readonly string _emailRegex = @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$";
-
     public IdentityValidator()
     {
         RuleFor(i => i.Username)

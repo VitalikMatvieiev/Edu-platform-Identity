@@ -17,109 +17,73 @@ public class GenericRepository<T> : IGenericRepository<T> where T : Entity
     }
 
     public virtual async Task<IEnumerable<T>> GetAsync(
-           Expression<Func<T, bool>> filter = null,
-           Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+           Expression<Func<T, bool>>? filter = null,
+           Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
            string includeProperties = "")
     {
-        try
+        IQueryable<T> query = _dbSet;
+
+        if (filter != null)
         {
-            IQueryable<T> query = _dbSet;
-
-            if (filter != null)
-            {
-                query = query.Where(filter);
-            }
-
-            foreach (var includeProperty in includeProperties.Split
-                (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
-            {
-                query = query.Include(includeProperty);
-            }
-
-            if (orderBy != null)
-            {
-                return await orderBy(query).ToListAsync();
-            }
-            else
-            {
-                return await query.ToListAsync();
-            }
+            query = query.Where(filter);
         }
-        catch (Exception ex)
+
+        foreach (var includeProperty in includeProperties.Split
+            (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
         {
-            throw new Exception("Error occured during fetch from the database", ex);
+            query = query.Include(includeProperty);
         }
+
+        if (orderBy != null)
+        {
+            return await orderBy(query).ToListAsync();
+        }
+        else
+        {
+            return await query.ToListAsync();
+        }
+
     }
 
     public virtual async Task<int> InsertAsync(T entity)
     {
-        try
-        {
-            var newEntity = await _dbSet.AddAsync(entity);
-            await SaveChangesAsync();
+        var newEntity = await _dbSet.AddAsync(entity);
+        await SaveChangesAsync();
 
-            return newEntity.Entity.Id;
-        }
-        catch (Exception ex)
-        {
-            throw new Exception("Error occured during insert in the database", ex);
-        }
+        return newEntity.Entity.Id;
+
     }
 
     public virtual async Task DeleteAsync(int id)
     {
-        try
-        {
-            T entityToDelete = await _dbSet.FirstOrDefaultAsync(e => e.Id == id);
-            await DeleteAsync(entityToDelete);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception("Error occured during delete from the database", ex);
-        }
+        T? entityToDelete = await _dbSet.FirstOrDefaultAsync(e => e.Id == id);
+
+        if (entityToDelete is null)
+            throw new Exception($"Cannot find entity with given id: {id} to delete");
+
+        await DeleteAsync(entityToDelete);
     }
 
     public virtual async Task DeleteAsync(T entityToDelete)
     {
-        try
-        {
-            if (_context.Entry(entityToDelete).State == EntityState.Detached)
-                _dbSet.Attach(entityToDelete);
+        if (_context.Entry(entityToDelete).State == EntityState.Detached)
+            _dbSet.Attach(entityToDelete);
 
-            _dbSet.Remove(entityToDelete);
+        _dbSet.Remove(entityToDelete);
 
-            await SaveChangesAsync();
-        }
-        catch (Exception ex)
-        {
-            throw new Exception("Error occured during delete from the database", ex);
-        }
+        await SaveChangesAsync();
     }
 
     public virtual async Task UpdateAsync(T entityToUpdate)
     {
-        try
-        {
-            _dbSet.Attach(entityToUpdate);
-            _context.Entry(entityToUpdate).State = EntityState.Modified;
+        _dbSet.Attach(entityToUpdate);
+        _context.Entry(entityToUpdate).State = EntityState.Modified;
 
-            await SaveChangesAsync();
-        }
-        catch (Exception ex)
-        {
-            throw new Exception("Error occured during update in the database", ex);
-        }
+        await SaveChangesAsync();
     }
 
     private async Task SaveChangesAsync()
     {
-        try
-        {
-            await _context.SaveChangesAsync();
-    }
-        catch (Exception ex)
-        {
-            throw new Exception("Error occured during saving the database", ex);
-        }
+        await _context.SaveChangesAsync();
     }
 }

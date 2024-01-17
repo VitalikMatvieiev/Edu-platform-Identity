@@ -27,7 +27,7 @@ public class DeleteIdentityHandlerTests
                                .DeleteAsync(identityId));
 
         // Act
-        await _handler.Handle(deleteIdentityCommand, new CancellationToken());
+        await _handler.Handle(deleteIdentityCommand, CancellationToken.None);
 
         // Assert
         _mockIdentityRepository.Verify(repo => repo
@@ -47,7 +47,7 @@ public class DeleteIdentityHandlerTests
 
         // Act & Assert
         var exception = await Assert.ThrowsAsync<KeyNotFoundException>(() =>
-            _handler.Handle(invalidCommand, new CancellationToken()));
+            _handler.Handle(invalidCommand, CancellationToken.None));
 
         Assert.Equal("Identity not found.", exception.Message);
     }
@@ -66,7 +66,7 @@ public class DeleteIdentityHandlerTests
 
         // Act & Assert
         var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
-            _handler.Handle(validCommand, new CancellationToken()));
+            _handler.Handle(validCommand, CancellationToken.None));
 
         Assert.Equal(expectedException.Message, exception.Message);
         _mockIdentityRepository.Verify(repo => repo

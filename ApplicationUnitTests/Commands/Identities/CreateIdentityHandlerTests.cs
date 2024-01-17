@@ -73,7 +73,7 @@ public class CreateIdentityHandlerTests
                                .InsertAsync(It.IsAny<Identity>()));
 
         // Act
-        var result = await _handler.Handle(command, new CancellationToken());
+        var result = await _handler.Handle(command, CancellationToken.None);
 
         // Assert
         _mockIdentityRepository.Verify(repo => repo
@@ -97,7 +97,7 @@ public class CreateIdentityHandlerTests
 
         // Act & Assert
         var exception = await Assert.ThrowsAsync<ArgumentException>(() =>
-            _handler.Handle(invalidCommand, new CancellationToken()));
+            _handler.Handle(invalidCommand, CancellationToken.None));
 
         // Assuming exception message contains field name
         Assert.Contains("Username", exception.Message);
@@ -125,7 +125,7 @@ public class CreateIdentityHandlerTests
 
         // Act & Assert
         var exception = await Assert.ThrowsAsync<Exception>(() =>
-            _handler.Handle(command, new CancellationToken()));
+            _handler.Handle(command, CancellationToken.None));
 
         Assert.Equal(expectedException.Message, exception.Message);
     }

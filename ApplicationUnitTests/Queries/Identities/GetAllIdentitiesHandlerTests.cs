@@ -5,6 +5,8 @@ using Identity_Domain.Entities.Base;
 using Identity_Domain.Entities.Additional;
 using AutoMapper;
 using Identity_Application.Models.BaseEntitiesDTOs;
+using FluentAssertions.Execution;
+using FluentAssertions;
 
 namespace ApplicationUnitTests.Queries.Identities;
 
@@ -25,35 +27,7 @@ public class GetAllIdentitiesHandlerTests
     public async Task Handle_ShouldReturnListOfIdentities()
     {
         // Arrange
-        var expectedIdentities = new List<Identity>
-        {
-            new Identity
-            {
-                Username = "testUser1",
-                Email = "testUser1@example.com",
-                PasswordSalt = "salt1",
-                PasswordHash = "hash1",
-                RegistrationDate = new DateTime(2022, 1, 1),
-                LastLogin = new DateTime(2022, 6, 1),
-                LastLogout = new DateTime(2022, 6, 10),
-                Token = null,
-                ClaimIdentities = new List<ClaimIdentity>(),
-                IdentityRole = new List<IdentityRole>()
-            },
-            new Identity
-            {
-                Username = "testUser2",
-                Email = "testUser2@example.com",
-                PasswordSalt = "salt2",
-                PasswordHash = "hash2",
-                RegistrationDate = new DateTime(2022, 2, 1),
-                LastLogin = new DateTime(2022, 6, 5),
-                LastLogout = new DateTime(2022, 6, 15),
-                Token = null,
-                ClaimIdentities = new List<ClaimIdentity>(),
-                IdentityRole = new List<IdentityRole>()
-            }
-        };
+        var expectedIdentities = GetListOfIdentities();
 
         _mockIdentityRepository.Setup(repo => repo
                                .GetAsync(It.IsAny<System.Linq.Expressions.Expression<Func<Identity, bool>>>(), null, "ClaimIdentities.Claims,IdentityRole.Roles.ClaimRole.Claims"))
@@ -77,6 +51,10 @@ public class GetAllIdentitiesHandlerTests
         var result = await _handler.Handle(new GetAllIdentitiesQuery(), new CancellationToken());
 
         // Assert
+        using (new AssertionScope())
+        {
+            //expectedIdentities.Select(i => i.).Should().Equal(result);
+        }
         Assert.Equal(expectedIdentities.Count, result.Count);
         Assert.Equal(expectedIdentities[0].Username, result[0].Username);
         Assert.Equal(expectedIdentities[0].Email, result[0].Email);
@@ -108,5 +86,38 @@ public class GetAllIdentitiesHandlerTests
             _handler.Handle(new GetAllIdentitiesQuery(), new CancellationToken()));
 
         Assert.Equal(expectedException.Message, exception.Message);
+    }
+
+    private List<Identity> GetListOfIdentities()
+    {
+        return new List<Identity>()
+        {
+            new Identity
+            {
+                Username = "testUser1",
+                Email = "testUser1@example.com",
+                PasswordSalt = "salt1",
+                PasswordHash = "hash1",
+                RegistrationDate = new DateTime(2022, 1, 1),
+                LastLogin = new DateTime(2022, 6, 1),
+                LastLogout = new DateTime(2022, 6, 10),
+                Token = null,
+                ClaimIdentities = new List<ClaimIdentity>(),
+                IdentityRole = new List<IdentityRole>()
+            },
+            new Identity
+            {
+                Username = "testUser2",
+                Email = "testUser2@example.com",
+                PasswordSalt = "salt2",
+                PasswordHash = "hash2",
+                RegistrationDate = new DateTime(2022, 2, 1),
+                LastLogin = new DateTime(2022, 6, 5),
+                LastLogout = new DateTime(2022, 6, 15),
+                Token = null,
+                ClaimIdentities = new List<ClaimIdentity>(),
+                IdentityRole = new List<IdentityRole>()
+            }
+        };
     }
 }

@@ -37,7 +37,7 @@ public class CreateClaimHandler : IRequestHandler<CreateClaimCommand, int>
             Name = request.ClaimVM.Name
         };
 
-        var id = await _claimRepository.InsertAsync(claim);
+        int id = await _claimRepository.InsertAsync(claim);
 
         return id;
     }

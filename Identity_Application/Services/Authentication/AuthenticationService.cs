@@ -71,20 +71,23 @@ public class AuthenticationService : IAuthenticationService
                 RegistrationDate = DateTime.UtcNow
             });
 
-        var identities = await _identityRepository
-            .GetAsync(i => i.Id == id, 
+        Identity identity;
+
+        try
+        {
+            var identities = await _identityRepository
+            .GetAsync(i => i.Id == id,
             includeProperties: includeProps);
 
-        var identity = identities.FirstOrDefault();
+            identity = identities.First();
 
-        if (identity is not null)
-        {
-            //Generate token
             var token = _jwtGenerator.GenerateToken(identity);
             return token;
         }
-        else
-            throw new Exception("Registration was not succesfull");
+        catch (ArgumentNullException ex)
+        {
+            throw new ArgumentNullException("Identity not exist during registration process", ex);
+        }
     }
 
     public async Task<string> Login(string email, string password)

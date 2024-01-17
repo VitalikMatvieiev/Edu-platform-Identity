@@ -22,7 +22,7 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, string>
     public async Task<string> Handle(RegisterCommand request, CancellationToken cancellationToken)
     {
         if (request.RegisterVM is null)
-            throw new ArgumentNullException("Given data is not correct");
+            throw new ArgumentNullException("Provided registration data is incorrect");
 
         var errors = _validator.Validate(request.RegisterVM);
 
@@ -31,8 +31,17 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, string>
             throw new Exception(error.ErrorMessage);
         }
 
-        var token = await _authenticationService
-            .Register(request.RegisterVM.Username, request.RegisterVM.Email, request.RegisterVM.Password);
+        string token;
+
+        try
+        {
+            token = await _authenticationService
+                .Register(request.RegisterVM.Username, request.RegisterVM.Email, request.RegisterVM.Password);
+        }
+        catch ( Exception ex )
+        {
+            throw new Exception($"Registration exception occured: {ex.Message}", ex);
+        }
 
         return token;
     }
