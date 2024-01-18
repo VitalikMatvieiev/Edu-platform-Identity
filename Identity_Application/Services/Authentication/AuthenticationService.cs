@@ -8,7 +8,6 @@ namespace Identity_Application.Services.Authentication;
 
 public class AuthenticationService : IAuthenticationService
 {
-
     private const string includeProps = "ClaimIdentities.Claims,IdentityRole.Roles.ClaimRole.Claims";
     private readonly IJwtGenerator _jwtGenerator;
     private readonly IGenericRepository<Identity> _identityRepository;
@@ -28,35 +27,39 @@ public class AuthenticationService : IAuthenticationService
 
     public async Task<string> Register(string username, string email, string password)
     {
-        var errors = new List<string>();
+        await ValidateUsername(username);
+        await ValidateEmail(email);
 
-        //Check if username is not in db
-        var usernameIdentities = await _identityRepository
-            .GetAsync(i => i.Username == username,
-            includeProperties: includeProps);
+        var identity = await CreateIdentity(username, email, password);
+        var token = _jwtGenerator.GenerateToken(identity);
 
-        var usernameIdentity = usernameIdentities.FirstOrDefault();
+        return token;
+    }
 
-        if (usernameIdentity is not null)
-            errors.Add("User with given username already exist");
+    private async Task ValidateUsername(string username)
+    {
+        var usernameExists = await _identityRepository
+            .GetAsync(i => i.Username == username, includeProperties: includeProps);
 
-        //Check if email is not in db
-        var emailIdentities = await _identityRepository
+        if (usernameExists.Any())
+        {
+            throw new ArgumentNullException($"Failed to register: User with given username: {username} already exist");
+        }
+    }
+
+    private async Task ValidateEmail(string email)
+    {
+        var emailExists = await _identityRepository
             .GetAsync(i => i.Email == email);
 
-        var emailIdentity = emailIdentities.FirstOrDefault();
+        if (emailExists.Any())
+        {
+            throw new ArgumentNullException($"Failed to register: User with given email: {email} already exist");
+        }
+    }
 
-        if (emailIdentity is not null)
-            errors.Add("User with given email already exist");
-
-        //Throw all exceptions
-        if (errors.Count > 0)
-            foreach (var error in errors)
-                throw new Exception($"Failed to register: {error}");
-
-        //If all is good
-
-        //write in data
+    private async Task<Identity> CreateIdentity(string username, string email, string password)
+    {
         var salt = _passwordHasher.GenerateSalt();
         var hash = _passwordHasher.ComputeHash(password, salt,
                 _config.Value.PasswordHashPepper, _config.Value.Iteration);
@@ -80,48 +83,89 @@ public class AuthenticationService : IAuthenticationService
             includeProperties: includeProps);
 
             identity = identities.First();
-
-            var token = _jwtGenerator.GenerateToken(identity);
-            return token;
         }
         catch (ArgumentNullException ex)
         {
             throw new ArgumentNullException("Identity not exist during registration process", ex);
         }
+
+        return identity;
     }
 
-    public async Task<string> Login(string email, string password)
+    public async Task<string> LoginByEmail(string email, string password)
     {
-        var errors = new List<string>();
+        var identity = await RetrieveIdentityByEmail(email);
 
+        ValidatePassword(identity, password);
+
+        await UpdateLastLoginDate(identity);
+
+        return GenerateTokenForIdentity(identity);
+    }
+
+    private async Task<Identity> RetrieveIdentityByEmail(string email)
+    {
         var identities = await _identityRepository
-            .GetAsync(i => i.Email == email,
-            includeProperties: includeProps);
+            .GetAsync(i => i.Email == email, 
+                             includeProperties: includeProps);
 
         var identity = identities.FirstOrDefault();
 
-        //Check for the email is correct
         if (identity is null)
-            throw new Exception($"Failed to login: \"Incorrect email\"");
+        {
+            throw new UnauthorizedAccessException($"Failed to login: Incorrect email: {email}");
+        }
 
-        //Check if password is correct
+        return identity;
+    }
+
+    public async Task<string> LoginByUsername(string username, string password)
+    {
+        var identity = await RetrieveIdentityByUsername(username);
+
+        ValidatePassword(identity, password);
+
+        await UpdateLastLoginDate(identity);
+
+        return GenerateTokenForIdentity(identity);
+    }
+
+    private async Task<Identity> RetrieveIdentityByUsername(string username)
+    {
+        var identities = await _identityRepository
+            .GetAsync(i => i.Username == username,
+                             includeProperties: includeProps);
+
+        var identity = identities.FirstOrDefault();
+
+        if (identity is null)
+        {
+            throw new UnauthorizedAccessException($"Failed to login: Incorrect username: {username}");
+        }
+
+        return identity;
+    }
+
+    private void ValidatePassword(Identity identity, string password)
+    {
         var passwordHash = _passwordHasher
             .ComputeHash(password, identity.PasswordSalt,
                 _config.Value.PasswordHashPepper, _config.Value.Iteration);
 
         if (identity.PasswordHash != passwordHash)
-            throw new Exception($"Failed to login: \"Incorrect password\"");
+        {
+            throw new UnauthorizedAccessException($"Failed to login: Incorrect password: {password}");
+        }
+    }
 
-        //If all is good
-
-        //Change Last login date
+    private async Task UpdateLastLoginDate(Identity identity)
+    {
         identity.LastLogin = DateTime.UtcNow;
-
         await _identityRepository.UpdateAsync(identity);
+    }
 
-        //Create token
-        var token = _jwtGenerator.GenerateToken(identity);
-
-        return token;
+    private string GenerateTokenForIdentity(Identity identity)
+    {
+        return _jwtGenerator.GenerateToken(identity);
     }
 }

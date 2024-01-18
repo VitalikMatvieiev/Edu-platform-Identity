@@ -53,23 +53,21 @@ public class GetAllIdentitiesHandlerTests
         // Assert
         using (new AssertionScope())
         {
-            //expectedIdentities.Select(i => i.).Should().Equal(result);
+            result.Should().HaveCount(expectedIdentities.Count);
+
+            expectedIdentities.Zip(result, (expected, actual) => new { Expected = expected, Actual = actual })
+                              .ToList()
+                              .ForEach(pair =>
+                              {
+                                  pair.Actual.Username.Should().Be(pair.Expected.Username);
+                                  pair.Actual.Email.Should().Be(pair.Expected.Email);
+                                  pair.Actual.PasswordSalt.Should().Be(pair.Expected.PasswordSalt);
+                                  pair.Actual.PasswordHash.Should().Be(pair.Expected.PasswordHash);
+                                  pair.Actual.RegistrationDate.Should().Be(pair.Expected.RegistrationDate);
+                                  pair.Actual.LastLogin.Should().Be(pair.Expected.LastLogin);
+                                  pair.Actual.LastLogout.Should().Be(pair.Expected.LastLogout);
+                              });
         }
-        Assert.Equal(expectedIdentities.Count, result.Count);
-        Assert.Equal(expectedIdentities[0].Username, result[0].Username);
-        Assert.Equal(expectedIdentities[0].Email, result[0].Email);
-        Assert.Equal(expectedIdentities[0].PasswordSalt, result[0].PasswordSalt);
-        Assert.Equal(expectedIdentities[0].PasswordHash, result[0].PasswordHash);
-        Assert.Equal(expectedIdentities[0].RegistrationDate, result[0].RegistrationDate);
-        Assert.Equal(expectedIdentities[0].LastLogin, result[0].LastLogin);
-        Assert.Equal(expectedIdentities[0].LastLogout, result[0].LastLogout);
-        Assert.Equal(expectedIdentities[1].Username, result[1].Username);
-        Assert.Equal(expectedIdentities[1].Email, result[1].Email);
-        Assert.Equal(expectedIdentities[1].PasswordSalt, result[1].PasswordSalt);
-        Assert.Equal(expectedIdentities[1].PasswordHash, result[1].PasswordHash);
-        Assert.Equal(expectedIdentities[1].RegistrationDate, result[1].RegistrationDate);
-        Assert.Equal(expectedIdentities[1].LastLogin, result[1].LastLogin);
-        Assert.Equal(expectedIdentities[1].LastLogout, result[1].LastLogout);
     }
 
     [Fact]

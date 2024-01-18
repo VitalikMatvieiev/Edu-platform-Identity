@@ -5,12 +5,12 @@ namespace Identity_Application.Helpers.Validators;
 
 public class LoginValidator : AbstractValidator<LoginVM>
 {
-    private static readonly string _emailRegex = @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$";
-
     public LoginValidator()
     {
+        RuleFor(l => l.Username)
+            .MaximumLength(20).WithMessage("Username must be shorter than 20 symbols");
+
         RuleFor(l => l.Email)
-            .NotEmpty().WithMessage("Email is required")
             .EmailAddress().WithMessage("Email is not correct")
             .MaximumLength(40).WithMessage("Email must be shorter than 40 symbols");
 

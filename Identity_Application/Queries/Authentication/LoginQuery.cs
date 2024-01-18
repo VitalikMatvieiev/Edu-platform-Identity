@@ -35,8 +35,19 @@ public class LoginHandler : IRequestHandler<LoginQuery, string>
 
         try
         {
+            if (request.LoginVM.Username is null && request.LoginVM.Email is null)
+                throw new ArgumentNullException("Provided login data cannot have empty both username and email");
+
+            if (request.LoginVM.Username is null)
+            {
+                token = await _authenticationService
+                    .LoginByEmail(request.LoginVM.Email, request.LoginVM.Password);
+
+                return token;
+            }
+
             token = await _authenticationService
-            .Login(request.LoginVM.Email, request.LoginVM.Password);
+                .LoginByUsername(request.LoginVM.Username, request.LoginVM.Password);
         }
         catch (Exception ex)
         {

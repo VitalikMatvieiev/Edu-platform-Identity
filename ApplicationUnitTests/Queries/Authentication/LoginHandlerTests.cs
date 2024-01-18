@@ -17,7 +17,7 @@ public class LoginHandlerTests
     }
 
     [Fact]
-    public async Task Handle_ValidCredentials_ShouldReturnToken()
+    public async Task Handle_ValidCredentialsWithEmail_ShouldReturnToken()
     {
         // Arrange
         var validLoginVM = new LoginVM { Email = "test@example.com", Password = "password" };
@@ -25,14 +25,51 @@ public class LoginHandlerTests
         var loginQuery = new LoginQuery(validLoginVM);
 
         _mockAuthenticationService.Setup(service => service
-                                  .Login(validLoginVM.Email, validLoginVM.Password))
+                                  .LoginByEmail(validLoginVM.Email, validLoginVM.Password))
                                   .ReturnsAsync(expectedToken);
 
         // Act
-        var result = await _handler.Handle(loginQuery, new CancellationToken());
+        var result = await _handler.Handle(loginQuery, CancellationToken.None);
 
         // Assert
         Assert.Equal(expectedToken, result);
+    }
+
+    [Fact]
+    public async Task Handle_ValidCredentialsWithUsername_ShouldReturnToken()
+    {
+        // Arrange
+        var validLoginVM = new LoginVM { Username = "testusername", Password = "password" };
+        var expectedToken = "ValidToken";
+        var loginQuery = new LoginQuery(validLoginVM);
+
+        _mockAuthenticationService.Setup(service => service
+                                  .LoginByUsername(validLoginVM.Username, validLoginVM.Password))
+                                  .ReturnsAsync(expectedToken);
+
+        // Act
+        var result = await _handler.Handle(loginQuery, CancellationToken.None);
+
+        // Assert
+        Assert.Equal(expectedToken, result);
+    }
+
+    [Fact]
+    public async Task Handle_InvalidCredentialsNoUsernameAndPassword_ShouldThrowException()
+    {
+        // Arrange
+        var invalidLoginVM = new LoginVM { Password = "invalidPassword" };
+        var loginQuery = new LoginQuery(invalidLoginVM);
+
+        _mockAuthenticationService.Setup(service => service
+                                  .LoginByEmail(invalidLoginVM.Email, invalidLoginVM.Password))
+                                  .ThrowsAsync(new Exception("Provided login data cannot have empty both username and email"));
+
+        // Act & Assert
+        var exception = await Assert.ThrowsAsync<Exception>(() =>
+            _handler.Handle(loginQuery, CancellationToken.None));
+
+        Assert.Contains("Provided login data cannot have empty both username and email", exception.Message);
     }
 
     [Fact]
@@ -43,14 +80,14 @@ public class LoginHandlerTests
         var loginQuery = new LoginQuery(invalidLoginVM);
 
         _mockAuthenticationService.Setup(service => service
-                                  .Login(invalidLoginVM.Email, invalidLoginVM.Password))
-                                  .ThrowsAsync(new UnauthorizedAccessException("Invalid credentials"));
+                                  .LoginByEmail(invalidLoginVM.Email, invalidLoginVM.Password))
+                                  .ThrowsAsync(new Exception("Registration exception occured:"));
 
         // Act & Assert
-        var exception = await Assert.ThrowsAsync<UnauthorizedAccessException>(() =>
-            _handler.Handle(loginQuery, new CancellationToken()));
+        var exception = await Assert.ThrowsAsync<Exception>(() =>
+            _handler.Handle(loginQuery, CancellationToken.None));
 
-        Assert.Equal("Invalid credentials", exception.Message);
+        Assert.Contains("Registration exception occured:", exception.Message);
     }
 
     [Fact]
@@ -59,16 +96,16 @@ public class LoginHandlerTests
         // Arrange
         var loginVM = new LoginVM { Email = "test@example.com", Password = "password" };
         var loginQuery = new LoginQuery(loginVM);
-        var expectedException = new InvalidOperationException("Authentication service error");
+        var expectedException = new Exception("Registration exception occured:");
 
         _mockAuthenticationService.Setup(service => service
-                                  .Login(loginVM.Email, loginVM.Password))
+                                  .LoginByEmail(loginVM.Email, loginVM.Password))
                                   .ThrowsAsync(expectedException);
 
         // Act & Assert
-        var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
-            _handler.Handle(loginQuery, new CancellationToken()));
+        var exception = await Assert.ThrowsAsync<Exception>(() =>
+            _handler.Handle(loginQuery, CancellationToken.None));
 
-        Assert.Equal(expectedException.Message, exception.Message);
+        Assert.Contains(expectedException.Message, exception.Message);
     }
 }
