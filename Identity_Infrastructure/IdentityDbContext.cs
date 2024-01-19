@@ -31,7 +31,7 @@ public class IdentityDbContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         var connectionStr = _settings.Value.ConnectionString;
-        optionsBuilder.UseSqlServer(connectionStr);
+        optionsBuilder.UseNpgsql(connectionStr);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
