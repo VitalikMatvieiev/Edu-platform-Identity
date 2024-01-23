@@ -24,5 +24,7 @@ public class IdentityConfiguration : IEntityTypeConfiguration<Identity>
             .WithOne(ir => ir.Identities)
             .HasForeignKey(ir => ir.IdentitiesId)
             .OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasData(IdentityDbContext.SeedData<Identity>("IdentitySeed"));
     }
 }

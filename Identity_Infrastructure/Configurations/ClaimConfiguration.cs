@@ -20,5 +20,7 @@ public class ClaimConfiguration : IEntityTypeConfiguration<Claim>
             .WithOne(cr => cr.Claims)
             .HasForeignKey(cr => cr.ClaimsId)
             .OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasData(IdentityDbContext.SeedData<Claim>("ClaimsSeed"));
     }
 }

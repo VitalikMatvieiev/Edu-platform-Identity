@@ -20,5 +20,7 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
             .WithOne(cr => cr.Roles)
             .HasForeignKey(cr => cr.RolesId)
             .OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasData(IdentityDbContext.SeedData<Role>("RolesSeed"));
     }
 }

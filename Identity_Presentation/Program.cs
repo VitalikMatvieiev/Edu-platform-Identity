@@ -1,5 +1,6 @@
 using Identity_Domain.Exceptions;
 using Identity_Presentation.Bootstrap;
+using Identity_Presentation.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 

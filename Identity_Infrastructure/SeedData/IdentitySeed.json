@@ -8,13 +8,6 @@
     "RegistrationDate": "2024-01-11T04:23:43.4925829",
     "LastLogin": "0001-01-01T00:00:00",
     "LastLogout": "0001-01-01T00:00:00",
-    "Token": null,
-    "IdentityRole": [
-      {
-        "Id": 1,
-        "IdentitiesId": 1,
-        "RolesId": 1
-      }
-    ]
+    "Token": null
   }
 ]

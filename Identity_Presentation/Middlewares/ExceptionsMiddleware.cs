@@ -1,12 +1,12 @@
-﻿using System.Net;
+﻿using Identity_Domain.Exceptions;
+using System.Net;
 using System.Text.Json;
 
-namespace Identity_Domain.Exceptions;
+namespace Identity_Presentation.Middlewares;
 
 public class ExceptionsMiddleware
 {
     private readonly RequestDelegate _next;
-
     private readonly IHostEnvironment _env;
 
     public ExceptionsMiddleware(RequestDelegate next, IHostEnvironment env)
@@ -28,7 +28,7 @@ public class ExceptionsMiddleware
 
             var response = _env.IsDevelopment()
                 ? new ApiException((int)HttpStatusCode.InternalServerError, ex.Message, ex.StackTrace.ToString())
-                : new ApiException((int)HttpStatusCode.InternalServerError);
+                : new ApiException((int)HttpStatusCode.InternalServerError, ex.Message);
 
             var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 

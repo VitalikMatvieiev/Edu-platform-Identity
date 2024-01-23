@@ -42,7 +42,7 @@ namespace Identity_Infrastructure.Migrations
 
                     b.HasIndex("IdentitiesId");
 
-                    b.ToTable("ClaimIdentity");
+                    b.ToTable("ClaimIdentity", (string)null);
                 });
 
             modelBuilder.Entity("Identity_Domain.Entities.Additional.ClaimRole", b =>
@@ -65,7 +65,7 @@ namespace Identity_Infrastructure.Migrations
 
                     b.HasIndex("RolesId");
 
-                    b.ToTable("ClaimRole");
+                    b.ToTable("ClaimRole", (string)null);
 
                     b.HasData(
                         new
@@ -168,7 +168,7 @@ namespace Identity_Infrastructure.Migrations
 
                     b.HasIndex("RolesId");
 
-                    b.ToTable("IdentityRole");
+                    b.ToTable("IdentityRole", (string)null);
 
                     b.HasData(
                         new
@@ -194,7 +194,74 @@ namespace Identity_Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Claim");
+                    b.ToTable("Claim", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "ReadClaims"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "WriteClaim"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "ChangeClaim"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "DeleteClaim"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "ReadRoles"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "WriteRole"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "ChangeRole"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "DeleteRole"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Name = "ReadIdentities"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Name = "ReadOwnIdentity"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Name = "WriteIdentity"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Name = "ChangeIdentity"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Name = "DeleteIdentity"
+                        });
                 });
 
             modelBuilder.Entity("Identity_Domain.Entities.Base.Identity", b =>
@@ -213,7 +280,7 @@ namespace Identity_Infrastructure.Migrations
                     b.Property<DateTime>("LastLogin")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("LastLogout")
+                    b.Property<DateTime?>("LastLogout")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("PasswordHash")
@@ -234,7 +301,20 @@ namespace Identity_Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Identity");
+                    b.ToTable("Identity", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "eduplatform@gmail.com",
+                            LastLogin = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastLogout = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PasswordHash = "0n2D6RfevH0iAO2odcm6QcsXPxSnTQMeT1VaCpVZ4qc=",
+                            PasswordSalt = "GWJHabKuRfxzdRAMvdjGxQ==",
+                            RegistrationDate = new DateTime(2024, 1, 11, 4, 23, 43, 492, DateTimeKind.Unspecified).AddTicks(5829),
+                            Username = "superadmin"
+                        });
                 });
 
             modelBuilder.Entity("Identity_Domain.Entities.Base.RefreshToken", b =>
@@ -269,7 +349,7 @@ namespace Identity_Infrastructure.Migrations
                     b.HasIndex("IdentityId")
                         .IsUnique();
 
-                    b.ToTable("RefreshToken");
+                    b.ToTable("RefreshToken", (string)null);
                 });
 
             modelBuilder.Entity("Identity_Domain.Entities.Base.Role", b =>
@@ -287,7 +367,14 @@ namespace Identity_Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Role");
+                    b.ToTable("Role", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "admin"
+                        });
                 });
 
             modelBuilder.Entity("Identity_Domain.Entities.Additional.ClaimIdentity", b =>

@@ -1,5 +1,4 @@
 ﻿using Identity_Domain.Entities.Base;
-using System.Text.Json.Serialization;
 
 namespace Identity_Domain.Entities.Additional;
 

@@ -42,7 +42,6 @@ public class GenericRepository<T> : IGenericRepository<T> where T : Entity
         {
             return await query.ToListAsync();
         }
-
     }
 
     public virtual async Task<int> InsertAsync(T entity)
@@ -51,7 +50,6 @@ public class GenericRepository<T> : IGenericRepository<T> where T : Entity
         await SaveChangesAsync();
 
         return newEntity.Entity.Id;
-
     }
 
     public virtual async Task DeleteAsync(int id)

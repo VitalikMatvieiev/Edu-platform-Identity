@@ -7,12 +7,18 @@ public class LoginValidator : AbstractValidator<LoginVM>
 {
     public LoginValidator()
     {
-        RuleFor(l => l.Username)
-            .MaximumLength(20).WithMessage("Username must be shorter than 20 symbols");
+        When(l => !string.IsNullOrEmpty(l.Username), () =>
+        {
+            RuleFor(l => l.Username)
+                .MaximumLength(20).WithMessage("Username must be shorter than 20 symbols");
+        });
 
-        RuleFor(l => l.Email)
-            .EmailAddress().WithMessage("Email is not correct")
-            .MaximumLength(40).WithMessage("Email must be shorter than 40 symbols");
+        When(l => !string.IsNullOrEmpty(l.Email), () =>
+        {
+            RuleFor(l => l.Email)
+                .EmailAddress().WithMessage("Email is not correct")
+                .MaximumLength(40).WithMessage("Email must be shorter than 40 symbols");
+        });
 
         RuleFor(l => l.Password)
             .NotEmpty().WithMessage("Password is required")

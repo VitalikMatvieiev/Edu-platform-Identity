@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Identity_Infrastructure.Migrations
 {
     [DbContext(typeof(IdentityDbContext))]
-    [Migration("20240111043334_DataSeeding")]
-    partial class DataSeeding
+    [Migration("20240122233351_BaseAdjustments")]
+    partial class BaseAdjustments
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -45,13 +45,6 @@ namespace Identity_Infrastructure.Migrations
                     b.HasIndex("IdentitiesId");
 
                     b.ToTable("ClaimIdentity");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ClaimsId = 10
-                        });
                 });
 
             modelBuilder.Entity("Identity_Domain.Entities.Additional.ClaimRole", b =>
@@ -80,62 +73,80 @@ namespace Identity_Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            ClaimsId = 1
+                            ClaimsId = 1,
+                            RolesId = 1
                         },
                         new
                         {
                             Id = 2,
-                            ClaimsId = 2
+                            ClaimsId = 2,
+                            RolesId = 1
                         },
                         new
                         {
                             Id = 3,
-                            ClaimsId = 3
+                            ClaimsId = 3,
+                            RolesId = 1
                         },
                         new
                         {
                             Id = 4,
-                            ClaimsId = 4
+                            ClaimsId = 4,
+                            RolesId = 1
                         },
                         new
                         {
                             Id = 5,
-                            ClaimsId = 5
+                            ClaimsId = 5,
+                            RolesId = 1
                         },
                         new
                         {
                             Id = 6,
-                            ClaimsId = 6
+                            ClaimsId = 6,
+                            RolesId = 1
                         },
                         new
                         {
                             Id = 7,
-                            ClaimsId = 7
+                            ClaimsId = 7,
+                            RolesId = 1
                         },
                         new
                         {
                             Id = 8,
-                            ClaimsId = 8
+                            ClaimsId = 8,
+                            RolesId = 1
                         },
                         new
                         {
                             Id = 9,
-                            ClaimsId = 9
+                            ClaimsId = 9,
+                            RolesId = 1
+                        },
+                        new
+                        {
+                            Id = 10,
+                            ClaimsId = 10,
+                            RolesId = 1
                         },
                         new
                         {
                             Id = 11,
-                            ClaimsId = 11
+                            ClaimsId = 11,
+                            RolesId = 1
                         },
                         new
                         {
                             Id = 12,
-                            ClaimsId = 12
+                            ClaimsId = 12,
+                            RolesId = 1
                         },
                         new
                         {
                             Id = 13,
-                            ClaimsId = 13
+                            ClaimsId = 13,
+                            RolesId = 1
                         });
                 });
 
@@ -165,6 +176,7 @@ namespace Identity_Infrastructure.Migrations
                         new
                         {
                             Id = 1,
+                            IdentitiesId = 1,
                             RolesId = 1
                         });
                 });
@@ -270,7 +282,7 @@ namespace Identity_Infrastructure.Migrations
                     b.Property<DateTime>("LastLogin")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("LastLogout")
+                    b.Property<DateTime?>("LastLogout")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("PasswordHash")

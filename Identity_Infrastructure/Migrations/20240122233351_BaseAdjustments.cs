@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Identity_Infrastructure.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class BaseAdjustments : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,7 +15,7 @@ namespace Identity_Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -28,12 +28,13 @@ namespace Identity_Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Username = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    PasswordSalt = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastLogin = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastLogout = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    LastLogout = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -46,7 +47,7 @@ namespace Identity_Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -57,24 +58,24 @@ namespace Identity_Infrastructure.Migrations
                 name: "ClaimIdentity",
                 columns: table => new
                 {
-                    ClaimsId = table.Column<int>(type: "int", nullable: false),
-                    IdentitiesId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ClaimsId = table.Column<int>(type: "int", nullable: true),
+                    IdentitiesId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClaimIdentity", x => new { x.ClaimsId, x.IdentitiesId });
+                    table.PrimaryKey("PK_ClaimIdentity", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ClaimIdentity_Claim_ClaimsId",
                         column: x => x.ClaimsId,
                         principalTable: "Claim",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_ClaimIdentity_Identity_IdentitiesId",
                         column: x => x.IdentitiesId,
                         principalTable: "Identity",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -105,49 +106,109 @@ namespace Identity_Infrastructure.Migrations
                 name: "ClaimRole",
                 columns: table => new
                 {
-                    ClaimsId = table.Column<int>(type: "int", nullable: false),
-                    RolesId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ClaimsId = table.Column<int>(type: "int", nullable: true),
+                    RolesId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClaimRole", x => new { x.ClaimsId, x.RolesId });
+                    table.PrimaryKey("PK_ClaimRole", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ClaimRole_Claim_ClaimsId",
                         column: x => x.ClaimsId,
                         principalTable: "Claim",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_ClaimRole_Role_RolesId",
                         column: x => x.RolesId,
                         principalTable: "Role",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "IdentityRole",
                 columns: table => new
                 {
-                    IdentitiesId = table.Column<int>(type: "int", nullable: false),
-                    RolesId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IdentitiesId = table.Column<int>(type: "int", nullable: true),
+                    RolesId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_IdentityRole", x => new { x.IdentitiesId, x.RolesId });
+                    table.PrimaryKey("PK_IdentityRole", x => x.Id);
                     table.ForeignKey(
                         name: "FK_IdentityRole_Identity_IdentitiesId",
                         column: x => x.IdentitiesId,
                         principalTable: "Identity",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_IdentityRole_Role_RolesId",
                         column: x => x.RolesId,
                         principalTable: "Role",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
+
+            migrationBuilder.InsertData(
+                table: "Claim",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "ReadClaims" },
+                    { 2, "WriteClaim" },
+                    { 3, "ChangeClaim" },
+                    { 4, "DeleteClaim" },
+                    { 5, "ReadRoles" },
+                    { 6, "WriteRole" },
+                    { 7, "ChangeRole" },
+                    { 8, "DeleteRole" },
+                    { 9, "ReadIdentities" },
+                    { 10, "ReadOwnIdentity" },
+                    { 11, "WriteIdentity" },
+                    { 12, "ChangeIdentity" },
+                    { 13, "DeleteIdentity" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Identity",
+                columns: new[] { "Id", "Email", "LastLogin", "LastLogout", "PasswordHash", "PasswordSalt", "RegistrationDate", "Username" },
+                values: new object[] { 1, "eduplatform@gmail.com", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "0n2D6RfevH0iAO2odcm6QcsXPxSnTQMeT1VaCpVZ4qc=", "GWJHabKuRfxzdRAMvdjGxQ==", new DateTime(2024, 1, 11, 4, 23, 43, 492, DateTimeKind.Unspecified).AddTicks(5829), "superadmin" });
+
+            migrationBuilder.InsertData(
+                table: "Role",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 1, "admin" });
+
+            migrationBuilder.InsertData(
+                table: "ClaimRole",
+                columns: new[] { "Id", "ClaimsId", "RolesId" },
+                values: new object[,]
+                {
+                    { 1, 1, 1 },
+                    { 2, 2, 1 },
+                    { 3, 3, 1 },
+                    { 4, 4, 1 },
+                    { 5, 5, 1 },
+                    { 6, 6, 1 },
+                    { 7, 7, 1 },
+                    { 8, 8, 1 },
+                    { 9, 9, 1 },
+                    { 10, 10, 1 },
+                    { 11, 11, 1 },
+                    { 12, 12, 1 },
+                    { 13, 13, 1 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "IdentityRole",
+                columns: new[] { "Id", "IdentitiesId", "RolesId" },
+                values: new object[] { 1, 1, 1 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClaimIdentity_ClaimsId",
+                table: "ClaimIdentity",
+                column: "ClaimsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ClaimIdentity_IdentitiesId",
@@ -155,9 +216,19 @@ namespace Identity_Infrastructure.Migrations
                 column: "IdentitiesId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ClaimRole_ClaimsId",
+                table: "ClaimRole",
+                column: "ClaimsId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ClaimRole_RolesId",
                 table: "ClaimRole",
                 column: "RolesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_IdentityRole_IdentitiesId",
+                table: "IdentityRole",
+                column: "IdentitiesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_IdentityRole_RolesId",

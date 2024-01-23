@@ -42,10 +42,10 @@ public class JwtGenerator : IJwtGenerator
 
             var tokenClaims = new List<System.Security.Claims.Claim>
             {
-            new("id", identity.Id.ToString()),
-            new ("username", identity.Username),
-            new ("email", identity.Email),
-            new ("lastLogin", identity.LastLogin.ToString())
+                new("id", identity.Id.ToString()),
+                new ("username", identity.Username),
+                new ("email", identity.Email),
+                new ("lastLogin", identity.LastLogin.ToString())
             };
 
             foreach (var role in roles)

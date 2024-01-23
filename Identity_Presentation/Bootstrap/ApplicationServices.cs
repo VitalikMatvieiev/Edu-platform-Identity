@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
-using Identity_Domain.Entities.Base;
 using Microsoft.OpenApi.Models;
+using Identity_Domain.Exceptions;
 
 namespace Identity_Presentation.Bootstrap;
 
@@ -59,6 +59,8 @@ public static class ApplicationServices
                     ValidIssuer = configuration["JwtSettings:TokenIssuer"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:Securitykey"]))
                 };
+
+                options.IncludeErrorDetails = true;
             });
 
         services.AddApplication().AddInfrastructure();
@@ -96,13 +98,6 @@ public static class ApplicationServices
         {
             logger.LogError(ex, "An error occured during migration");
         }
-
-        if (!context.Claim.Any())
-            context.Claim.AddRange(IdentityDbContext.SeedData<Claim>("ClaimsSeed"));
-        if (!context.Role.Any())
-            context.Role.AddRange(IdentityDbContext.SeedData<Role>("RolesSeed"));
-        if (!context.Identity.Any())
-            context.Identity.AddRange(IdentityDbContext.SeedData<Identity>("IdentitySeed"));
 
         return scope;
     }

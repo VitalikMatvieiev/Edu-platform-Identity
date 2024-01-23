@@ -1,145 +1,54 @@
 [
   {
     "Id": 1,
-    "Name": "ReadClaims",
-    "ClaimRole": [
-      {
-        "Id": 1,
-        "ClaimsId": 1,
-        "RolesId": 1
-      }
-    ]
+    "Name": "ReadClaims"
   },
   {
     "Id": 2,
-    "Name": "WriteClaim",
-    "ClaimRole": [
-      {
-        "Id": 2,
-        "ClaimsId": 2,
-        "RolesId": 1
-      }
-    ]
+    "Name": "WriteClaim"
   },
   {
     "Id": 3,
-    "Name": "ChangeClaim",
-    "ClaimRole": [
-      {
-        "Id": 3,
-        "ClaimsId": 3,
-        "RolesId": 1
-      }
-    ]
+    "Name": "ChangeClaim"
   },
   {
     "Id": 4,
-    "Name": "DeleteClaim",
-    "ClaimRole": [
-      {
-        "Id": 4,
-        "ClaimsId": 4,
-        "RolesId": 1
-      }
-    ]
+    "Name": "DeleteClaim"
   },
   {
     "Id": 5,
-    "Name": "ReadRoles",
-    "ClaimRole": [
-      {
-        "Id": 5,
-        "ClaimsId": 5,
-        "RolesId": 1
-      }
-    ]
+    "Name": "ReadRoles"
   },
   {
     "Id": 6,
-    "Name": "WriteRole",
-    "ClaimRole": [
-      {
-        "Id": 6,
-        "ClaimsId": 6,
-        "RolesId": 1
-      }
-    ]
+    "Name": "WriteRole"
   },
   {
     "Id": 7,
-    "Name": "ChangeRole",
-    "ClaimRole": [
-      {
-        "Id": 7,
-        "ClaimsId": 7,
-        "RolesId": 1
-      }
-    ]
+    "Name": "ChangeRole"
   },
   {
     "Id": 8,
-    "Name": "DeleteRole",
-    "ClaimRole": [
-      {
-        "Id": 8,
-        "ClaimsId": 8,
-        "RolesId": 1
-      }
-    ]
+    "Name": "DeleteRole"
   },
   {
     "Id": 9,
-    "Name": "ReadIdentities",
-    "ClaimRole": [
-      {
-        "Id": 9,
-        "ClaimsId": 9,
-        "RolesId": 1
-      }
-    ]
+    "Name": "ReadIdentities"
   },
   {
     "Id": 10,
-    "Name": "ReadOwnIdentity",
-    "ClaimRole": [
-      {
-        "Id": 10,
-        "ClaimsId": 10,
-        "RolesId": 1
-      }
-    ]
+    "Name": "ReadOwnIdentity"
   },
   {
     "Id": 11,
-    "Name": "WriteIdentity",
-    "ClaimRole": [
-      {
-        "Id": 11,
-        "ClaimsId": 11,
-        "RolesId": 1
-      }
-    ]
+    "Name": "WriteIdentity"
   },
   {
     "Id": 12,
-    "Name": "ChangeIdentity",
-    "ClaimRole": [
-      {
-        "Id": 12,
-        "ClaimsId": 12,
-        "RolesId": 1
-      }
-    ]
+    "Name": "ChangeIdentity"
   },
   {
     "Id": 13,
-    "Name": "DeleteIdentity",
-    "ClaimRole": [
-      {
-        "Id": 13,
-        "ClaimsId": 13,
-        "RolesId": 1
-      }
-    ]
+    "Name": "DeleteIdentity"
   }
 ]
