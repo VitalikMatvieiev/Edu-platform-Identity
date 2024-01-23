@@ -42,7 +42,7 @@ namespace Identity_Infrastructure.Migrations
 
                     b.HasIndex("IdentitiesId");
 
-                    b.ToTable("ClaimIdentity", (string)null);
+                    b.ToTable("ClaimIdentity");
                 });
 
             modelBuilder.Entity("Identity_Domain.Entities.Additional.ClaimRole", b =>
@@ -65,7 +65,7 @@ namespace Identity_Infrastructure.Migrations
 
                     b.HasIndex("RolesId");
 
-                    b.ToTable("ClaimRole", (string)null);
+                    b.ToTable("ClaimRole");
 
                     b.HasData(
                         new
@@ -168,7 +168,7 @@ namespace Identity_Infrastructure.Migrations
 
                     b.HasIndex("RolesId");
 
-                    b.ToTable("IdentityRole", (string)null);
+                    b.ToTable("IdentityRole");
 
                     b.HasData(
                         new
@@ -194,7 +194,7 @@ namespace Identity_Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Claim", (string)null);
+                    b.ToTable("Claim");
 
                     b.HasData(
                         new
@@ -301,7 +301,7 @@ namespace Identity_Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Identity", (string)null);
+                    b.ToTable("Identity");
 
                     b.HasData(
                         new
@@ -349,7 +349,7 @@ namespace Identity_Infrastructure.Migrations
                     b.HasIndex("IdentityId")
                         .IsUnique();
 
-                    b.ToTable("RefreshToken", (string)null);
+                    b.ToTable("RefreshToken");
                 });
 
             modelBuilder.Entity("Identity_Domain.Entities.Base.Role", b =>
@@ -367,7 +367,7 @@ namespace Identity_Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Role", (string)null);
+                    b.ToTable("Role");
 
                     b.HasData(
                         new

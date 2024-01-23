@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Identity_Infrastructure.Migrations
 {
-    public partial class BaseAdjustments : Migration
+    public partial class Base_Adjustments : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

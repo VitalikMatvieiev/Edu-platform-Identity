@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Identity_Infrastructure.Migrations
 {
     [DbContext(typeof(IdentityDbContext))]
-    [Migration("20240122233351_BaseAdjustments")]
-    partial class BaseAdjustments
+    [Migration("20240123211604_Base_Adjustments")]
+    partial class Base_Adjustments
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

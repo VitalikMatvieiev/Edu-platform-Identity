@@ -30,9 +30,7 @@ public class IdentityDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        //var connectionStr = _settings.Value.ConnectionString;
-        //var connectionStr = "Server=sqlserver,1433;Database=IdentityDb;User Id=sa;Password=pass!12345;";
-        var connectionStr = "Server=localhost\\SQLEXPRESS;Database=identitydb;Trusted_Connection=True;";
+        var connectionStr = _settings.Value.ConnectionString;
         optionsBuilder.UseSqlServer(connectionStr);
     }
 
