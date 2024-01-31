@@ -1,0 +1,13 @@
+[
+  {
+    "Id": 1,
+    "Username": "superadmin",
+    "Email": "eduplatform@gmail.com",
+    "PasswordSalt": "GWJHabKuRfxzdRAMvdjGxQ==",
+    "PasswordHash": "0n2D6RfevH0iAO2odcm6QcsXPxSnTQMeT1VaCpVZ4qc=",
+    "RegistrationDate": "2024-01-11T04:23:43.4925829",
+    "LastLogin": "0001-01-01T00:00:00",
+    "LastLogout": "0001-01-01T00:00:00",
+    "Token": null
+  }
+]

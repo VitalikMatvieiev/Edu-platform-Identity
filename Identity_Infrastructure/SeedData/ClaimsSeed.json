@@ -1,0 +1,54 @@
+[
+  {
+    "Id": 1,
+    "Name": "ReadClaims"
+  },
+  {
+    "Id": 2,
+    "Name": "WriteClaim"
+  },
+  {
+    "Id": 3,
+    "Name": "ChangeClaim"
+  },
+  {
+    "Id": 4,
+    "Name": "DeleteClaim"
+  },
+  {
+    "Id": 5,
+    "Name": "ReadRoles"
+  },
+  {
+    "Id": 6,
+    "Name": "WriteRole"
+  },
+  {
+    "Id": 7,
+    "Name": "ChangeRole"
+  },
+  {
+    "Id": 8,
+    "Name": "DeleteRole"
+  },
+  {
+    "Id": 9,
+    "Name": "ReadIdentities"
+  },
+  {
+    "Id": 10,
+    "Name": "ReadOwnIdentity"
+  },
+  {
+    "Id": 11,
+    "Name": "WriteIdentity"
+  },
+  {
+    "Id": 12,
+    "Name": "ChangeIdentity"
+  },
+  {
+    "Id": 13,
+    "Name": "DeleteIdentity"
+  }
+]
